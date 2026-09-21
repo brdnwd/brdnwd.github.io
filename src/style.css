@@ -1,33 +1,21 @@
 /**
- * Copyright © 2019-2025 Wo-r (https://github.com/wo-r)
+ * Copyright © 2019-2025 Braden (https://github.com/brdnwd)
  * 
- * Created to manage the small CSS imperfections that Tailwind could not properly work with.
- * 
- * Website: https://wo-r.github.io/
- * Built: 2025-01-28T00:00Z
+ * Website: https://brdnwd.github.io
+ * Built: 2025-04-04T00:00Z
  */
 
-/* ============================== Fonts ============================== */
-@font-face {
-    font-family: "Nunito";
-    src: url("./nunito.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-}
+@import url("/src/res/ui/fontSets.css");
+/*===================================================*/
 
-@font-face {
-    font-family: "NunitoBlack";
-    src: url("./nunito-black.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-}
 
-/* ============================== Text Selection ============================== */
 ::selection {
-    background: #766a37;
+    background: #9ff0f3ca;
+    color: black;
 }
+/*===================================================*/
 
-/* ============================== Scrollbar Customization ============================== */
+
 ::-webkit-scrollbar {
     width: 0px;
     height: 0px;
@@ -40,176 +28,4 @@
 ::-webkit-scrollbar-thumb {
     background: transparent;
 }
-
-/* ============================== Typography ============================== */
-b {
-    font-family: "NunitoBlack", sans-serif;
-    font-weight: 900;
-}
-
-/* ============================== Ripple Effect ============================== */
-/**
- * Manages ripples from elements with click events
- */
-.ripple {
-    position: absolute;
-    background: rgba(150, 134, 19, 0.8) !important;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple 600ms linear;
-}
-
-@keyframes ripple {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-
-/* ============================== Tooltip ============================== */
-/**
- * Manages the tooltips shown when hovering an element with [tooltip]
- */
-.tooltip {
-    position: absolute;
-    padding: 0.5rem;
-    opacity: 0;
-    transform: scale(0.8);
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.tooltip.show {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* ============================== Popup Animations ============================== */
-/**
- * This manages the popup animations for text elements.
- */
-@keyframes popup {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.popupLetter {
-    display: none;
-    transform: translateY(20px);
-}
-
-.popupLetter.show {
-    display: inline-block;
-    animation: popup .5s ease forwards;
-}
-
-/* ============================== Portfolio Images ============================== */
-/**
- * Manages the images from the portfolio page
- */
-.image-container {
-    position: relative;
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-}
-
-/* ============================== Loader Animation ============================== */
-/**
- * Manages the loading animation used throughout the website.
- */
-.loader {
-    width: 40px;
-    pointer-events: none !important;
-    aspect-ratio: 1;
-    --c: linear-gradient(#494327 0 0);
-    --r1: radial-gradient(farthest-side at bottom, #494327 93%, #494327);
-    --r2: radial-gradient(farthest-side at top, #494327 93%, #494327);
-    background:
-        var(--c), var(--r1), var(--r2),
-        var(--c), var(--r1), var(--r2),
-        var(--c), var(--r1), var(--r2);
-    background-repeat: no-repeat;
-    border-radius: 5px;
-    animation: l2 1s infinite alternate;
-}
-
-@keyframes l2 {
-    0%,
-    25% {
-        background-size: 8px 0, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(50% - 2px), 0 calc(50% + 2px), 50% 50%, 50% calc(50% - 2px), 50% calc(50% + 2px), 100% 50%, 100% calc(50% - 2px), 100% calc(50% + 2px);
-    }
-
-    50% {
-        background-size: 8px 100%, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%, 50% calc(50% - 2px), 50% calc(50% + 2px), 100% 50%, 100% calc(50% - 2px), 100% calc(50% + 2px);
-    }
-
-    75% {
-        background-size: 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%, 50% calc(0% - 2px), 50% calc(100% + 2px), 100% 50%, 100% calc(50% - 2px), 100% calc(50% + 2px);
-    }
-
-    95%,
-    100% {
-        background-size: 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%, 50% calc(0% - 2px), 50% calc(100% + 2px), 100% 50%, 100% calc(0% - 2px), 100% calc(100% + 2px);
-    }
-}
-
-/* ============================== Error Popup Animation ============================== */
-.popupManager.popup {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: popupAnimation 0.5s ease-out forwards;
-}
-
-.popupManager.popup.hide {
-    opacity: 1;
-    transform: translateY(20px);
-    animation: popdownAnimation 0.5s ease-in forwards;
-}
-
-@keyframes popupAnimation {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes popdownAnimation {
-    0% {
-        opacity: 1;
-        transform: translateY(0px);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-}
-
-
-/* ============================== Unused Code ============================== */
-/* .gradient-cursor {
-    width: 5000px;
-    height: 5000px;
-    background: radial-gradient(circle, rgba(150, 135, 19, 0.024), rgba(118, 108, 55, 0.382));
-    pointer-events: none;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    filter: blur(10000px);
-} */
+/*===================================================*/
