@@ -10,6 +10,7 @@
      */
     var fonts = {
         ubuntu: ["Ubuntu", "sans-serif"],
+        cilantro: ["Cilantro Code Mono", "monospace"],
     }
 
     /**
@@ -29,6 +30,14 @@
                 '@font-face': {
                     'font-family': 'Ubuntu',
                     'src': 'url("/src/res/fonts/Ubuntu/static/Ubuntu-Regular.ttf") format("truetype")',
+                    'font-weight': '400',
+                    'font-style': 'normal',
+                    'font-display': 'swap',
+                },
+                //cilantro
+                '@font-face': {
+                    'font-family': 'Cilantro Code Mono',
+                    'src': 'url("/src/res/fonts/Cilantro/static/CilantroCodeMono-Regular.ttf") format("truetype")',
                     'font-weight': '400',
                     'font-style': 'normal',
                     'font-display': 'swap',
