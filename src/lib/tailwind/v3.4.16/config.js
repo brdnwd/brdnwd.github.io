@@ -76,6 +76,23 @@
             });
             // CSS Classes
             addUtilities({
+                //icons
+                '.github-icon': {
+                    'mask': 'url("./src/res/svgs/social-media/github.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/social-media/github.svg") center / contain no-repeat;'
+                },
+                '.linkedin-icon': {
+                    'mask': 'url("./src/res/svgs/social-media/linkedin.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/social-media/linkedin.svg") center / contain no-repeat;'
+                },
+                '.facebook-icon': {
+                    'mask': 'url("./src/res/svgs/social-media/facebook.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/social-media/facebook.svg") center / contain no-repeat;'
+                },
+                '.arrow-right-icon': {
+                    'mask': 'url("./src/res/svgs/arrow-right.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/arrow-right.svg") center / contain no-repeat;'
+                },
                 // scrollbar
                 '.scrollbar-hidden': {
                     'scrollbar-width': 'none',
