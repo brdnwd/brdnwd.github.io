@@ -22,6 +22,7 @@ const loader = document.getElementById("loader");
 if (loader) {
 
     const name = loader.querySelector(".loader-name");
+
     const letters = Array.from(
         loader.querySelectorAll(".loader-letter")
     );
@@ -49,6 +50,7 @@ if (loader) {
 
         const popScale = 0.9;
 
+
         function resetLetters() {
 
             letters.forEach(letter => {
@@ -61,6 +63,7 @@ if (loader) {
 
             name.style.transform = "scale(1)";
         }
+
 
         function animateLetter(letter, direction) {
 
@@ -106,23 +109,32 @@ if (loader) {
                 keyframes,
                 {
                     duration: popupDuration,
-                    easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                    easing:
+                        "cubic-bezier(0.22, 1, 0.36, 1)",
                     fill: "forwards"
                 }
             ).finished;
         }
 
+
         async function popIn() {
 
             for (const letter of letters) {
 
-                await animateLetter(letter, "in");
+                await animateLetter(
+                    letter,
+                    "in"
+                );
 
                 await new Promise(resolve => {
-                    setTimeout(resolve, popupDelay);
+                    setTimeout(
+                        resolve,
+                        popupDelay
+                    );
                 });
             }
         }
+
 
         async function popOut() {
 
@@ -138,90 +150,105 @@ if (loader) {
                 );
 
                 await new Promise(resolve => {
-                    setTimeout(resolve, popupDelay);
+                    setTimeout(
+                        resolve,
+                        popupDelay
+                    );
                 });
             }
         }
 
-        async function zoomIntoPage() {
+
+        async function dissolveLoader() {
 
             await new Promise(resolve => {
-                setTimeout(resolve, holdDuration);
+                setTimeout(
+                    resolve,
+                    holdDuration
+                );
             });
 
-            const zoom = name.animate(
+
+            const dissolve = loader.animate(
                 [
                     {
-                        transform: "scale(1)"
+                        opacity: 1,
+                        filter: "blur(0px)"
                     },
                     {
-                        transform: "scale(500)",
-                        offset: 0.08
+                        opacity: 0.8,
+                        filter: "blur(1px)",
+                        offset: 0.25
                     },
                     {
-                        transform: "scale(1000)"
+                        opacity: 0.35,
+                        filter: "blur(4px)",
+                        offset: 0.65
+                    },
+                    {
+                        opacity: 0,
+                        filter: "blur(10px)"
                     }
                 ],
                 {
-                    duration: 1600,
-                    easing: "cubic-bezier(0.67, 0, 0.20, 1)",
+                    duration: 1200,
+                    easing: "ease-out",
                     fill: "forwards"
                 }
             );
 
-            await zoom.finished.catch(() => {});
 
-            loader.animate(
-                [
-                    { opacity: 1 },
-                    { opacity: 0 }
-                ],
-                {
-                    duration: 300,
-                    easing: "ease-out",
-                    fill: "forwards"
-                }
-            ).finished.then(() => {
+            await dissolve.finished.catch(() => {});
 
-                loader.remove();
 
-            });
+            loader.remove();
         }
+
 
         async function loaderLoop() {
 
             resetLetters();
+
 
             while (!pageLoaded) {
 
                 // b → r → d → n → w → d
                 await popIn();
 
-                // Give the page a chance to finish.
+
                 await new Promise(resolve => {
-                    setTimeout(resolve, holdDuration);
+                    setTimeout(
+                        resolve,
+                        holdDuration
+                    );
                 });
 
-                // If the page loaded while the name
-                // was visible, go straight to the zoom.
+
                 if (pageLoaded) {
                     break;
                 }
 
+
                 // d → w → n → d → r → b
                 await popOut();
 
-                // Small pause before starting again.
+
                 await new Promise(resolve => {
-                    setTimeout(resolve, 150);
+                    setTimeout(
+                        resolve,
+                        150
+                    );
                 });
             }
 
+
             // Page is ready.
-            // The entire username is visible,
-            // so zoom into it.
-            await zoomIntoPage();
+            // Dissolve the loader
+            // to reveal the page underneath.
+
+            await dissolveLoader();
         }
+
 
         loaderLoop();
     }

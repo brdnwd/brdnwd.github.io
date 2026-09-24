@@ -93,6 +93,10 @@
                     'mask': 'url("./src/res/svgs/arrow-right.svg") center / contain no-repeat;',
                     '-webkit-mask': 'url("./src/res/svgs/arrow-right.svg") center / contain no-repeat;'
                 },
+                '.hamburger-menu-icon': {
+                    'mask': 'url("./src/res/svgs/hamburger-menu.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/hamburger-menu.svg") center / contain no-repeat;'
+                },
                 // scrollbar
                 '.scrollbar-hidden': {
                     'scrollbar-width': 'none',
