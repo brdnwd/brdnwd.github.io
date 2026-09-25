@@ -1,0 +1,85 @@
+name: Update YouTube Videos
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-youtube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Fetch latest YouTube videos
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_ID: UC1eVpwYmIxLqi84OroyZo6w
+        run: |
+          mkdir -p src/data
+
+          CHANNEL_RESPONSE=$(curl -s \
+            "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${YOUTUBE_CHANNEL_ID}&key=${YOUTUBE_API_KEY}")
+
+          UPLOADS_PLAYLIST=$(echo "$CHANNEL_RESPONSE" | \
+            jq -r '.items[0].contentDetails.relatedPlaylists.uploads')
+
+          if [ "$UPLOADS_PLAYLIST" = "null" ] || [ -z "$UPLOADS_PLAYLIST" ]; then
+            echo "Could not find YouTube uploads playlist."
+            echo "$CHANNEL_RESPONSE"
+            exit 1
+          fi
+
+          VIDEOS_RESPONSE=$(curl -s \
+            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${UPLOADS_PLAYLIST}&maxResults=6&key=${YOUTUBE_API_KEY}")
+
+          echo "$VIDEOS_RESPONSE" | jq '
+            {
+              updatedAt: now | todate,
+              videos: [
+                .items[]
+                | select(.snippet.resourceId.kind == "youtube#video")
+                | {
+                    id: .snippet.resourceId.videoId,
+                    title: .snippet.title,
+                    description: .snippet.description,
+                    publishedAt: .contentDetails.videoPublishedAt,
+                    thumbnail: (
+                      .snippet.thumbnails.maxres.url //
+                      .snippet.thumbnails.high.url //
+                      .snippet.thumbnails.medium.url //
+                      .snippet.thumbnails.default.url
+                    ),
+                    url: (
+                      "https://www.youtube.com/watch?v="
+                      + .snippet.resourceId.videoId
+                    )
+                  }
+              ]
+            }
+          ' > src/res/json/youtube.json
+
+      - name: Check generated file
+        run: |
+          cat src/res/json/youtube.json
+
+      - name: Commit updated videos
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add src/res/json/youtube.json
+
+          if git diff --cached --quiet; then
+            echo "No YouTube changes."
+            exit 0
+          fi
+
+          git commit -m "chore: update YouTube videos"
+          git push

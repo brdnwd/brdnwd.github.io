@@ -34,16 +34,16 @@
             addBase({
                 //cursor
                 'html': {
-                    'cursor': 'url("/src/res/images/cursor/pointer.cur"), auto',
+                    'cursor': 'url("/src/res/cursor/pointer.cur"), auto',
                 },
                 '*': {
                     'cursor': 'inherit',
                 },
                 'a, button, [role="button"], input[type="button"], input[type="submit"], input[type="reset"]': {
-                    'cursor': 'url("/src/res/images/cursor/link.cur"), pointer',
+                    'cursor': 'url("/src/res/cursor/link.cur"), pointer',
                 },
                 'a:hover, button:hover, [role="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover': {
-                    'cursor': 'url("/src/res/images/cursor/link.cur"), pointer',
+                    'cursor': 'url("/src/res/cursor/link.cur"), pointer',
                 },
                 //bold
                 'b': {
