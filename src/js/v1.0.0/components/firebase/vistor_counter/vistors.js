@@ -27,59 +27,133 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
+
+function formatViews(number) {
+
+  if (number < 1000) {
+    return String(number);
+  }
+
+  if (number < 1000000) {
+    const thousands = number / 1000;
+
+    return `${Math.round(thousands)}k`;
+  }
+
+  if (number < 1000000000) {
+    const millions = number / 1000000;
+
+    return `${Number(millions.toFixed(1))}m`;
+  }
+
+  const billions = number / 1000000000;
+
+  return `${Number(billions.toFixed(1))}b`;
+}
+
+
 const viewsElement = document.getElementById("site-views");
 
 if (viewsElement) {
+
   const visitorKey = "brdnwd_website_visited";
   const viewsRef = ref(database, "site/visitors");
 
+
   async function updateVisitorCount() {
+
     try {
+
       await signInAnonymously(auth);
 
       const hasVisited = localStorage.getItem(visitorKey);
 
-      if (!hasVisited) {
-        await runTransaction(viewsRef, (currentValue) => {
-          return (currentValue || 0) + 1;
-        });
 
-        localStorage.setItem(visitorKey, "true");
+      if (!hasVisited) {
+
+        await runTransaction(
+          viewsRef,
+          (currentValue) => {
+            return (currentValue || 0) + 1;
+          }
+        );
+
+        localStorage.setItem(
+          visitorKey,
+          "true"
+        );
       }
+
 
       const snapshot = await get(viewsRef);
 
+
       if (snapshot.exists()) {
+
         const count = Number(snapshot.val());
 
-        viewsElement.textContent = count.toLocaleString("en-US");
+        viewsElement.textContent =
+          formatViews(count);
       }
+
     } catch (error) {
-      console.error("Visitor counter error:", error);
+
+      console.error(
+        "Visitor counter error:",
+        error
+      );
     }
   }
+
 
   updateVisitorCount();
 }
 
-const clockElement = document.getElementById("site-time");
+
+const clockElement =
+  document.getElementById("site-time");
+
 
 if (clockElement) {
+
   function updateClock() {
+
     const now = new Date();
 
     let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
 
-    const period = hours >= 12 ? "PM" : "AM";
+    const minutes =
+      String(now.getMinutes())
+        .padStart(2, "0");
 
-    hours = hours % 12 || 12;
-    hours = String(hours).padStart(2, "0");
+    const seconds =
+      String(now.getSeconds())
+        .padStart(2, "0");
 
-    clockElement.textContent = `${hours}:${minutes}:${seconds} ${period}`;
+
+    const period =
+      hours >= 12
+        ? "PM"
+        : "AM";
+
+
+    hours =
+      hours % 12 || 12;
+
+    hours =
+      String(hours)
+        .padStart(2, "0");
+
+
+    clockElement.textContent =
+      `${hours}:${minutes}:${seconds} ${period}`;
   }
 
+
   updateClock();
-  setInterval(updateClock, 1000);
+
+  setInterval(
+    updateClock,
+    1000
+  );
 }

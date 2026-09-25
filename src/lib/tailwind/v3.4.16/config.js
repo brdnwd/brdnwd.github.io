@@ -20,9 +20,9 @@
      */
     var colors = {
         "white": "#fff9f4",
-        "black": "#111117",
-        "theme": "#5a5a7e",
-        "accent": "#dbdd2a"
+        "black": "#020106",
+        "theme": "#3f3fc9",
+        "accent": "#eaee1b"
     }
 
     /**
@@ -96,6 +96,14 @@
                 '.hamburger-menu-icon': {
                     'mask': 'url("./src/res/svgs/hamburger-menu.svg") center / contain no-repeat;',
                     '-webkit-mask': 'url("./src/res/svgs/hamburger-menu.svg") center / contain no-repeat;'
+                },
+                '.email-icon': {
+                    'mask': 'url("./src/res/svgs/email.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/email.svg") center / contain no-repeat;'
+                },
+                '.search-icon': {
+                    'mask': 'url("./src/res/svgs/search.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/search.svg") center / contain no-repeat;'
                 },
                 // scrollbar
                 '.scrollbar-hidden': {

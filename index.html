@@ -10,7 +10,7 @@
     </head>
     <body class="relative overscroll-none min-h-screen box-border bg-white text-black font-valley">
         <main id="content" class="h-screen flex flex-1 flex-col h-full max-w-full">
-            <!-- <div id="loader" class="loader">
+            <div id="loader" class="loader">
                 <div class="loader-name">
                     <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">B</span>
                     <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">R</span>
@@ -20,7 +20,7 @@
                     <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">D</span>
                 </div>
                 <div class="grain"></div>
-            </div> -->
+            </div>
             <div class="relative h-screen overflow-scroll scrollbar-hidden select-text">
                 <div id="body" class="flex flex-col">
                     <nav id="navbarContainer" class="sticky left-0 top-0 z-[999] select-none py-4 bg-black/0 backdrop-blur-md text-black">
@@ -34,48 +34,70 @@
                                 <a class="transition hover:text-theme" href="/contact">CONTACT</a>
                             </div>
                             <div class="flex flex-row items-center gap-5 font-bold">
-                                <a id="sidemenu" class="hamburger-menu-icon block md:hidden w-[3.4rem] h-[3.4rem] scale-x-[-1] mb-[1px] bg-current transition-colors"></a>
-                                <a class="hidden md:flex flex-row gap-1 items-center text-md px-[10px] py-[1px] border-current rounded hover:border-theme hover:text-theme transition border-[1px]">
-                                    <span>⌘</span>
-                                    <span>K</span>
+                                <a id="sidemenu" class="hamburger-menu-icon block md:hidden w-[3.4rem] h-[3.4rem] scale-x-[-1] mb-[5px] bg-current transition-colors"></a>
+                                <a id="searchmenu" class="hidden md:flex flex hover:text-theme transition">
+                                    <span class="search-icon w-[2rem] h-[2rem] mb-[1px] bg-current transition-colors"></span>
                                 </a>
                             </div>
                         </div>
                     </nav>
                     <section class="flex-1 flex flex-col">
                         <div class="flex flex-row justify-between page-container">
-                            <div class="flex-1 flex flex-col w-max mb-[3rem] mt-[1rem] 3xl:mb-[0px] lg:mt-[5rem] 2xl:mt-[8rem]">
+                            <div class="flex-1 flex flex-col w-max mb-[3rem] mt-[1rem] 3xl:mb-[0px] lg:mt-[4rem] 1xl:mt-[6rem] 2xl:mt-[8rem]">
                                 <h1 class="text-3xl 2xl:text-5xl">Hello! I'm <b>Braden Wood</b></h1>
                                 <p class="text-[15px] 2xl:text-[26px] font-light tracking-wide mt-2 2xl:mt-10">
-                                    I'm a programmer, musician, and creator
+                                    I'm a programmer, musician, and youtuber
                                     interested in web development, game development,
                                     and QA testing.
                                     
                                     Currently studying as an IT major at <a class="text-theme underline decoration-dashed underline-offset-[2px] transition hover:text-white hover:bg-theme" href="https://www.facebook.com/arkansastech">Arkansas Tech University</a>.
                                 </p>
-                                <div>
-
-                                </div>
-                                <!--TODO: Make it turn into a 4x4 so its not wonky at small sizes, same with vistor counter stuff-->
-                                <div class="flex flex-row flex-wrap select-none gap-x-5 items-center mt-8 2xl:mt-20">
-                                    <a class="flex flex-row items-center gap-1 transition hover:text-theme" href="https://github.com/brdnwd">
+                                <div class="flex flex-col sm:flex-row sm:flex-wrap select-none gap-x-5 gap-y-1 sm:gap-y-0 items-center mt-3 2xl:mt-5">
+                                    <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff] sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="https://github.com/brdnwd">
                                         <span class="github-icon w-[17px] h-[17px] 2xl:w-[22px] 2xl:h-[22px] mb-[1px] bg-current transition-colors"></span>
                                         <span class="text-[17px]">Github</span>
                                     </a>
-                                    <span class="h-[15px] bg-black p-[0.1px]"></span>
-                                    <a class="flex flex-row items-center gap-1 transition hover:text-theme" href="https://www.linkedin.com/in/brdnwd/">
+                                    <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
+                                    <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff] sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="https://www.linkedin.com/in/brdnwd/">
                                         <span class="linkedin-icon w-[17px] h-[17px] 2xl:w-[22px] 2xl:h-[22px] mb-[1px] bg-current transition-colors"></span>
                                         <span class="text-[17px]">LinkedIn</span>
                                     </a>
-                                    <span class="h-[15px] bg-black p-[0.1px]"></span>
-                                    <a class="flex flex-row items-center gap-1 transition hover:text-theme" href="https://www.facebook.com/brdnwd/">
+                                    <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
+                                    <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff] sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="https://www.facebook.com/brdnwd/">
                                         <span class="facebook-icon w-[18px] h-[18px] 2xl:w-[23px] 2xl:h-[23px] mb-[1px] bg-current transition-colors"></span>
+                                        <span class="text-[17px] sm:hidden">Facebook</span>
                                     </a>
-                                    <span class="h-[15px] bg-black p-[0.1px]"></span>
-                                    <a class="flex flex-row items-center gap-2 hover:gap-3 transition-all hover:text-theme" href="/about">
-                                        <span class="text-[17px]">More About Me</span>
-                                        <span class="arrow-right-icon w-[15px] h-[15px]  2xl:w-[20px] 2xl:h-[20px] mb-[1px] bg-current transition-colors"></span>
+                                    <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
+                                    <a class="flex sm:w-fit w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff] hover:border-black sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="/contact">
+                                        <span class="email-icon w-[18px] h-[18px] 2xl:w-[23px] 2xl:h-[23px] mb-[1px] bg-current transition-colors"></span>
+                                        <span class="text-[17px]">Lets Talk</span>
                                     </a>
+                                    <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
+                                    <a class="flex sm:w-fit w-full flex-row justify-center items-center gap-2 hover:gap-3 transition-all hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff] sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="/about">
+                                        <span class="text-[17px]">Learn More</span>
+                                        <span class="arrow-right-icon w-[15px] h-[15px]  2xl:w-[20px] 2xl:h-[20px] mb-[1px] bg-current transition-colors hidden sm:flex"></span>
+                                    </a>
+                                </div>
+                                <div class="flex flex-col select-none max-w-full sm:max-w-[90%] gap-2 mt-10">
+                                    <h2 class="text-lg 2xl:text-1xl uppercase">LANGUAGES & TOOLS I USE</h2>
+                                    <div class="flex flex-row flex-wrap gap-1 sm:gap-2 uppercase font-cilantro font-semibold">
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">HTML</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">CSS</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">Tailwind</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">JS</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">jQuery</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">PHP</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">C++</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">React</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">Node.js</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">Git</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">Lua</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">Python</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">SQL</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">Unity</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">VSCode</span>
+                                        <span class="px-2 p-1 rounded-lg border-1 border bg-[#fff]">Visual Studio</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="relative flex-1 select-none hidden lg:block" style="--mouse-x: 50%;--mouse-y: 50%;--rgb-x: 0px;--rgb-y: 0px;">
@@ -87,7 +109,7 @@
                             <div class="flex w-full line-height-[3] flex-col sm:flex-row justify-around items-center font-cilantro text-4xl xl:text-6xl  font-bold whitespace-nowrap">
                                 <span>ARKANSAS, USA</span>
                                 <span class="h-[0] sm:h-[10vh] w-full sm:w-0 p-[0.1px] bg-black"></span>
-                                <span><span id="site-views">100,398</span> VIEWS</span>
+                                <span><span id="site-views">0</span> VIEWS</span>
                                 <span class="h-[0] sm:h-[10vh] w-full sm:w-0 p-[0.1px] bg-black"></span>
                                 <span id="site-time">00:00:00</span>
                             </div>

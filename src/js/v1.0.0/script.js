@@ -43,10 +43,10 @@ if (loader) {
             pageLoaded = true;
         });
 
-        const popupDuration = 550;
+        const popupDuration = 250;
         const popupDelay = 10;
 
-        const holdDuration = 100;
+        const holdDuration = 400;
 
         const popScale = 0.9;
 
@@ -191,7 +191,7 @@ if (loader) {
                     }
                 ],
                 {
-                    duration: 1200,
+                    duration: 200,
                     easing: "ease-out",
                     fill: "forwards"
                 }
