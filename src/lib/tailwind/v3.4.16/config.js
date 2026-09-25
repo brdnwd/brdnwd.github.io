@@ -20,7 +20,7 @@
      */
     var colors = {
         "white": "#fff9f4",
-        "black": "#020106",
+        "black": "#06040e",
         "theme": "#3f3fc9",
         "accent": "#eaee1b"
     }
@@ -42,7 +42,19 @@
                 'a, button, [role="button"], input[type="button"], input[type="submit"], input[type="reset"]': {
                     'cursor': 'url("/src/res/cursor/link.cur"), pointer',
                 },
+                'a *, button *, [role="button"] *': {
+                    'cursor': 'inherit',
+                },
                 'a:hover, button:hover, [role="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover': {
+                    'cursor': 'url("/src/res/cursor/link.cur"), pointer',
+                },
+                '::-webkit-scrollbar': {
+                    'cursor': 'url("/src/res/cursor/pointer.cur"), auto',
+                },
+                '::-webkit-scrollbar-track': {
+                    'cursor': 'url("/src/res/cursor/pointer.cur"), auto',
+                },
+                '::-webkit-scrollbar-thumb': {
                     'cursor': 'url("/src/res/cursor/link.cur"), pointer',
                 },
                 //bold
@@ -119,6 +131,26 @@
                 },
                 '.scrollbar-hidden::-webkit-scrollbar-thumb': {
                     'background': 'transparent',
+                },
+                // scrollbar theme
+                '.scrollbar-theme': {
+                    'scrollbar-width': 'thin',
+                    'scrollbar-color': `${colors.theme} transparent`,
+                },
+                '.scrollbar-theme::-webkit-scrollbar': {
+                    'width': '4px',
+                    'height': '4px',
+                },
+                '.scrollbar-theme::-webkit-scrollbar-track': {
+                    'background': 'transparent',
+                },
+                '.scrollbar-theme::-webkit-scrollbar-thumb': {
+                    'background': colors.theme,
+                    'border-radius': '9999px',
+                    'transition': 'background 200ms ease, opacity 200ms ease',
+                },
+                '.scrollbar-theme::-webkit-scrollbar-thumb:hover': {
+                    'background': colors.themeDark,
                 },
                 // selection
                 '.selection': {

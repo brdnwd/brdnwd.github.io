@@ -400,3 +400,152 @@ if (navbar) {
 
     requestNavbarUpdate();
 }
+
+const $youtubeContainer = $("#ytVideos");
+
+if ($youtubeContainer.length) {
+
+    function formatDescription(description) {
+
+        const urlRegex = /(https?:\/\/[^\s<]+)/gi;
+
+        return description.replace(urlRegex, (url) => {
+
+            let cleanUrl = url;
+            let trailing = "";
+
+            // Remove punctuation attached to the URL
+            while (/[.,!?;:)\]}]$/.test(cleanUrl)) {
+                trailing = cleanUrl.slice(-1) + trailing;
+                cleanUrl = cleanUrl.slice(0, -1);
+            }
+
+            let displayUrl;
+
+            try {
+
+                const parsedUrl = new URL(cleanUrl);
+
+                // Remove www.
+                displayUrl = parsedUrl.hostname.replace(/^www\./, "");
+
+                // Add the path
+                if (parsedUrl.pathname && parsedUrl.pathname !== "/") {
+                    displayUrl += parsedUrl.pathname;
+                }
+
+                // Add query parameters
+                if (parsedUrl.search) {
+                    displayUrl += parsedUrl.search;
+                }
+
+                // Shorten extremely long URLs
+                if (displayUrl.length > 50) {
+                    displayUrl =
+                        displayUrl.substring(0, 47) + "...";
+                }
+
+            } catch {
+
+                displayUrl = cleanUrl;
+
+                if (displayUrl.length > 50) {
+                    displayUrl =
+                        displayUrl.substring(0, 47) + "...";
+                }
+
+            }
+
+            
+
+            return `
+                <a
+                    href="${cleanUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-white transition text-wrap break-all hover:text-theme hover:decoration-theme"
+                >${displayUrl}</a>${trailing}
+            `;
+
+        });
+        
+
+    }
+
+
+    async function loadYouTubeVideos() {
+
+        try {
+
+            const response = await fetch(
+                "/src/res/json/youtube.json"
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to load YouTube data: ${response.status}`
+                );
+            }
+
+            const data = await response.json();
+
+            if (!data.videos || data.videos.length < 4) {
+                throw new Error(
+                    "Not enough YouTube videos available."
+                );
+            }
+            
+
+            $youtubeContainer.empty();
+
+            data.videos.slice(0, 2).forEach(video => {
+
+                const formattedDescription =
+                    formatDescription(
+                        video.description || ""
+                    );
+
+                const videoTemplate = `
+                    <div class="grid grid-cols-1 rounded-lg bg-white/5">
+                        <div class="flex flex-col gap-2 w-full">
+                            <div class="w-full overflow-hidden shrink-0">
+                                <img src="${video.thumbnail}" loading="lazy" class="w-full aspect-video object-cover rounded-t-lg bg-black">
+                            </div>
+                            <div class="flex flex-col gap-3 min-h-0 px-5 py-5">
+                                <h3 class="text-2xl 2xl:text-5xl">${video.title}</h3>
+                                <div class="text-lg scrollbar-theme text-white/60 overflow-y-auto max-h-[12rem]">${formattedDescription}</div>
+                                <a class="flex w-fit flex-row gap-2 justify-center items-center hover:gap-3 transition-all hover:text-theme" href="${video.url}">
+                                    <span class="text-[17px]">Watch On Youtube</span>
+                                    <span class="arrow-right-icon w-[20px] h-[20px] mb-[1px] bg-current transition-colors"></span>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+
+                $youtubeContainer.append(videoTemplate);
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "YouTube error:",
+                error
+            );
+
+            $youtubeContainer.html(`
+                <p class="text-white/50">
+                    Unable to load videos right now.
+                </p>
+            `);
+
+        }
+
+    }
+
+    loadYouTubeVideos();
+
+}
