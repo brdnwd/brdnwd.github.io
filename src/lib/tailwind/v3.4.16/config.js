@@ -5,6 +5,84 @@
     "use strict";
 
     /**
+     * Theme data for the entire website
+     */
+    var themes = { 
+        default: { 
+            "white": "#fff9f4", 
+            "black": "#06040e", 
+            "theme": "#3f3fc9", 
+            "accent": "#eaee1b",
+            "portraitHue": "0deg"
+        }, 
+        halloween: { 
+            "white": "#fff4e6", 
+            "black": "#100609", 
+            "theme": "#8a1ccc", 
+            "accent": "#94f752",
+            "portraitHue": "32deg"
+        }, 
+        christmas: { 
+            "white": "#fff9f4", 
+            "black": "#07110b", 
+            "theme": "#ce0235", 
+            "accent": "#12e7ae",
+            "portraitHue": "92deg"
+        }, 
+        summer: { 
+            "white": "#fffff0", 
+            "black": "#071018", 
+            "theme": "#8d710d", 
+            "accent": "#7ca8f5",
+            "portraitHue": "165deg"
+        }, 
+        autumn: { 
+            "white": "#fff8ed", 
+            "black": "#120a06", 
+            "theme": "#026279", 
+            "accent": "#f49778",
+            "portraitHue": "-60deg"
+        }
+    };
+
+    /**
+     * Apply theme data to the runtime colors
+     */
+    var colors = (function () {
+        var date = new Date();
+        var month = date.getMonth() + 1;
+
+        // Halloween
+        if (month === 10) {
+            return themes.halloween;
+        }
+
+        // Christmas
+        if (month === 12) {
+            return themes.christmas;
+        }
+
+        // Summer
+        if (month >= 6 && month <= 8) {
+            return themes.summer;
+        }
+
+        // Autumn
+        if (month === 9 || month === 11) {
+            return themes.autumn;
+        }
+
+        // Default
+        return themes.default;
+    }());
+
+    // Change image to match
+    document.documentElement.style.setProperty("--portrait-hue", colors.portraitHue);
+    //==================================================================================================
+
+
+
+    /**
      * Manages the fonts that can be used via Tailwind.
      * Use: Add font, then use font-[Name Of Font] in html classings.
      */
@@ -12,17 +90,6 @@
         valley: ["Valley Sans", "sans-serif"],
         cilantro: ["Cilantro Code Mono", "monospace"],
         qahiri: ["Qahiri", "sans-serif"]
-    }
-
-    /**
-     * Add custom color attributes
-     * Use: name-of-color: color HEX,
-     */
-    var colors = {
-        "white": "#fff9f4",
-        "black": "#06040e",
-        "theme": "#3f3fc9",
-        "accent": "#eaee1b"
     }
 
     /**
@@ -88,6 +155,10 @@
             });
             // CSS Classes
             addUtilities({
+                //portrait
+                '.portrait': {
+                    'filter': 'hue-rotate(var(--portrait-hue));'
+                },
                 //icons
                 '.github-icon': {
                     'mask': 'url("./src/res/svgs/social-media/github.svg") center / contain no-repeat;',
@@ -230,6 +301,9 @@
             })
         },
     ]
+    //==================================================================================================
+
+    
 
     //unused
     var extras = {}
@@ -241,20 +315,8 @@
             extend: {
                 fontFamily: fonts,
                 colors: colors,
-                animation: {
-                    marquee: "marquee 30s linear infinite",
-                },
-                keyframes: {
-                    marquee: {
-                        "0%": {
-                            transform: "translateX(0)",
-                        },
-
-                        "100%": {
-                            transform: "translateX(-50%)",
-                        },
-                    },
-                },
+                animation: {},
+                keyframes: {},
             },
 
             extras
