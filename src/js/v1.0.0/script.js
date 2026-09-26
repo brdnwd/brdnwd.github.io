@@ -16,6 +16,7 @@
 import { initLoader } from "./components/site/loader.js";
 import { initNavbar } from "./components/site/navbar.js";
 import { initYouTube } from "./components/site/youtube.js";
+import { initLanguages } from "./components/site/languages.js";
 import { initVisitors } from "./components/firebase/vistors.js";
 
 (async function ($, window, document) {
@@ -37,8 +38,8 @@ import { initVisitors } from "./components/firebase/vistors.js";
      */
     initNavbar();
     initYouTube();
-
     await initVisitors();
+    initLanguages();
 
     /*
      * Keep the loader promise alive.
