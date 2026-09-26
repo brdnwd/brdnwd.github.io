@@ -423,7 +423,6 @@ if ($youtubeContainer.length) {
             let displayUrl;
 
             try {
-
                 const parsedUrl = new URL(cleanUrl);
 
                 // Remove www.
@@ -438,25 +437,9 @@ if ($youtubeContainer.length) {
                 if (parsedUrl.search) {
                     displayUrl += parsedUrl.search;
                 }
-
-                // Shorten extremely long URLs
-                if (displayUrl.length > 50) {
-                    displayUrl =
-                        displayUrl.substring(0, 47) + "...";
-                }
-
             } catch {
-
                 displayUrl = cleanUrl;
-
-                if (displayUrl.length > 50) {
-                    displayUrl =
-                        displayUrl.substring(0, 47) + "...";
-                }
-
             }
-
-            
 
             return `
                 <a
@@ -468,10 +451,8 @@ if ($youtubeContainer.length) {
             `;
 
         });
-        
 
     }
-
 
     async function loadYouTubeVideos() {
 
@@ -494,7 +475,6 @@ if ($youtubeContainer.length) {
                     "Not enough YouTube videos available."
                 );
             }
-            
 
             $youtubeContainer.empty();
 
@@ -507,17 +487,38 @@ if ($youtubeContainer.length) {
 
                 const videoTemplate = `
                     <div class="grid grid-cols-1 rounded-lg bg-white/5">
+
                         <div class="flex flex-col gap-2 w-full">
-                            <div class="w-full overflow-hidden shrink-0">
-                                <img src="${video.thumbnail}" loading="lazy" class="w-full aspect-video object-cover rounded-t-lg bg-black">
+
+                            <div class="w-full select-none overflow-hidden shrink-0">
+                                <img
+                                    src="${video.thumbnail}"
+                                    loading="lazy"
+                                    class="w-full aspect-video object-cover rounded-t-lg bg-black"
+                                >
                             </div>
-                            <div class="flex flex-col gap-3 min-h-0 px-5 py-5">
-                                <h3 class="text-2xl 2xl:text-5xl">${video.title}</h3>
-                                <div class="text-lg scrollbar-theme text-white/60 overflow-y-auto max-h-[12rem]">${formattedDescription}</div>
-                                <a class="flex w-fit flex-row gap-2 justify-center items-center hover:gap-3 transition-all hover:text-theme" href="${video.url}">
-                                    <span class="text-[17px]">Watch On Youtube</span>
-                                    <span class="arrow-right-icon w-[20px] h-[20px] mb-[1px] bg-current transition-colors"></span>
+
+                            <div class="flex flex-col justify-between h-full gap-3 min-h-0 px-5 py-5">
+
+                                <h3 class="text-2xl line-clamp-1">
+                                    ${video.title}
+                                </h3>
+
+                                <div class="text-lg scrollbar-theme text-white/60 line-clamp-4">
+                                    ${formattedDescription}
+                                </div>
+
+                                <a
+                                    class="flex sm:w-fit w-full select-none flex-row justify-center items-center gap-2 hover:gap-3 transition-all hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff] sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent text-black sm:text-white"
+                                    href="${video.url}"
+                                >
+                                    <span class="text-[17px]">
+                                        Watch On Youtube
+                                    </span>
+
+                                    <span class="arrow-right-icon w-[20px] h-[20px] mb-[1px] bg-current transition-colors hidden sm:flex"></span>
                                 </a>
+
                             </div>
 
                         </div>
