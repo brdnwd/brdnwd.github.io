@@ -41,6 +41,13 @@ jobs:
                   "User-Agent": "brdnwd.github.io-github-data"
               };
 
+
+              /*
+               * --------------------------------------------------------
+               * GitHub API
+               * --------------------------------------------------------
+               */
+
               async function githubFetch(endpoint) {
                   const response = await fetch(
                       `${apiBase}${endpoint}`,
@@ -67,11 +74,14 @@ jobs:
                * --------------------------------------------------------
                */
 
-              console.log("Fetching repository information...");
-
-              const repositoryData = await githubFetch(
-                  `/repos/${owner}/${repo}`
+              console.log(
+                  "Fetching repository information..."
               );
+
+              const repositoryData =
+                  await githubFetch(
+                      `/repos/${owner}/${repo}`
+                  );
 
               const defaultBranch =
                   repositoryData.default_branch;
@@ -87,11 +97,14 @@ jobs:
                * --------------------------------------------------------
                */
 
-              console.log("Fetching recent commits...");
-
-              const commitData = await githubFetch(
-                  `/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(defaultBranch)}&per_page=15`
+              console.log(
+                  "Fetching recent commits..."
               );
+
+              const commitData =
+                  await githubFetch(
+                      `/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(defaultBranch)}&per_page=15`
+                  );
 
 
               /*
@@ -101,36 +114,37 @@ jobs:
                * the displayed website version.
                */
 
-              const realCommits = commitData.filter((commit) => {
-                  const message =
-                      commit.commit?.message || "";
+              const realCommits =
+                  commitData.filter((commit) => {
+                      const message =
+                          commit.commit?.message || "";
 
-                  const author =
-                      commit.author?.login || "";
+                      const author =
+                          commit.author?.login || "";
 
-                  const committer =
-                      commit.committer?.login || "";
-
-
-                  if (
-                      author === "github-actions[bot]" ||
-                      committer === "github-actions[bot]"
-                  ) {
-                      return false;
-                  }
+                      const committer =
+                          commit.committer?.login || "";
 
 
-                  if (
-                      message.startsWith(
-                          "chore: update github data"
-                      )
-                  ) {
-                      return false;
-                  }
+                      if (
+                          author === "github-actions[bot]" ||
+                          committer === "github-actions[bot]"
+                      ) {
+                          return false;
+                      }
 
 
-                  return true;
-              });
+                      if (
+                          message.startsWith(
+                              "Chore: Update Github Data"
+                          )
+                      ) {
+                          return false;
+                      }
+
+
+                      return true;
+                  });
 
 
               /*
@@ -156,15 +170,18 @@ jobs:
 
               const recentCommits = [];
 
-              for (const commitRef of recentCommitRefs) {
+              for (
+                  const commitRef of recentCommitRefs
+              ) {
                   console.log(
                       `Fetching commit ${commitRef.sha.substring(0, 7)}...`
                   );
 
 
-                  const commit = await githubFetch(
-                      `/repos/${owner}/${repo}/commits/${commitRef.sha}`
-                  );
+                  const commit =
+                      await githubFetch(
+                          `/repos/${owner}/${repo}/commits/${commitRef.sha}`
+                      );
 
 
                   const message =
@@ -181,7 +198,8 @@ jobs:
 
                       message,
 
-                      url: commit.html_url,
+                      url:
+                          commit.html_url,
 
                       date:
                           commit.commit?.author?.date ||
@@ -214,27 +232,138 @@ jobs:
 
               /*
                * --------------------------------------------------------
-               * Repository languages
+               * Public GitHub repositories
                * --------------------------------------------------------
+               *
+               * Fetch every public repository owned by the account.
+               *
+               * GitHub returns a maximum of 100 repositories per page,
+               * so continue requesting pages until an empty page is
+               * returned.
                */
 
               console.log(
-                  "Fetching repository languages..."
+                  "Fetching public GitHub repositories..."
               );
 
+              const publicRepositories = [];
 
-              const languages = await githubFetch(
-                  `/repos/${owner}/${repo}/languages`
+              let repositoryPage = 1;
+
+              while (true) {
+                  const repositories =
+                      await githubFetch(
+                          `/users/${owner}/repos?type=owner&per_page=100&page=${repositoryPage}`
+                      );
+
+
+                  if (
+                      !Array.isArray(repositories) ||
+                      repositories.length === 0
+                  ) {
+                      break;
+                  }
+
+
+                  for (
+                      const repositoryItem
+                      of repositories
+                  ) {
+                      /*
+                       * The endpoint returns public repositories,
+                       * but keep this check for safety.
+                       */
+
+                      if (
+                          repositoryItem.private === false
+                      ) {
+                          publicRepositories.push(
+                              repositoryItem
+                          );
+                      }
+                  }
+
+
+                  console.log(
+                      `Fetched repository page ${repositoryPage}: ${repositories.length} repositories.`
+                  );
+
+
+                  if (
+                      repositories.length < 100
+                  ) {
+                      break;
+                  }
+
+
+                  repositoryPage++;
+              }
+
+
+              console.log(
+                  `Found ${publicRepositories.length} public repositories.`
               );
 
 
               /*
-               * Sort languages from most-used
-               * to least-used.
+               * --------------------------------------------------------
+               * Account-wide languages
+               * --------------------------------------------------------
+               *
+               * GitHub's language endpoint gives byte counts for each
+               * repository.
+               *
+               * These are combined across every public repository.
+               */
+
+              console.log(
+                  "Calculating account-wide languages..."
+              );
+
+              const languageTotals = {};
+
+
+              for (
+                  const repositoryItem
+                  of publicRepositories
+              ) {
+                  console.log(
+                      `Fetching languages: ${repositoryItem.full_name}`
+                  );
+
+
+                  const repositoryLanguages =
+                      await githubFetch(
+                          `/repos/${repositoryItem.full_name}/languages`
+                      );
+
+
+                  for (
+                      const [
+                          language,
+                          bytes
+                      ]
+                      of Object.entries(
+                          repositoryLanguages
+                      )
+                  ) {
+                      languageTotals[language] =
+                          (
+                              languageTotals[language] ||
+                              0
+                          ) + bytes;
+                  }
+              }
+
+
+              /*
+               * --------------------------------------------------------
+               * Sort account-wide languages
+               * --------------------------------------------------------
                */
 
               const sortedLanguages =
-                  Object.entries(languages)
+                  Object.entries(languageTotals)
                       .sort(
                           ([, a], [, b]) =>
                               b - a
@@ -242,7 +371,9 @@ jobs:
 
 
               /*
-               * Calculate total language bytes.
+               * --------------------------------------------------------
+               * Total language bytes
+               * --------------------------------------------------------
                */
 
               const totalLanguageBytes =
@@ -254,7 +385,9 @@ jobs:
 
 
               /*
-               * Calculate language percentages.
+               * --------------------------------------------------------
+               * Account-wide language percentages
+               * --------------------------------------------------------
                */
 
               const languageBreakdown =
@@ -285,7 +418,7 @@ jobs:
 
               /*
                * --------------------------------------------------------
-               * Most-used language
+               * Most-used account-wide language
                * --------------------------------------------------------
                */
 
@@ -350,7 +483,33 @@ jobs:
                   recentCommits,
 
 
-                  languages,
+                  repositories: {
+                      count:
+                          publicRepositories.length,
+
+                      public: publicRepositories.map(
+                          (repositoryItem) => ({
+                              name:
+                                  repositoryItem.name,
+
+                              fullName:
+                                  repositoryItem.full_name,
+
+                              url:
+                                  repositoryItem.html_url,
+
+                              fork:
+                                  repositoryItem.fork,
+
+                              archived:
+                                  repositoryItem.archived
+                          })
+                      )
+                  },
+
+
+                  languages:
+                      languageTotals,
 
 
                   languageBreakdown,
@@ -378,13 +537,14 @@ jobs:
                * --------------------------------------------------------
                */
 
-              const outputPath = path.join(
-                  process.cwd(),
-                  "src",
-                  "res",
-                  "json",
-                  "github.json"
-              );
+              const outputPath =
+                  path.join(
+                      process.cwd(),
+                      "src",
+                      "res",
+                      "json",
+                      "github.json"
+                  );
 
 
               fs.mkdirSync(
@@ -415,9 +575,11 @@ jobs:
                */
 
               console.log("");
+
               console.log(
                   "GitHub data generated successfully."
               );
+
               console.log("");
 
               console.log(
@@ -428,6 +590,12 @@ jobs:
                   `Version: ${
                       latestCommit?.shortSha ||
                       "unknown"
+                  }`
+              );
+
+              console.log(
+                  `Public repositories: ${
+                      publicRepositories.length
                   }`
               );
 
