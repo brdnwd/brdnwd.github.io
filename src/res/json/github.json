@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-26T19:52:49.401Z",
+  "updatedAt": "2026-09-26T19:57:20.962Z",
   "repository": {
     "name": "brdnwd.github.io",
     "fullName": "brdnwd/brdnwd.github.io",
@@ -8,13 +8,23 @@
     "url": "https://github.com/brdnwd/brdnwd.github.io"
   },
   "version": {
-    "sha": "7f9be8241059a2485da08a6da30077a12dd1e076",
-    "shortSha": "7f9be82",
-    "message": "fix workflow",
-    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/7f9be8241059a2485da08a6da30077a12dd1e076",
-    "date": "2026-09-26T19:52:29Z"
+    "sha": "e1ac33d06f2a61cbb6f92a63234c52d27466303a",
+    "shortSha": "e1ac33d",
+    "message": "update to include averages across all public repos",
+    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e1ac33d06f2a61cbb6f92a63234c52d27466303a",
+    "date": "2026-09-26T19:56:54Z"
   },
   "recentCommits": [
+    {
+      "sha": "e1ac33d06f2a61cbb6f92a63234c52d27466303a",
+      "shortSha": "e1ac33d",
+      "message": "update to include averages across all public repos",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e1ac33d06f2a61cbb6f92a63234c52d27466303a",
+      "date": "2026-09-26T19:56:54Z",
+      "additions": 221,
+      "deletions": 53,
+      "changes": 274
+    },
     {
       "sha": "7f9be8241059a2485da08a6da30077a12dd1e076",
       "shortSha": "7f9be82",
@@ -54,37 +64,126 @@
       "additions": 1,
       "deletions": 1,
       "changes": 2
-    },
-    {
-      "sha": "0696c00815f3b7cb572722ec4b053e29bd5ecd19",
-      "shortSha": "0696c00",
-      "message": "fix image sizing",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/0696c00815f3b7cb572722ec4b053e29bd5ecd19",
-      "date": "2026-09-26T04:30:46Z",
-      "additions": 38,
-      "deletions": 37,
-      "changes": 75
     }
   ],
+  "repositories": {
+    "count": 10,
+    "public": [
+      {
+        "name": "act-workkeys-answers",
+        "fullName": "brdnwd/act-workkeys-answers",
+        "url": "https://github.com/brdnwd/act-workkeys-answers",
+        "fork": false,
+        "archived": true
+      },
+      {
+        "name": "arturo-sandoval-project",
+        "fullName": "brdnwd/arturo-sandoval-project",
+        "url": "https://github.com/brdnwd/arturo-sandoval-project",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "brdnwd",
+        "fullName": "brdnwd/brdnwd",
+        "url": "https://github.com/brdnwd/brdnwd",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "brdnwd.github.io",
+        "fullName": "brdnwd/brdnwd.github.io",
+        "url": "https://github.com/brdnwd/brdnwd.github.io",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "echo-plus",
+        "fullName": "brdnwd/echo-plus",
+        "url": "https://github.com/brdnwd/echo-plus",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "emulating-the-nintendo-switch",
+        "fullName": "brdnwd/emulating-the-nintendo-switch",
+        "url": "https://github.com/brdnwd/emulating-the-nintendo-switch",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "fallout-4-codes",
+        "fullName": "brdnwd/fallout-4-codes",
+        "url": "https://github.com/brdnwd/fallout-4-codes",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "hare-simulation",
+        "fullName": "brdnwd/hare-simulation",
+        "url": "https://github.com/brdnwd/hare-simulation",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "programming-1",
+        "fullName": "brdnwd/programming-1",
+        "url": "https://github.com/brdnwd/programming-1",
+        "fork": false,
+        "archived": false
+      },
+      {
+        "name": "understanding-human-behavior",
+        "fullName": "brdnwd/understanding-human-behavior",
+        "url": "https://github.com/brdnwd/understanding-human-behavior",
+        "fork": false,
+        "archived": false
+      }
+    ]
+  },
   "languages": {
-    "JavaScript": 36757,
-    "HTML": 11007
+    "HTML": 162114,
+    "JavaScript": 120669,
+    "CSS": 62122,
+    "Python": 1509,
+    "Shell": 46150,
+    "C++": 32077
   },
   "languageBreakdown": [
     {
-      "name": "JavaScript",
-      "bytes": 36757,
-      "percentage": 76.96
+      "name": "HTML",
+      "bytes": 162114,
+      "percentage": 38.18
     },
     {
-      "name": "HTML",
-      "bytes": 11007,
-      "percentage": 23.04
+      "name": "JavaScript",
+      "bytes": 120669,
+      "percentage": 28.42
+    },
+    {
+      "name": "CSS",
+      "bytes": 62122,
+      "percentage": 14.63
+    },
+    {
+      "name": "Shell",
+      "bytes": 46150,
+      "percentage": 10.87
+    },
+    {
+      "name": "C++",
+      "bytes": 32077,
+      "percentage": 7.55
+    },
+    {
+      "name": "Python",
+      "bytes": 1509,
+      "percentage": 0.36
     }
   ],
   "primaryLanguage": {
-    "name": "JavaScript",
-    "bytes": 36757,
-    "percentage": 76.96
+    "name": "HTML",
+    "bytes": 162114,
+    "percentage": 38.18
   }
 }
