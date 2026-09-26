@@ -1,0 +1,90 @@
+{
+  "updatedAt": "2026-09-26T19:52:49.401Z",
+  "repository": {
+    "name": "brdnwd.github.io",
+    "fullName": "brdnwd/brdnwd.github.io",
+    "owner": "brdnwd",
+    "branch": "main",
+    "url": "https://github.com/brdnwd/brdnwd.github.io"
+  },
+  "version": {
+    "sha": "7f9be8241059a2485da08a6da30077a12dd1e076",
+    "shortSha": "7f9be82",
+    "message": "fix workflow",
+    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/7f9be8241059a2485da08a6da30077a12dd1e076",
+    "date": "2026-09-26T19:52:29Z"
+  },
+  "recentCommits": [
+    {
+      "sha": "7f9be8241059a2485da08a6da30077a12dd1e076",
+      "shortSha": "7f9be82",
+      "message": "fix workflow",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/7f9be8241059a2485da08a6da30077a12dd1e076",
+      "date": "2026-09-26T19:52:29Z",
+      "additions": 343,
+      "deletions": 247,
+      "changes": 590
+    },
+    {
+      "sha": "148594dbe1e108f9832c243004b708b1208776b8",
+      "shortSha": "148594d",
+      "message": "more formatting changes",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/148594dbe1e108f9832c243004b708b1208776b8",
+      "date": "2026-09-26T19:50:56Z",
+      "additions": 1292,
+      "deletions": 734,
+      "changes": 2026
+    },
+    {
+      "sha": "d3f57199e4ee597cfcbb5e290a05f4bfe24d10d8",
+      "shortSha": "d3f5719",
+      "message": "just some tests",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/d3f57199e4ee597cfcbb5e290a05f4bfe24d10d8",
+      "date": "2026-09-26T04:36:00Z",
+      "additions": 4,
+      "deletions": 4,
+      "changes": 8
+    },
+    {
+      "sha": "6e97907660835991a8f59376529988b07730acfb",
+      "shortSha": "6e97907",
+      "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/6e97907660835991a8f59376529988b07730acfb",
+      "date": "2026-09-26T04:30:48Z",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2
+    },
+    {
+      "sha": "0696c00815f3b7cb572722ec4b053e29bd5ecd19",
+      "shortSha": "0696c00",
+      "message": "fix image sizing",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/0696c00815f3b7cb572722ec4b053e29bd5ecd19",
+      "date": "2026-09-26T04:30:46Z",
+      "additions": 38,
+      "deletions": 37,
+      "changes": 75
+    }
+  ],
+  "languages": {
+    "JavaScript": 36757,
+    "HTML": 11007
+  },
+  "languageBreakdown": [
+    {
+      "name": "JavaScript",
+      "bytes": 36757,
+      "percentage": 76.96
+    },
+    {
+      "name": "HTML",
+      "bytes": 11007,
+      "percentage": 23.04
+    }
+  ],
+  "primaryLanguage": {
+    "name": "JavaScript",
+    "bytes": 36757,
+    "percentage": 76.96
+  }
+}
