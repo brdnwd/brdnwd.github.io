@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-27T16:38:04.713Z",
+  "updatedAt": "2026-09-27T21:04:22.360Z",
   "repository": {
     "name": "brdnwd.github.io",
     "fullName": "brdnwd/brdnwd.github.io",
@@ -8,13 +8,23 @@
     "url": "https://github.com/brdnwd/brdnwd.github.io"
   },
   "version": {
-    "sha": "a7c306950b3edb0f5a24e52b38a8ce3d921759fa",
-    "shortSha": "a7c3069",
-    "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
-    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/a7c306950b3edb0f5a24e52b38a8ce3d921759fa",
-    "date": "2026-09-27T06:24:52Z"
+    "sha": "428c2a87be4a328e365127f11ae1311384677f05",
+    "shortSha": "428c2a8",
+    "message": "good",
+    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/428c2a87be4a328e365127f11ae1311384677f05",
+    "date": "2026-09-27T19:27:16Z"
   },
   "recentCommits": [
+    {
+      "sha": "428c2a87be4a328e365127f11ae1311384677f05",
+      "shortSha": "428c2a8",
+      "message": "good",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/428c2a87be4a328e365127f11ae1311384677f05",
+      "date": "2026-09-27T19:27:16Z",
+      "additions": 402,
+      "deletions": 413,
+      "changes": 815
+    },
     {
       "sha": "a7c306950b3edb0f5a24e52b38a8ce3d921759fa",
       "shortSha": "a7c3069",
@@ -54,16 +64,6 @@
       "additions": 221,
       "deletions": 53,
       "changes": 274
-    },
-    {
-      "sha": "7f9be8241059a2485da08a6da30077a12dd1e076",
-      "shortSha": "7f9be82",
-      "message": "fix workflow",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/7f9be8241059a2485da08a6da30077a12dd1e076",
-      "date": "2026-09-26T19:52:29Z",
-      "additions": 343,
-      "deletions": 247,
-      "changes": 590
     }
   ],
   "repositories": {
@@ -142,8 +142,8 @@
     ]
   },
   "languages": {
-    "HTML": 166896,
-    "JavaScript": 131185,
+    "HTML": 166932,
+    "JavaScript": 130948,
     "CSS": 62122,
     "Python": 1509,
     "Shell": 46150,
@@ -152,18 +152,18 @@
   "languageBreakdown": [
     {
       "name": "HTML",
-      "bytes": 166896,
-      "percentage": 37.94
+      "bytes": 166932,
+      "percentage": 37.96
     },
     {
       "name": "JavaScript",
-      "bytes": 131185,
-      "percentage": 29.82
+      "bytes": 130948,
+      "percentage": 29.78
     },
     {
       "name": "CSS",
       "bytes": 62122,
-      "percentage": 14.12
+      "percentage": 14.13
     },
     {
       "name": "Shell",
@@ -183,7 +183,7 @@
   ],
   "primaryLanguage": {
     "name": "HTML",
-    "bytes": 166896,
-    "percentage": 37.94
+    "bytes": 166932,
+    "percentage": 37.96
   }
 }
