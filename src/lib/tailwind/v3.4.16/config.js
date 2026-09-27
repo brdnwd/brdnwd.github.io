@@ -189,6 +189,14 @@
                     'mask': 'url("./src/res/svgs/search.svg") center / contain no-repeat;',
                     '-webkit-mask': 'url("./src/res/svgs/search.svg") center / contain no-repeat;'
                 },
+                '.close-icon': {
+                    'mask': 'url("./src/res/svgs/close.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/close.svg") center / contain no-repeat;'
+                },
+                '.git-commit-icon': {
+                    'mask': 'url("./src/res/svgs/git-commit.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/git-commit.svg") center / contain no-repeat;'
+                },
                 // scrollbar
                 '.scrollbar-hidden': {
                     'scrollbar-width': 'none',

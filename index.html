@@ -24,9 +24,9 @@
             <div class="relative h-screen overflow-scroll scrollbar-hidden select-text">
                 <div id="body" class="flex flex-col">
                     <nav id="navbarContainer" class="sticky left-0 top-0 z-[999] select-none py-4 bg-black/0 backdrop-blur-md text-black"></nav>
-                    <section class="flex-1 flex flex-col">
+                    <section class="flex-1 flex flex-col" data-navbar-theme="light">
                         <div class="flex flex-row justify-between page-container">
-                            <div class="flex flex-1 flex-col flex-1 py-[2rem] xl:py-[5rem] 2xl:py-[8rem]">
+                            <div class="flex flex-1 flex-col flex-1 pb-[2rem] lg:py-[3rem] xl:py-[5rem] 2xl:py-[8rem]">
                                 <h1 class="text-3xl xl:text-4xl 2xl:text-5xl">Hello! I'm <b>Braden Wood</b></h1>
                                 <p class="text-[15px] xl:text-[18px] 2xl:text-[26px] font-light tracking-wide mt-2 xl:mt-10">
                                     I'm a programmer, musician, and youtuber
@@ -61,7 +61,7 @@
                                         <span class="arrow-right-icon w-[15px] h-[15px]  2xl:w-[20px] 2xl:h-[20px] mb-[1px] bg-current transition-colors hidden sm:flex"></span>
                                     </a>
                                 </div>
-                                <div class="flex flex-col select-none max-w-full sm:max-w-[90%] gap-2 mt-10">
+                                <div class="flex flex-col select-none max-w-full sm:max-w-[90%] gap-2 mt-6 xl:mt-10">
                                     <h2 class="text-lg 2xl:text-1xl uppercase">LANGUAGES & TOOLS I USE</h2>
                                     <div data-github-languages class="flex flex-row flex-wrap gap-1 sm:gap-2 uppercase font-cilantro font-semibold">
                                         <span data-language="HTML" class="language-pill relative overflow-hidden px-2 py-1 rounded-lg border bg-[#fff]">
@@ -145,7 +145,7 @@
                             </div>
                         </div>
                     </section>
-                    <section class="flex bg-black text-white py-[2rem] xl:py-[12rem]">
+                    <section class="flex bg-black text-white py-[2rem] xl:py-[12rem]" data-navbar-theme="dark">
                         <div class="flex flex-col page-container w-full">
                             <h1 class="text-3xl text-center xl:text-7xl font-bold">Recent Videos</h1>
                             <div id="ytVideos" class="grid w-full max-w-[1100px] xl:max-w-[1400px] mx-auto grid-cols-1 md:grid-cols-2 gap-5 mt-10 xl:mt-20"></div>

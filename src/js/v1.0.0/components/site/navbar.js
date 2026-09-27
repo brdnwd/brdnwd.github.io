@@ -1,379 +1,327 @@
 export function initNavbar() {
+    const $navbarContainer = $("#navbarContainer");
+    if (!$navbarContainer.length) return;
 
-  const navbarContainer =
-    document.getElementById("navbarContainer");
+    $navbarContainer.html(`
+        <div id="navbar" class="flex flex-row justify-between items-center w-full h-full page-container">
+            <div class="text-5xl font-medium font-qahiri">BW</div>
+            <div class="text-lg font-bold flex-row gap-10 hidden md:flex">
+                <a class="transition hover:text-theme" href="/">HOME</a>
+                <a class="transition hover:text-theme" href="/pages/about">ABOUT</a>
+                <a class="transition hover:text-theme" href="/pages/projects">PROJECTS</a>
+                <a class="transition hover:text-theme" href="/pages/blogs">BLOGS</a>
+                <a class="transition hover:text-theme" href="/pages/contact">CONTACT</a>
+            </div>
+            <div class="flex flex-row items-center gap-5 font-bold">
+                <a id="sidemenu" class="hamburger-menu-icon block md:hidden w-[3.4rem] h-[3.4rem] scale-x-[-1] mb-[5px] bg-current transition-colors" href="#" aria-label="Open menu" aria-expanded="false"></a>
+                <a id="searchmenu" class="hidden md:flex flex hover:text-theme transition">
+                    <span class="search-icon w-[2rem] h-[2rem] mb-[1px] bg-current transition-colors"></span>
+                </a>
+            </div>
+        </div>
+    `);
 
-  if (!navbarContainer) {
-    return;
-  }
+    const $navbar = $("#navbar");
+    const $sidemenu = $("#sidemenu");
+    if (!$navbar.length || !$sidemenu.length) return;
 
+    let navbarIsDark = false;
+    let ticking = false;
+    let menuOpen = false;
+    let menuAnimating = false;
 
-  /*
-   * Navbar HTML
-   */
+    function getNavbarTheme() {
+        const rect = $navbarContainer[0].getBoundingClientRect();
+        const element = document.elementFromPoint(
+            window.innerWidth / 2,
+            rect.bottom + 5
+        );
 
-  navbarContainer.innerHTML = `
-    <div id="navbar" class="flex flex-row justify-between items-center w-full h-full page-container">
+        if (!element) return null;
 
-      <div class="text-5xl font-medium font-qahiri">
-        BW
-      </div>
+        const $section = $(element).closest("[data-navbar-theme]");
 
+        return $section.length
+            ? $section.data("navbar-theme")
+            : null;
+    }
 
-      <div class="text-lg font-bold flex-row gap-10 hidden md:flex">
+    function updateNavbarTheme() {
+        ticking = false;
 
-        <a
-          class="transition hover:text-theme"
-          href="/"
-        >
-          HOME
-        </a>
+        const theme = getNavbarTheme();
+        if (!theme) return;
 
-        <a
-          class="transition hover:text-theme"
-          href="/pages/about"
-        >
-          ABOUT
-        </a>
+        const shouldBeDark = theme === "dark";
 
-        <a
-          class="transition hover:text-theme"
-          href="/pages/projects"
-        >
-          PROJECTS
-        </a>
+        if (shouldBeDark === navbarIsDark) return;
 
-        <a
-          class="transition hover:text-theme"
-          href="/pages/blogs"
-        >
-          BLOGS
-        </a>
+        navbarIsDark = shouldBeDark;
 
-        <a
-          class="transition hover:text-theme"
-          href="/pages/contact"
-        >
-          CONTACT
-        </a>
+        $navbar.toggleClass("text-white", shouldBeDark);
+        $navbar.toggleClass("text-black", !shouldBeDark);
+    }
 
-      </div>
+    function requestNavbarUpdate() {
+        if (ticking) return;
 
+        ticking = true;
 
-      <div class="flex flex-row items-center gap-5 font-bold">
+        requestAnimationFrame(
+            updateNavbarTheme
+        );
+    }
 
-        <a
-          id="sidemenu"
-          class="hamburger-menu-icon block md:hidden w-[3.4rem] h-[3.4rem] scale-x-[-1] mb-[5px] bg-current transition-colors"
-        ></a>
+    // Side menu
+const $mobileMenu = $(`
+    <div id="mobileMenu" class="fixed inset-0 z-[1000] bg-accent text-black pointer-events-none md:hidden">
+        <div class="absolute top-[1.37rem] left-0 right-0">
+            <div class="flex flex-row justify-between items-center w-full h-full page-container">
+              <div class="font-qahiri text-5xl">
+                  BW
+              </div>
 
-        <a
-          id="searchmenu"
-          class="hidden md:flex flex hover:text-theme transition"
-        >
-          <span
-            class="search-icon w-[2rem] h-[2rem] mb-[1px] bg-current transition-colors"
-          ></span>
-        </a>
+              <a id="closemenu" class="close-icon block w-[2.3rem] h-[2.3rem] mr-[5px] bg-current hover:text-theme transition-colors"></a>
+            </div>
+        </div>
 
-      </div>
+        <div class="absolute bottom-6 left-6 right-6 sm:left-10 sm:right-10 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-5 font-bold">
+            <div>
+                &copy; 2026 Braden Wood
+            </div>  
 
+            <!--TODO: Give this the social icons and move commit version to normal footer-->
+
+            <a id="siteVersion" class="transition hover:text-theme">
+                <div class="flex sm:w-min w-full flex-row justify-center items-center gap-1"></div>
+            </a>
+        </div>
     </div>
-  `;
-
-
-  /*
-   * Get the generated navbar
-   */
-
-  const navbar =
-    document.getElementById("navbar");
-
-  if (!navbar) {
-    return;
-  }
-
-
-  let navbarIsDark = false;
-  let ticking = false;
-
-
-  //==================================================================================================
-
-
-  function getBackgroundColor(element) {
-
-    let current = element;
-
-
-    while (
-      current &&
-      current !== document.documentElement
-    ) {
-
-      /*
-       * Ignore images, videos, and canvases.
-       * Continue checking their parent background.
-       */
-
-      if (
-        current.tagName === "IMG" ||
-        current.tagName === "VIDEO" ||
-        current.tagName === "CANVAS"
-      ) {
-
-        current =
-          current.parentElement;
-
-        continue;
-      }
-
-
-      const background =
-        getComputedStyle(current)
-          .backgroundColor;
-
-
-      if (
-        background &&
-        background !== "transparent" &&
-        background !== "rgba(0, 0, 0, 0)"
-      ) {
-
-        return background;
-      }
-
-
-      current =
-        current.parentElement;
-    }
-
-
-    return getComputedStyle(
-      document.body
-    ).backgroundColor;
-  }
-
-
-  //==================================================================================================
-
-
-  function getLuminance(color) {
-
-    const match =
-      color.match(/[\d.]+/g);
-
-
-    if (
-      !match ||
-      match.length < 3
-    ) {
-
-      return 255;
-    }
-
-
-    const r =
-      Number(match[0]);
-
-    const g =
-      Number(match[1]);
-
-    const b =
-      Number(match[2]);
-
-
-    return (
-      0.299 * r +
-      0.587 * g +
-      0.114 * b
+`);
+    $mobileMenu.css(
+        "clip-path",
+        "polygon(100% 0%, 100% 100%, 100% 100%, 100% 0%)"
     );
-  }
 
+    $("body").append($mobileMenu);
 
-  //==================================================================================================
+    const $closemenu = $("#closemenu");
+    const $siteVersion = $("#siteVersion");
 
+    if (!$closemenu.length || !$siteVersion.length) return;
 
-  function updateNavbarTheme() {
+    // Load website version
+    $.getJSON("/src/res/json/github.json")
+        .done(function (data) {
+            const version = data?.version;
 
-    ticking = false;
+            if (!version?.shortSha) {
+                return;
+            }
 
+            $siteVersion.find("div")
+                .html(`
+                  <span class="git-commit-icon w-[17px] h-[17px] mt-[0.5px] bg-current transition-colors"></span>
+                  <span class="text-[17px]">${version.shortSha}</span>
+                `).parent().attr("href", version.url || "#");
+        })
+        .fail(function () {
+            $siteVersion.text("VERSION UNKNOWN");
+        });
 
-    const rect =
-      navbar.getBoundingClientRect();
+    // Wave
+    function getWave(progress, direction) {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const points = 40;
 
+        const boundary =
+            direction === "open"
+                ? width + 100 - progress * (width + 200)
+                : -100 + progress * (width + 200);
 
-    /*
-     * Sample several horizontal lines
-     * directly underneath the navbar.
-     */
+        const wavePoints = [];
 
-    const sampleOffsets = [
-      2,
-      8,
-      16,
-      24
-    ];
+        for (let i = 0; i <= points; i++) {
+            const y = (height / points) * i;
 
+            const wave =
+                Math.sin(
+                    (y / height) * Math.PI * 3 +
+                    progress * 8
+                ) * 35 +
+                Math.sin(
+                    (y / height) * Math.PI * 7 -
+                    progress * 12
+                ) * 18 +
+                Math.sin(
+                    (y / height) * Math.PI * 13 +
+                    progress * 5
+                ) * 8;
 
-    /*
-     * Number of points sampled
-     * across each line.
-     */
-
-    const samplesPerLine = 100;
-
-
-    let totalLuminance = 0;
-    let totalSamples = 0;
-
-
-    sampleOffsets.forEach((offset) => {
-
-      const y =
-        rect.bottom + offset;
-
-
-      if (
-        y >= window.innerHeight
-      ) {
-
-        return;
-      }
-
-
-      for (
-        let i = 0;
-        i < samplesPerLine;
-        i++
-      ) {
-
-        const x =
-          (
-            window.innerWidth /
-            (samplesPerLine - 1)
-          ) * i;
-
-
-        const element =
-          document.elementFromPoint(
-            x,
-            y
-          );
-
-
-        if (!element) {
-          continue;
+            wavePoints.push(
+                `${boundary + wave}px ${y}px`
+            );
         }
 
+        return [
+            `${width}px 0px`,
+            `${width}px ${height}px`,
+            ...wavePoints.reverse()
+        ].join(", ");
+    }
 
-        const background =
-          getBackgroundColor(element);
+    function setMenuWave(progress, direction) {
+        $mobileMenu.css(
+            "clip-path",
+            `polygon(${getWave(progress, direction)})`
+        );
+    }
 
+    function animateMenu(direction) {
+        return new Promise(resolve => {
+            const duration = 1100;
+            const startTime = performance.now();
 
-        const luminance =
-          getLuminance(background);
+            function animate(time) {
+                const rawProgress = Math.min(
+                    (time - startTime) / duration,
+                    1
+                );
 
+                const progress =
+                    rawProgress *
+                    rawProgress *
+                    (3 - 2 * rawProgress);
 
-        totalLuminance +=
-          luminance;
+                setMenuWave(
+                    progress,
+                    direction
+                );
 
-        totalSamples++;
-      }
+                if (rawProgress < 1) {
+                    requestAnimationFrame(
+                        animate
+                    );
 
+                    return;
+                }
+
+                resolve();
+            }
+
+            requestAnimationFrame(
+                animate
+            );
+        });
+    }
+
+    async function openMenu() {
+        if (
+            menuOpen ||
+            menuAnimating ||
+            window.innerWidth >= 768
+        ) {
+            return;
+        }
+
+        $mobileMenu.show();
+
+        menuAnimating = true;
+        menuOpen = true;
+
+        $mobileMenu
+            .css("pointer-events", "auto")
+            .attr("aria-hidden", "false");
+
+        $sidemenu
+            .attr("aria-expanded", "true")
+            .attr("aria-label", "Close menu");
+
+        setMenuWave(0, "open");
+
+        await animateMenu("open");
+
+        menuAnimating = false;
+    }
+
+    async function closeMenu() {
+        if (
+            !menuOpen ||
+            menuAnimating
+        ) {
+            return;
+        }
+
+        menuAnimating = true;
+
+        await animateMenu("close");
+
+        $mobileMenu
+            .css("pointer-events", "none")
+            .attr("aria-hidden", "true");
+
+        $sidemenu
+            .attr("aria-expanded", "false")
+            .attr("aria-label", "Open menu");
+
+        menuOpen = false;
+        menuAnimating = false;
+
+        $mobileMenu.hide();
+    }
+
+    $sidemenu.on("click", function (event) {
+        event.preventDefault();
+
+        if (menuOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
     });
 
+    $closemenu.on("click", function (event) {
+        event.preventDefault();
+        closeMenu();
+    });
 
-    if (
-      totalSamples === 0
-    ) {
+    $(window).on("resize", function () {
+        requestNavbarUpdate();
 
-      return;
-    }
+        if (window.innerWidth >= 768) {
+            $mobileMenu
+                .css({
+                    "pointer-events": "none",
+                    "clip-path": "polygon(100% 0%, 100% 100%, 100% 100%, 100% 0%)"
+                })
+                .attr("aria-hidden", "true");
 
+            $sidemenu
+                .attr("aria-expanded", "false")
+                .attr("aria-label", "Open menu");
 
-    /*
-     * Average brightness across
-     * the entire sampled area.
-     */
+            menuOpen = false;
+            menuAnimating = false;
 
-    const averageLuminance =
-      totalLuminance /
-      totalSamples;
+            return;
+        }
 
+        if (menuOpen && !menuAnimating) {
+            setMenuWave(1, "open");
+        }
+    });
 
-    /*
-     * Lower = darker.
-     * Higher = lighter.
-     */
-
-    const shouldBeDark =
-      averageLuminance < 100;
-
-
-    if (
-      shouldBeDark !== navbarIsDark
-    ) {
-
-      navbarIsDark =
-        shouldBeDark;
-
-
-      navbar.classList.toggle(
-        "text-white",
-        shouldBeDark
-      );
-
-
-      navbar.classList.toggle(
-        "text-black",
-        !shouldBeDark
-      );
-    }
-
-  }
-
-
-  //==================================================================================================
-
-
-  function requestNavbarUpdate() {
-
-    if (ticking) {
-      return;
-    }
-
-
-    ticking = true;
-
-
-    requestAnimationFrame(
-      updateNavbarTheme
+    document.addEventListener(
+        "scroll",
+        requestNavbarUpdate,
+        true
     );
-  }
 
+    $(window).on(
+        "resize",
+        requestNavbarUpdate
+    );
 
-  //==================================================================================================
-
-
-  /*
-   * Capture scrolling from the entire
-   * document, including nested containers.
-   */
-
-  document.addEventListener(
-    "scroll",
-    requestNavbarUpdate,
-    true
-  );
-
-
-  window.addEventListener(
-    "resize",
-    requestNavbarUpdate
-  );
-
-
-  requestNavbarUpdate();
-
+    requestNavbarUpdate();
 }
