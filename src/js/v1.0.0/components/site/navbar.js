@@ -7,10 +7,10 @@ export function initNavbar() {
             <div class="text-5xl font-medium font-qahiri">BW</div>
             <div class="text-lg font-bold flex-row gap-10 hidden md:flex">
                 <a class="transition hover:text-theme" href="/">HOME</a>
-                <a class="transition hover:text-theme" href="/pages/about">ABOUT</a>
-                <a class="transition hover:text-theme" href="/pages/projects">PROJECTS</a>
-                <a class="transition hover:text-theme" href="/pages/blogs">BLOGS</a>
-                <a class="transition hover:text-theme" href="/pages/contact">CONTACT</a>
+                <a class="transition hover:text-theme" href="/page/about">ABOUT</a>
+                <a class="transition hover:text-theme" href="/page/projects">PROJECTS</a>
+                <a class="transition hover:text-theme" href="/page/blogs">BLOGS</a>
+                <a class="transition hover:text-theme" href="/page/contact">CONTACT</a>
             </div>
             <div class="flex flex-row items-center gap-5 font-bold">
                 <a id="sidemenu" class="hamburger-menu-icon block md:hidden w-[3.4rem] h-[3.4rem] scale-x-[-1] mb-[5px] bg-current transition-colors" href="#" aria-label="Open menu" aria-expanded="false"></a>
@@ -73,31 +73,30 @@ export function initNavbar() {
     }
 
     // Side menu
-const $mobileMenu = $(`
-    <div id="mobileMenu" class="fixed inset-0 z-[1000] bg-accent text-black pointer-events-none md:hidden">
-        <div class="absolute top-[1.37rem] left-0 right-0">
-            <div class="flex flex-row justify-between items-center w-full h-full page-container">
-              <div class="font-qahiri text-5xl">
-                  BW
-              </div>
+    const $mobileMenu = $(`
+        <div id="mobileMenu" class="fixed inset-0 z-[1000] bg-accent text-black pointer-events-none md:hidden">
+            <div class="absolute top-[1.37rem] left-0 right-0">
+                <div class="flex flex-row justify-between items-center w-full h-full page-container">
+                <div class="font-qahiri text-5xl">BW</div>
+                <a id="closemenu" class="close-icon block w-[2.3rem] h-[2.3rem] mr-[5px] bg-current transition-colors"></a>
+                </div>
+            </div>
 
-              <a id="closemenu" class="close-icon block w-[2.3rem] h-[2.3rem] mr-[5px] bg-current hover:text-theme transition-colors"></a>
+            <div class="absolute bottom-6 left-6 right-6 sm:left-10 sm:right-10 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-5 font-bold">
+                <div>&copy; 2026 Braden Wood</div>
+                <a id="siteVersion" class="transition hover:text-theme">
+                    <div class="flex sm:w-min w-full flex-row justify-center items-center gap-1"></div>
+                </a>
+                <div class="flex flex-row justify-between items-center gap-2">
+                    <span class="github-icon w-[22px] h-[22px] mt-[0.5px] bg-current transition-colors"></span>
+                    <span class="linkedin-icon w-[22px] h-[22px] mt-[0.5px] bg-current transition-colors"></span>
+                    <span class="facebook-icon w-[24px] h-[24px] mt-[0.5px] bg-current transition-colors"></span>
+                    <span class="dev-to-icon w-[21px] h-[21px] mt-[0.5px] bg-current transition-colors"></span>
+                </div>
             </div>
         </div>
+    `);
 
-        <div class="absolute bottom-6 left-6 right-6 sm:left-10 sm:right-10 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-5 font-bold">
-            <div>
-                &copy; 2026 Braden Wood
-            </div>  
-
-            <!--TODO: Give this the social icons and move commit version to normal footer-->
-
-            <a id="siteVersion" class="transition hover:text-theme">
-                <div class="flex sm:w-min w-full flex-row justify-center items-center gap-1"></div>
-            </a>
-        </div>
-    </div>
-`);
     $mobileMenu.css(
         "clip-path",
         "polygon(100% 0%, 100% 100%, 100% 100%, 100% 0%)"
@@ -110,7 +109,6 @@ const $mobileMenu = $(`
 
     if (!$closemenu.length || !$siteVersion.length) return;
 
-    // Load website version
     $.getJSON("/src/res/json/github.json")
         .done(function (data) {
             const version = data?.version;

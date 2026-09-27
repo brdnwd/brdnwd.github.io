@@ -60,14 +60,12 @@ async function updateVisitorCount() {
   }
 
   const visitorKey = "brdnwd_website_visited";
-
   const viewsRef = ref(database, "site/visitors");
 
   try {
     await signInAnonymously(auth);
 
     const hasVisited = localStorage.getItem(visitorKey);
-
     if (!hasVisited) {
       await runTransaction(viewsRef, (currentValue) => {
         return (currentValue || 0) + 1;
@@ -77,7 +75,6 @@ async function updateVisitorCount() {
     }
 
     const snapshot = await get(viewsRef);
-
     if (snapshot.exists()) {
       const count = Number(snapshot.val());
 
@@ -85,6 +82,7 @@ async function updateVisitorCount() {
     }
   } catch (error) {
     console.error("Visitor counter error:", error);
+    //TODO: Error modal
   }
 }
 //==================================================================================================
@@ -99,17 +97,12 @@ function updateClock() {
   }
 
   const now = new Date();
-
   let hours = now.getHours();
-
   const minutes = String(now.getMinutes()).padStart(2, "0");
-
   const seconds = String(now.getSeconds()).padStart(2, "0");
-
   const period = hours >= 12 ? "PM" : "AM";
 
   hours = hours % 12 || 12;
-
   hours = String(hours).padStart(2, "0");
 
   clockElement.textContent = `${hours}:${minutes}:${seconds} ${period}`;
@@ -120,8 +113,6 @@ function updateClock() {
 
 export async function initVisitors() {
   updateClock();
-
   setInterval(updateClock, 1000);
-
   await updateVisitorCount();
 }

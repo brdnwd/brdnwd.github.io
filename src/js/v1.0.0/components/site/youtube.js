@@ -79,7 +79,7 @@ export function initYouTube() {
         const formattedDescription = formatDescription(video.description || "");
 
         const videoTemplate = `
-            <div class="grid grid-cols-1 rounded-lg bg-white/5">
+            <div class="grid grid-cols-1 rounded-lg bg-white/10">
                 <div class="flex flex-col gap-2 w-full">
                     <div class="w-full select-none overflow-hidden shrink-0">
                         <img src="${video.thumbnail}" loading="lazy" class="w-full aspect-video object-cover rounded-t-lg bg-black">
@@ -101,7 +101,7 @@ export function initYouTube() {
     } catch (error) {
       console.error("YouTube error:", error);
 
-        //TODO: Error popup
+      //TODO: Error popup
     }
   }
   //==================================================================================================

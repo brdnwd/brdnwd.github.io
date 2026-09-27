@@ -30,20 +30,20 @@
             "accent": "#12e7ae",
             "portraitHue": "92deg"
         }, 
-        // summer: { 
-        //     "white": "#fffff0", 
-        //     "black": "#071018", 
-        //     "theme": "#8d710d", 
-        //     "accent": "#7ca8f5",
-        //     "portraitHue": "165deg"
-        // }, 
-        // autumn: { 
-        //     "white": "#fff8ed", 
-        //     "black": "#120a06", 
-        //     "theme": "#026279", 
-        //     "accent": "#f49778",
-        //     "portraitHue": "-60deg"
-        // }
+        summer: { 
+            "white": "#fffff0", 
+            "black": "#071018", 
+            "theme": "#8d710d", 
+            "accent": "#7ca8f5",
+            "portraitHue": "165deg"
+        }, 
+        autumn: { 
+            "white": "#fff8ed", 
+            "black": "#120a06", 
+            "theme": "#026279", 
+            "accent": "#f49778",
+            "portraitHue": "-60deg"
+        }
     };
 
     /**
@@ -63,15 +63,15 @@
             return themes.christmas;
         }
 
-        // // Summer
-        // if (month >= 6 && month <= 8) {
-        //     return themes.summer;
-        // }
+        // Summer
+        if (month >= 6 && month <= 8) {
+            return themes.summer;
+        }
 
-        // // Autumn
-        // if (month === 9 || month === 11) {
-        //     return themes.autumn;
-        // }
+        // Autumn
+        if (month === 9 || month === 11) {
+            return themes.autumn;
+        }
 
         // Default
         return themes.default;
@@ -196,6 +196,10 @@
                 '.git-commit-icon': {
                     'mask': 'url("./src/res/svgs/git-commit.svg") center / contain no-repeat;',
                     '-webkit-mask': 'url("./src/res/svgs/git-commit.svg") center / contain no-repeat;'
+                },
+                '.dev-to-icon': {
+                    'mask': 'url("./src/res/svgs/social-media/dev-to.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svgs/social-media/dev-to.svg") center / contain no-repeat;'
                 },
                 // scrollbar
                 '.scrollbar-hidden': {

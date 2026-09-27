@@ -28,115 +28,164 @@ const languageAliases = {
     "SQL": ["SQL"]
 };
 
-function findGitHubLanguage(skillName, languageBreakdown) {
-    const normalizedName = skillName.trim().toLowerCase();
+function findGitHubLanguage(
+    skillName,
+    languageBreakdown
+) {
+    const normalizedName =
+        skillName.trim().toLowerCase();
 
-    for (const [githubName, aliases] of Object.entries(languageAliases)) {
-        if (!aliases.some(alias => alias.toLowerCase() === normalizedName)) {
+    for (
+        const [githubName, aliases]
+        of Object.entries(languageAliases)
+    ) {
+        if (
+            !aliases.some(
+                alias =>
+                    alias.toLowerCase() ===
+                    normalizedName
+            )
+        ) {
             continue;
         }
 
-        return languageBreakdown.find(
-            language => language.name.toLowerCase() === githubName.toLowerCase()
-        ) || null;
+        return (
+            languageBreakdown.find(
+                language =>
+                    language.name.toLowerCase() ===
+                    githubName.toLowerCase()
+            ) || null
+        );
     }
 
     return null;
 }
 
 export async function initLanguages() {
-    const container = document.querySelector("[data-github-languages]");
+    const $container =
+        $("[data-github-languages]");
 
-    if (!container) return;
+    if (!$container.length) {
+        return;
+    }
 
     try {
-        const response = await fetch("/src/res/json/github.json");
-
-        if (!response.ok) {
-            throw new Error(
-                `Failed to load github.json: ${response.status}`
+        const githubData =
+            await $.getJSON(
+                "/src/res/json/github.json"
             );
-        }
 
-        const githubData = await response.json();
-
-        const languageBreakdown = Array.isArray(githubData.languageBreakdown)
-            ? githubData.languageBreakdown
-            : [];
-
-        const skills = [
-            ...container.querySelectorAll(".language-pill")
-        ];
+        const languageBreakdown =
+            Array.isArray(
+                githubData.languageBreakdown
+            )
+                ? githubData.languageBreakdown
+                : [];
 
         const matchedSkills = [];
         const unmatchedSkills = [];
 
-        skills.forEach((element, originalIndex) => {
-            const skillName = element.dataset.language;
+        $container
+            .find(".language-pill")
+            .each(function (originalIndex) {
+                const $element =
+                    $(this);
 
-            if (!skillName) {
-                unmatchedSkills.push({
-                    element,
-                    originalIndex
-                });
+                const skillName =
+                    $element.data(
+                        "language"
+                    );
 
-                return;
-            }
+                if (!skillName) {
+                    unmatchedSkills.push({
+                        element: $element,
+                        originalIndex
+                    });
 
-            /*
-             * The color is completely independent from GitHub data.
-             * It simply uses the predefined color for this skill.
-             */
-            const color = languageColors[skillName];
-            const bar = element.querySelector(".language-bar");
+                    return;
+                }
 
-            if (color && bar) {
-                bar.style.backgroundColor = color;
-            }
+                /*
+                 * Color is independent from
+                 * GitHub data.
+                 */
+                const color =
+                    languageColors[
+                        skillName
+                    ];
 
-            /*
-             * GitHub data is only used to determine ordering.
-             */
-            const githubLanguage = findGitHubLanguage(
-                skillName,
-                languageBreakdown
-            );
+                const $bar =
+                    $element.find(
+                        ".language-bar"
+                    );
 
-            if (githubLanguage) {
-                matchedSkills.push({
-                    element,
-                    language: githubLanguage,
-                    originalIndex
-                });
-            } else {
-                unmatchedSkills.push({
-                    element,
-                    originalIndex
-                });
-            }
-        });
+                if (
+                    color &&
+                    $bar.length
+                ) {
+                    $bar.css(
+                        "background-color",
+                        color
+                    );
+                }
+
+                /*
+                 * GitHub data only determines
+                 * the ordering.
+                 */
+                const githubLanguage =
+                    findGitHubLanguage(
+                        skillName,
+                        languageBreakdown
+                    );
+
+                if (githubLanguage) {
+                    matchedSkills.push({
+                        element: $element,
+                        language:
+                            githubLanguage,
+                        originalIndex
+                    });
+                } else {
+                    unmatchedSkills.push({
+                        element: $element,
+                        originalIndex
+                    });
+                }
+            });
 
         /*
          * Most-used GitHub languages first.
          */
-        matchedSkills.sort((a, b) => {
-            return (b.language.bytes || 0) - (a.language.bytes || 0);
-        });
+        matchedSkills.sort(
+            (a, b) =>
+                (b.language.bytes || 0) -
+                (a.language.bytes || 0)
+        );
 
         /*
-         * Put GitHub-recognized languages first,
-         * followed by everything else in its original order.
+         * GitHub languages first,
+         * everything else after them.
          */
         const orderedSkills = [
             ...matchedSkills,
             ...unmatchedSkills
         ];
 
-        orderedSkills.forEach((skill, index) => {
-            skill.element.style.order = index + 1;
-        });
+        orderedSkills.forEach(
+            (skill, index) => {
+                skill.element.css(
+                    "order",
+                    index + 1
+                );
+            }
+        );
 
     } catch (error) {
-        console.error("GitHub language error:", error);
+        console.error(
+            "GitHub language error:",
+            error
+        );
+        //TODO: Error modal
     }
 }
