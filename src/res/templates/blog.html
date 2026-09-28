@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="select-none">
+    <head>
+        <link rel="icon" href="/src/res/logo/logo-rounded.png"/>
+        <title>Blog Name?</title>
+        <meta charset="utf-8" />
+        <meta name="robots" content="index, follow"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <!--meta-->
+        <!-------->
+        <script src="/src/lib/tailwind/v3.4.16/tailwind.min.js"></script>
+        <script src="/src/lib/tailwind/v3.4.16/config.js"></script>
+        <link rel="stylesheet" href="/src/style.css">
+    </head>
+    <body class="relative min-h-screen box-border overscroll-none bg-white font-rubik">
+        <div id="loader" class="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-[100]">
+            <div class="loader"></div>
+        </div>
+        <div class="h-[100vh]">
+            <div class="flex flex-row h-full w-full">
+                <div id="content" class="h-screen flex flex-1 flex-col h-full max-w-full">
+                    <div id="navbarContainer" class="flex flex-col z-[99] sticky top-0 left-0 w-full"></div>
+                    <div class="z-10 flex flex-col overflow-scroll relative h-screen select-text">
+                        <div id="main" class="flex-1 py-5 px-4 md:px-[170px] lg:px-[200px] xl:px-[370px]">
+                            <section aria-describedby="blog heading" class="mt-14 mb-[50px]">
+                                <h1 class="text-5xl lg:text-6xl font-rubikBold tracking-tight">Title</h1>
+                                <div class="flex flex-row items-center gap-3 mt-8">
+                                    <img class="rounded-full w-[60px]" src="/src/res/images/portrait.png">
+                                    <div class="flex flex-col">
+                                        <span class="text-lg font-rubikSemiBold">Braden Wood</span>
+                                        <span class="text-md text-zinc-400 font-light">date</span>
+                                    </div>
+                                </div>
+                            </section>
+                            <section aria-describedby="blog content" class="text-xl mt-14">
+                                add content
+                            </section>
+                            <section id="moreBlogs" class="mt-14 mb-[50px] select-none"></section>
+                        </div>
+                        <div id="footer" class="bg-black text-white text-sm select-none flex-2 mt-14"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/src/lib/jquery/v3.7.1/jquery.min.js"></script>
+        <script src="/src/script.js"></script>
+    </body> 
+</html>

@@ -1,0 +1,2 @@
+# Perpose
+Since this is static papges (Github Pages), I cannot make automated PHP or backend server stuff to automate blogs or various pages of the website. This is a template file where I can easily copy and paste from.

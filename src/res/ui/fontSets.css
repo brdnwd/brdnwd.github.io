@@ -1,0 +1,46 @@
+/**
+ * Large file consisting of font sets for use in Tailwind.
+ * Thanks to https://fonts.google.com for free fonts!
+ */
+
+@font-face {
+    font-family: "Rubik";
+    src: url("/src/res/fonts/Rubik/v2.4.2/static/Rubik-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "RubikBlack";
+    src: url("/src/res/fonts/Rubik/v2.4.2/static/Rubik-Black.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "RubikBold";
+    src: url("/src/res/fonts/Rubik/v2.4.2/static/Rubik-Bold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "RubikMedium";
+    src: url("/src/res/fonts/Rubik/v2.4.2/static/Rubik-Medium.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "RubikSemiBold";
+    src: url("/src/res/fonts/Rubik/v2.4.2/static/Rubik-SemiBold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Pamela";
+    src: url("/src/res/fonts/Pamela/Pamela.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}

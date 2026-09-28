@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" class="select-none">
+    <head>
+        <link rel="icon" href="/src/res/logo/logo-rounded.png"/>
+        <title>Projects</title>
+        <meta charset="utf-8" />
+        <meta name="robots" content="index, follow"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <!--meta-->
+        <!-------->
+        <script src="/src/lib/tailwind/v3.4.16/tailwind.min.js"></script>
+        <script src="/src/lib/tailwind/v3.4.16/config.js"></script>
+        <link rel="stylesheet" href="/src/style.css">
+    </head>
+    <body class="relative min-h-screen box-border overscroll-none bg-white font-rubik">
+        <div id="loader" class="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-[100]">
+            <div class="loader"></div>
+        </div>
+        <div class="h-[100vh]">
+            <div class="flex flex-row h-full w-full">
+                <div id="content" class="h-screen flex flex-1 flex-col h-full max-w-full">
+                    <div id="navbarContainer" class="flex flex-col z-[99] sticky top-0 left-0 w-full"></div>
+                    <div class="z-10 flex flex-col overflow-scroll relative h-screen select-text">
+                        <div id="main" class="flex-1 py-5 px-4 lg:px-[130px] xl:px-[179px]">
+                            <section class="mt-14">
+                                <div class="flex flex-col gap-3">
+                                    <div class="flex flex-col md:flex-row justify-between items-start gap-2 md:items-center">
+                                        <h1 class="text-5xl font-rubikMedium tracking-tight">Projects</h1>
+                                        <div class="whitespace-nowrap text-zinc-400">A collection of <span id="projectsCount">0</span> repositories</div>
+                                    </div>
+                                    <div class="text-xl mt-3">A curated list of my open-source repositories and experiments, powered directly by GitHub.</div>
+                                </div>
+                            </section>
+                            <section class="mt-14">
+                                <h2 class="text-3xl font-rubikMedium text-zinc-400 mb-5 uppercase tracking-tight">Featured Projects</h2>
+                                <div id="featuredProjects" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-x-7 gap-y-10"></div>
+                            </section>
+                            <section class="mt-14 mb-[50px]">
+                                <div class="flex flex-col gap-3 mb-5">
+                                    <h2 class="text-3xl font-rubikMedium tracking-tight">All Projects</h2>
+                                    <div class="flex flex-row items-center rounded-md border-[2px] border-black p-1 my-5">
+                                        <div>
+                                            <svg class="p-2 pt-[8px]" viewBox="0 -960 960 960" width="35px" height="35px">    
+                                                <path class="fill-black pointer-events-none" d="M371-289q-121.71 0-206.86-85.2Q79-459.41 79-581.2 79-703 164.2-788q85.21-85 207-85Q493-873 578-787.86q85 85.15 85 206.86 0 47-11.5 85T620-429l214 215q19 20 19 47.48 0 27.48-20 47.52-19.8 19-47.4 19-27.6 0-47.6-19L526.47-332Q497-313 457-301t-86 12Zm-.41-136q66.59 0 111.5-44.5T527-580.59q0-66.59-44.91-111.5T370.59-737Q304-737 259.5-692.09T215-580.59q0 66.59 44.5 111.09T370.59-425Z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="w-full">
+                                            <input id="search" class="px-2 py-2 outline-none pr-4 w-full" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="projects" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-x-7 gap-y-10"></div>
+                                <div class="flex flex-col justify-center items-center text-zinc-400 mt-14">There are no more projects. <u goto="/portfolio/" class="cursor-pointer">Explore my portfolio instead</u></div>
+                            </section>
+                        </div>
+                        <div id="footer" class="bg-black text-white text-sm select-none flex-2 mt-14"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/src/lib/jquery/v3.7.1/jquery.min.js"></script>
+        <script src="/src/script.js"></script>
+    </body> 
+</html>

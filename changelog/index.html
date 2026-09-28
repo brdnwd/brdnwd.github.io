@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" class="select-none">
+    <head>
+        <link rel="icon" href="/src/res/logo/logo-rounded.png"/>
+        <title>Changelog</title>
+        <meta charset="utf-8" />
+        <meta name="robots" content="index, follow"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <!--meta-->
+        <!-------->
+        <script src="/src/lib/tailwind/v3.4.16/tailwind.min.js"></script>
+        <script src="/src/lib/tailwind/v3.4.16/config.js"></script>
+        <link rel="stylesheet" href="/src/style.css">
+    </head>
+    <body class="relative min-h-screen box-border overscroll-none bg-white font-rubik">
+        <div id="loader" class="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-[100]">
+            <div class="loader"></div>
+        </div>
+        <div class="h-[100vh]">
+            <div class="flex flex-row h-full w-full">
+                <div id="content" class="h-screen flex flex-1 flex-col h-full max-w-full">
+                    <div id="navbarContainer" class="flex flex-col z-[99] sticky top-0 left-0 w-full"></div>
+                    <div class="z-10 flex flex-col overflow-scroll relative h-screen select-text">
+                        <div id="main" class="flex-1 py-5 px-4 lg:px-[130px] xl:px-[179px]">
+                            <section aria-describedby="changelog info" class="flex flex-col gap-5 mt-14">
+                                <div class="flex flex-col gap-3">
+                                    <h1 class="text-5xl font-rubikMedium tracking-tight">Changelog</h1>
+                                    <div class="text-lg mt-3">A detailed log of code updates, feature additions, performance enhancements, and bug fixes across the website. Stay informed on the latest development progress here.</div>
+                                </div>
+                            </section>
+                            <section id="changelog" class="mt-14 flex flex-col gap-12"></section>
+                        </div>
+                        <div id="footer" class="bg-black text-white text-sm select-none flex-2 mt-14"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/src/lib/jquery/v3.7.1/jquery.min.js"></script>
+        <script src="/src/script.js"></script>
+    </body> 
+</html>

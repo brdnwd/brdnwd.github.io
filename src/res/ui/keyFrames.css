@@ -1,0 +1,51 @@
+/**
+ * Contains classings and keyframes not usable with tailwind.
+ */
+
+.fade-in-left {
+    opacity: 0.5;
+    transform: translateX(-50vh);
+    animation: fadeInLeft 1s ease-out forwards;
+}
+
+@keyframes fadeInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.fade-in-right {
+    opacity: 0.5;
+    transform: translateX(50vh);
+    animation: fadeInRight 1s ease-out forwards;
+}
+
+@keyframes fadeInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (width >= 48rem) {
+    .md\:fade-in-right {
+        opacity: 0.5;
+        transform: translateX(50vh);
+        animation: fadeInRight 1s ease-out forwards;
+    }
+}
+
+@media (width <= 48rem) {
+    .md\:fade-in-right {
+        opacity: 0.5;
+        transform: translateX(-20px);
+        animation: fadeInLeft 1s ease-out forwards;
+    }
+
+    .fade-in-left {
+        opacity: 0.5;
+        transform: translateX(-20px);
+        animation: fadeInLeft 1s ease-out forwards;
+    }
+}

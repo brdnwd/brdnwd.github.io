@@ -1,0 +1,33 @@
+/**
+ * Copyright © 2019-2025 Wo-r (https://github.com/wo-r)
+ * 
+ * Website: https://wo-r.github.io
+ * Built: 2025-04-04T00:00Z
+ */
+
+@import url("/src/res/ui/fontSets.css");
+@import url("/src/res/ui/keyFrames.css");
+@import url("/src/res/ui/loader.css");
+/*===================================================*/
+
+
+::selection {
+    background: #9ff0f3ca;
+    color: black;
+}
+/*===================================================*/
+
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+/*===================================================*/

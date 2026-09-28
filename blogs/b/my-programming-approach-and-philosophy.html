@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="select-none">
+    <head>
+        <link rel="icon" href="/src/res/logo/logo-rounded.png"/>
+        <title>My Programming Approach and Philosophy</title>
+        <meta charset="utf-8" />
+        <meta name="robots" content="index, follow"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <!--meta-->
+        <!-------->
+        <script src="/src/lib/tailwind/v3.4.16/tailwind.min.js"></script>
+        <script src="/src/lib/tailwind/v3.4.16/config.js"></script>
+        <link rel="stylesheet" href="/src/style.css">
+    </head>
+    <body class="relative min-h-screen box-border overscroll-none bg-white font-rubik">
+        <div id="loader" class="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-[100]">
+            <div class="loader"></div>
+        </div>
+        <div class="h-[100vh]">
+            <div class="flex flex-row h-full w-full">
+                <div id="content" class="h-screen flex flex-1 flex-col h-full max-w-full">
+                    <div id="navbarContainer" class="flex flex-col z-[99] sticky top-0 left-0 w-full"></div>
+                    <div class="z-10 flex flex-col overflow-scroll relative h-screen select-text">
+                        <div id="main" class="flex-1 py-5 px-4 md:px-[170px] lg:px-[200px] xl:px-[370px]">
+                            <section aria-describedby="blog heading" class="mt-14 mb-[50px]">
+                                <h1 class="text-5xl lg:text-6xl font-rubikBold tracking-tight">My Programming Approach and Philosophy</h1>
+                                <div class="flex flex-row items-center gap-3 mt-8">
+                                    <img class="rounded-full w-[60px]" src="/src/res/images/portrait.png">
+                                    <div class="flex flex-col">
+                                        <span class="text-lg font-rubikSemiBold">Braden Wood</span>
+                                        <span class="text-md text-zinc-400 font-light">Apr 23, 2025</span>
+                                    </div>
+                                </div>
+                            </section>
+                            <section aria-describedby="blog content" class="text-xl mt-14">
+                                <p class="mb-5">
+                                    There's a suprising philosophy behind how I code, and its shaped by one idea: "building software is never a one-and-done process"<i>-Said as I was being interviewed.</i>
+                                </p>
+                                <p class="mb-5">
+                                    I've been coding for over 4 years, self-taught, switching from language to language like Javascript, Tailwind, PHP, and even less-than-nice ones like C++ or BrainF**k, not because I wanted to be flashy and sway around these big heavy languages like a medal, but because I wanted to <u>understand</u>. That idea has shaped how I build projects today.
+                                </p>
+                                <p class="mb-5">
+                                    My process is usually like this:
+                                    <ol class="flex flex-col gap-2 mt-2">
+                                        <li class="pl-3">1. Build.</li>
+                                        <li class="pl-3">2. Refine.</li>
+                                        <li class="pl-3">3. Rebuild.</li>
+                                    </ol>
+                                </p>
+                                <p class="mt-12">
+                                    <h1 class="text-4xl font-rubikMedium tracking-tight">Build</h1>
+                                    <p class="mt-5">
+                                        Let`s start with what is, for me, essentially the hardest step of the whole process. I call this the <u>thinking phase</u>.
+                                    </p>
+                                    <p class="mt-5">
+                                        Unless theres a customer with a clear request, I have to rely on my imagination, which, honestly, is the slowest part of my brain. Im not naturally imaginative. Coming up with an idea can take forever. Its frustrating, its slow, and it feels like dragging inspiration out of thin air.
+                                    </p>
+                                    <p class="mt-5">
+                                        But eventually, something clicks. An idea forms. Thats when I move into action getting the idea out of my head and into code. Its rough. Its messy. Sometimes its just straight-up ugly. But it works. It proves the concept, reveals flaws, and shows me what the real challenges are.
+                                    </p>
+                                    <p class="mt-5">
+                                        At this stage, Im not aiming for perfection. Im aiming for clarity.
+                                    </p>
+                                </p>
+                                <p class="mt-12">
+                                    <h1 class="text-4xl font-rubikMedium tracking-tight">Refine</h1>
+                                    <p class="mt-5">
+                                        This step is quite easy, I revisit what I've built and start cleaning up. This is where I care about usability, readability, and structure. It's about making it not just work, but work well for both the end user and the next developer (even if that's me, six months from now).
+                                    </p>
+                                </p>
+                                <p class="mt-12">
+                                    <h1 class="text-4xl font-rubikMedium tracking-tight">Rebuild</h1>
+                                    <p class="mt-5">
+                                        Finally, if the project has long-term potential, I rebuild. This is the step where performance matters. I revisit my assumptions, rethink architecture, and sometimes throw out everything I wrote in step one. Because if it's worth keeping, it's worth doing right. This rebuild phase isn't failure; it's evolution. It's the <u>mark of a project that grew from a sketch into something real</u>.
+                                    </p>
+                                </p>
+                                <p class="mt-12">
+                                    Some people write code to show off. I write code to grow; to grow skills, grow ideas, and grow systems that stand the test of time. Or what most people would call a "well made website".
+                                </p>
+                                <p class="mt-5">
+                                    Thanks for reading!
+                                </p>
+                            </section>
+                            <section id="moreBlogs" class="mt-14 mb-[50px] select-none"></section>
+                        </div>
+                        <div id="footer" class="bg-black text-white text-sm select-none flex-2 mt-14"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/src/lib/jquery/v3.7.1/jquery.min.js"></script>
+        <script src="/src/script.js"></script>
+    </body> 
+</html>

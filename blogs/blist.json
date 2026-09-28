@@ -1,0 +1,56 @@
+[
+    {
+        "PATH": "/blogs/b/my-programming-approach-and-philosophy.html",
+        "created": "Apr 23, 2025",
+        "info": {
+            "title": "My Programming Approach and Philosophy",
+            "description": "There's a suprising philosophy behind how I code, and its shaped by one idea: \"building software is never a one-and-done process\"-Said as I was being interviewed. I've been coding for over 4 years,"
+        },
+        "attributes": {}
+    },
+    {
+        "PATH": "https://wo-r-professional.github.io/understanding-human-behavior/",
+        "created": "Nov 14, 2024",
+        "info": {
+            "title": "Understanding Human Behavior",
+            "description": "This is a psychology project focused on understanding human behavior through a three-week process of research and the creation of a presentation to present that research. This is the presentation."
+        },
+        "attributes": {
+            "external": true
+        }
+    },
+    {
+        "PATH": "https://wo-r-professional.github.io/emulating-the-nintendo-switch/",
+        "created": "Nov 30, 2024",
+        "info": {
+            "title": "Emulating the Nintendo Switch™",
+            "description": "A extensive guide to emulating the Nintendo Switch™ without going through the hassle of firstly, needing a Nintendo Switch™, and secondly, installing Atmosphère, Homebrew, and custom Firmware on said Nintendo Switch™."
+        },
+        "attributes": {
+            "external": true
+        }
+    },
+    {
+        "PATH": "https://wo-r-professional.github.io/arturo-sandoval-project/",
+        "created": "Mar 07, 2024",
+        "info": {
+            "title": "Arturo Sandoval Project",
+            "description": "This was created for a spanish project, it's designed to present the life of Arturo Sandoval through spanglish, a mixture of english and spanish."
+        },
+        "attributes": {
+            "external": true
+        }
+    },
+    {
+        "PATH": "/blogs/b/psychological-disorders-project.html",
+        "created": "Dec 13, 2024",
+        "info": {
+            "title": "Psychological Disorders Project",
+            "description": "This explores Disinhibited Social Engagement Disorder (DSED) and Reactive Attachment Disorder (RAD), two attachment disorders caused by early childhood trauma, neglect, or abuse. It examines their symptoms, causes, treatments, and differences, and discusses how childhood attachment issues, exemplified by David Berkowitz, can lead to violent behavior later in life."
+        },
+        "attributes": {
+            "consoleInfo": "LOCKED BLOG NOTE: This was copied from the old wo-r.github.io site. It does not support the new styling format, or script. It exists in here \"https://wo-r.github.io/blogs/b/psychological-disorders-project.html\" if you really want to view it.",
+            "locked": true
+        }
+    }
+]

@@ -1,318 +1,57 @@
 /**
- * This file serves as the configuration file for tailwind.min.js and
- * theming logisitics for the entire website.
+ * This file serves as the configuration file for tailwind.min.js
  */
 (async function () {
     "use strict";
 
     /**
-     * Theme data for the entire website
-     */
-    var themes = { 
-        default: { 
-            "white": "#fff9f4", 
-            "black": "#06040e", 
-            "theme": "#3f3fc9", 
-            "accent": "#eaee1b",
-            "portraitHue": "0deg"
-        }, 
-        halloween: { 
-            "white": "#fff4e6", 
-            "black": "#100609", 
-            "theme": "#8a1ccc", 
-            "accent": "#94f752",
-            "portraitHue": "32deg"
-        }, 
-        christmas: { 
-            "white": "#fff9f4", 
-            "black": "#07110b", 
-            "theme": "#ce0235", 
-            "accent": "#12e7ae",
-            "portraitHue": "92deg"
-        }, 
-    };
-
-    /**
-     * Apply theme data to the runtime colors
-     */
-    var colors = (function () {
-        var date = new Date();
-        var month = date.getMonth() + 1;
-
-        // Halloween
-        if (month === 10) {
-            return themes.halloween;
-        }
-
-        // Christmas
-        if (month === 12) {
-            return themes.christmas;
-        }
-
-        // Default
-        return themes.default;
-    }());
-
-    // Change image to match
-    document.documentElement.style.setProperty("--portrait-hue", colors.portraitHue);
-    //==================================================================================================
-
-
-
-    /**
      * Manages the fonts that can be used via Tailwind.
      * Use: Add font, then use font-[Name Of Font] in html classings.
      */
-    var fonts = {
-        valley: ["Valley Sans", "sans-serif"],
-        cilantro: ["Cilantro Code Mono", "monospace"],
-        qahiri: ["Qahiri", "sans-serif"]
+    var fontFamilys = {
+        rubik: ["Rubik", "sans-serif"],
+        rubikBlack: ["RubikBlack", "sans-serif"],
+        rubikBold: ["RubikBold", "sans-serif"],
+        rubikMedium: ["RubikMedium", "sans-serif"],
+        rubikSemiBold: ["RubikSemiBold", "sans-serif"],
+        pamela: ["Pamela", "sans-serif"]
     }
 
-    /**
-     * Creates all custom classes and initalize font-sets.
-     */
-    var plugins = [
-        function ({ addBase, addUtilities }) {
-            // Font-sets
-            addBase({
-                //cursor
-                'html': {
-                    'cursor': 'url("/src/res/cursor/pointer.cur"), auto',
-                },
-                '*': {
-                    'cursor': 'inherit',
-                },
-                'a, button, [role="button"], input[type="button"], input[type="submit"], input[type="reset"]': {
-                    'cursor': 'url("/src/res/cursor/link.cur"), pointer',
-                },
-                'a *, button *, [role="button"] *': {
-                    'cursor': 'inherit',
-                },
-                'a:hover, button:hover, [role="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover': {
-                    'cursor': 'url("/src/res/cursor/link.cur"), pointer',
-                },
-                '::-webkit-scrollbar': {
-                    'cursor': 'url("/src/res/cursor/pointer.cur"), auto',
-                },
-                '::-webkit-scrollbar-track': {
-                    'cursor': 'url("/src/res/cursor/pointer.cur"), auto',
-                },
-                '::-webkit-scrollbar-thumb': {
-                    'cursor': 'url("/src/res/cursor/link.cur"), pointer',
-                },
-                //bold
-                'b': {
-                  'color': colors.theme,  
-                },
-                //valley
-                '@font-face': {
-                    'font-family': 'Valley Sans',
-                    'src': 'url("/src/res/font/ValleySans/static/ValleySans-VariableFont_wght.ttf") format("truetype")',
-                    'font-weight': '400',
-                    'font-style': 'normal',
-                    'font-display': 'swap',
-                },
-                //cilantro
-                '@font-face': {
-                    'font-family': 'Cilantro Code Mono',
-                    'src': 'url("/src/res/font/Cilantro/static/CilantroCodeMono-Regular.ttf") format("truetype")',
-                    'font-weight': '400',
-                    'font-style': 'normal',
-                    'font-display': 'swap',
-                },
-                //libre
-                '@font-face': {
-                    'font-family': 'Qahiri',
-                    'src': 'url("/src/res/font/Qahiri/static/Qahiri-Regular.ttf") format("truetype")',
-                    'font-weight': '400',
-                    'font-style': 'normal',
-                    'font-display': 'swap',
-                },
-            });
-            // CSS Classes
-            addUtilities({
-                //portrait
-                '.portrait': {
-                    'filter': 'hue-rotate(var(--portrait-hue));'
-                },
-                //icons
-                '.github-icon': {
-                    'mask': 'url("./src/res/svg/social-media/github.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/social-media/github.svg") center / contain no-repeat;'
-                },
-                '.linkedin-icon': {
-                    'mask': 'url("./src/res/svg/social-media/linkedin.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/social-media/linkedin.svg") center / contain no-repeat;'
-                },
-                '.facebook-icon': {
-                    'mask': 'url("./src/res/svg/social-media/facebook.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/social-media/facebook.svg") center / contain no-repeat;'
-                },
-                '.arrow-right-icon': {
-                    'mask': 'url("./src/res/svg/arrow-right.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/arrow-right.svg") center / contain no-repeat;'
-                },
-                '.hamburger-menu-icon': {
-                    'mask': 'url("./src/res/svg/hamburger-menu.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/hamburger-menu.svg") center / contain no-repeat;'
-                },
-                '.email-icon': {
-                    'mask': 'url("./src/res/svg/email.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/email.svg") center / contain no-repeat;'
-                },
-                '.search-icon': {
-                    'mask': 'url("./src/res/svg/search.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/search.svg") center / contain no-repeat;'
-                },
-                '.close-icon': {
-                    'mask': 'url("./src/res/svg/close.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/close.svg") center / contain no-repeat;'
-                },
-                '.git-commit-icon': {
-                    'mask': 'url("./src/res/svg/git-commit.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/git-commit.svg") center / contain no-repeat;'
-                },
-                '.dev-to-icon': {
-                    'mask': 'url("./src/res/svg/social-media/dev-to.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/social-media/dev-to.svg") center / contain no-repeat;'
-                },
-                '.external-link-icon': {
-                    'mask': 'url("./src/res/svg/external-link.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svg/external-link.svg") center / contain no-repeat;'
-                },
-                // scrollbar
-                '.scrollbar-hidden': {
-                    'scrollbar-width': 'none',
-                    '-ms-overflow-style': 'none',
-                },
-                '.scrollbar-hidden::-webkit-scrollbar': {
-                    'width': '0px',
-                    'height': '0px',
-                },
-                '.scrollbar-hidden::-webkit-scrollbar-track': {
-                    'background': 'transparent',
-                },
-                '.scrollbar-hidden::-webkit-scrollbar-thumb': {
-                    'background': 'transparent',
-                },
-                // scrollbar theme
-                '.scrollbar-theme': {
-                    'scrollbar-width': 'thin',
-                    'scrollbar-color': `${colors.theme} transparent`,
-                },
-                '.scrollbar-theme::-webkit-scrollbar': {
-                    'width': '4px',
-                    'height': '4px',
-                },
-                '.scrollbar-theme::-webkit-scrollbar-track': {
-                    'background': 'transparent',
-                },
-                '.scrollbar-theme::-webkit-scrollbar-thumb': {
-                    'background': colors.theme,
-                    'border-radius': '9999px',
-                    'transition': 'background 200ms ease, opacity 200ms ease',
-                },
-                '.scrollbar-theme::-webkit-scrollbar-thumb:hover': {
-                    'background': colors.themeDark,
-                },
-                // selection
-                '.selection': {
-                    '&::selection': {
-                        'background': colors.theme,
-                        'color': colors.white,
-                    },
-                },
-                // container
-                '.page-container': {
-                    'padding-left': '1rem',
-                    'padding-right': '1rem',
-                },
-                '@media (min-width: 640px)': {
-                    '.page-container': {
-                        'padding-left': '2rem',
-                        'padding-right': '2rem',
-                    },
-                },
-                '@media (min-width: 768px)': {
-                    '.page-container': {
-                        'padding-left': '3rem',
-                        'padding-right': '3rem',
-                    },
-                },
-                '@media (min-width: 1024px)': {
-                    '.page-container': {
-                        'padding-left': '5rem',
-                        'padding-right': '5rem',
-                    },
-                },
-                '@media (min-width: 1280px)': {
-                    '.page-container': {
-                        'padding-left': '7rem',
-                        'padding-right': '7rem',
-                    },
-                },
-                // loader
-                '.loader': {
-                    'position': 'fixed',
-                    'inset': '0',
-                    'z-index': '9999',
-                    'display': 'flex',
-                    'align-items': 'center',
-                    'justify-content': 'center',
-                    'background': colors.white,
-                    'color': colors.black,
-                    'overflow': 'hidden',
-                },
-                '.loader-name': {
-                    'display': 'flex',
-                    'align-items': 'center',
-                    'font-family': 'Valley Sans, sans-serif',
-                    'font-size': 'clamp(3rem, 8vw, 8rem)',
-                    'font-weight': '500',
-                    'white-space': 'nowrap',
-                    'transform-origin': 'center',
-                },
-                '.loader-letter': {
-                    'display': 'inline-block',
-                    'opacity': '0',
-                    'transform': 'scale(0.6) translateY(10px)',
-                    'transform-origin': 'center',
-                },
-                //grain
-                '.grain': {
-                    'position': 'fixed',
-                    'inset': '0',
-                    'z-index': '9990',
-                    'pointer-events': 'none',
-                    'opacity': '0.28',
-                    'background-image': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.75' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
-                    'background-repeat': 'repeat',
-                    'background-size': '160px 160px',
-                    'mix-blend-mode': 'multiply',
-                },
-            })
-        },
-    ]
-    //==================================================================================================
-
-    
+    //unused
+    var colorPalatte = {}
 
     //unused
-    var extras = {}
+    var extraOptions = {}
 
     tailwind.config = {
-        plugins: plugins,
-        
         theme: {
             extend: {
-                fontFamily: fonts,
-                colors: colors,
-                animation: {},
-                keyframes: {},
+                fontFamily: fontFamilys,
+                colors: colorPalatte,
+                animation: {
+                    shake: "shake 0.5s ease-in-out",
+                },
+                keyframes: {
+                    shake: {
+                        "0%": {
+                            transform: "translateX(0)"
+                        },
+                        "25%": {
+                            transform: "translateX(-4px)"
+                        },
+                        "50%": {
+                            transform: "translateX(4px)"
+                        },
+                        "75%": {
+                            transform: "translateX(-4px)"
+                        },
+                        "100%": {
+                            transform: "translateX(4px)"
+                        },
+                    },
+                },
             },
-
-            extras
+            extraOptions
         }
     }
 })();
