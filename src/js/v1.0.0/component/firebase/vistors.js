@@ -24,8 +24,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const database = getDatabase(app);
-const auth = getAuth(app);
+
+export const database = getDatabase(app);
+export const auth = getAuth(app);
+
+export {
+  ref,
+  get,
+  runTransaction,
+};
 
 function formatViews(number) {
   if (number < 1000) {

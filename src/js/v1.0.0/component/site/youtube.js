@@ -46,13 +46,13 @@ export function initYouTube() {
       }
 
       return `
-                    <a
-                        href="${cleanUrl}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-white transition text-wrap break-all hover:text-theme hover:decoration-theme"
-                    >${displayUrl}</a>${trailing}
-                `;
+          <a
+              href="${cleanUrl}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-white transition text-wrap break-all hover:text-theme hover:decoration-theme"
+          >${displayUrl}</a>${trailing}
+      `;
     });
   }
   //==================================================================================================
@@ -65,12 +65,14 @@ export function initYouTube() {
 
       if (!response.ok) {
         throw new Error(`Failed to load YouTube data: ${response.status}`);
+        //TODO: error modal
       }
 
       const data = await response.json();
 
       if (!data.videos || data.videos.length < 4) {
         throw new Error("Not enough YouTube videos available.");
+        //TODO: error modal
       }
 
       $youtubeContainer.empty();

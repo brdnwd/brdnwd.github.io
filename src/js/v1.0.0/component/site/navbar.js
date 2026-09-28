@@ -3,18 +3,20 @@ export function initNavbar() {
     if (!$navbarContainer.length) return;
     
     $navbarContainer.html(`
-        <div id="navbar" class="flex flex-row justify-between items-center w-full h-full page-container">
-            <div class="text-5xl font-medium font-qahiri">BW</div>
-            <div id="navbarLinks" class="text-lg font-bold items-center flex-row gap-5 xl:gap-10 hidden md:flex">
-                <a class="transition hover:text-theme" href="/">HOME</a>
-                <a class="transition hover:text-theme" href="/page/about">ABOUT</a>
-                <a class="transition hover:text-theme" href="/page/projects">PROJECTS</a>
-                <a class="transition hover:text-theme" href="/page/blogs">BLOGS</a>
-                <a class="transition hover:text-theme" href="/page/contact">CONTACT</a>
-                <a class="transition hover:text-theme" href="/res/file/resume.pdf">RESUME</a>
-            </div>
-            <div class="flex md:hidden flex-row items-center  gap-5 font-bold">
-                <a id="sidemenu" class="hamburger-menu-icon block md:hidden w-[3.4rem] h-[3.4rem] scale-x-[-1] mb-[5px] bg-current transition-colors" href="#" aria-label="Open menu" aria-expanded="false"></a>
+        <div class="select-none py-4 bg-black/0 backdrop-blur-md text-black"> 
+            <div id="navbar" class="flex flex-row justify-between items-center w-full h-full page-container">
+                <div class="text-5xl font-medium font-qahiri">BW</div>
+                <div id="navbarLinks" class="text-lg font-bold items-center flex-row gap-5 xl:gap-10 hidden md:flex">
+                    <a class="transition hover:text-theme" href="/">HOME</a>
+                    <a class="transition hover:text-theme" href="/page/about">ABOUT</a>
+                    <a class="transition hover:text-theme" href="/page/projects">PROJECTS</a>
+                    <a class="transition hover:text-theme" href="/page/blogs">BLOGS</a>
+                    <a class="transition hover:text-theme" href="/page/contact">CONTACT</a>
+                    <a class="transition hover:text-theme" href="/res/file/resume.pdf">RESUME</a>
+                </div>
+                <div class="flex md:hidden flex-row items-center  gap-5 font-bold">
+                    <a id="sidemenu" class="hamburger-menu-icon block md:hidden w-[3.4rem] h-[3.4rem] scale-x-[-1] mb-[5px] bg-current transition-colors" href="#" aria-label="Open menu" aria-expanded="false"></a>
+                </div>
             </div>
         </div>
     `);
@@ -52,7 +54,7 @@ export function initNavbar() {
         requestAnimationFrame(updateNavbarTheme);
     }
 
-    // Side menu
+    // Side menu FIX SPACING ISSUE ON BOTTOM
     const $mobileMenu = $(`
         <div id="mobileMenu" class="fixed inset-0 z-[1000] bg-accent text-black pointer-events-none md:hidden">
             <div class="absolute top-[1.37rem] z-[1001] left-0 right-0">
@@ -77,7 +79,7 @@ export function initNavbar() {
                     </div>
                 </div>
             </div>
-            <div class="absolute bottom-6 left-6 right-6 sm:left-10 sm:right-10 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-5 font-bold">
+            <div class="absolute bottom-0 left-2 right-2 sm:bottom-6 sm:left-7 sm:right-7 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-3 font-bold">
                 <div class="flex flex-col-reverse md:flex-col">
                     <span>&copy; 2026 Braden Wood</span>
                     <a id="siteVersion" class="transition hover:text-theme" href="#">
@@ -86,16 +88,16 @@ export function initNavbar() {
                 </div>
                 <div class="flex flex-row justify-between items-center gap-2">
                     <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme" href="https://github.com/brdnwd">
-                        <span class="github-icon w-[30px] h-[30px] mt-[0.5px] bg-current transition-colors"></span>
+                        <span class="github-icon w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] mt-[0.5px] bg-current transition-colors"></span>
                     </a>
                     <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme" href="https://www.linkedin.com/in/brdnwd/">
-                        <span class="linkedin-icon w-[30px] h-[30px] mt-[0.5px] bg-current transition-colors"></span>
+                        <span class="linkedin-icon w-[30px] h-[30px] lg:w-[40px] lg:h-[40px] mt-[0.5px] bg-current transition-colors"></span>
                     </a>
                     <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme" href="https://www.facebook.com/brdnwd/">
-                        <span class="facebook-icon w-[32px] h-[32px] mt-[0.5px] bg-current transition-colors"></span>
+                        <span class="facebook-icon w-[32px] h-[32px] lg:w-[42px] lg:h-[42px] mt-[0.5px] bg-current transition-colors"></span>
                     </a>
                     <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme" href="https://dev.to/brdnwd">
-                        <span class="dev-to-icon w-[29px] h-[29px] mt-[0.5px] bg-current transition-colors"></span>
+                        <span class="dev-to-icon w-[29px] h-[29px] lg:w-[39px] lg:h-[39px] mt-[0.5px] bg-current transition-colors"></span>
                     </a>
                 </div>
             </div>

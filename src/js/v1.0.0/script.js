@@ -18,6 +18,7 @@ import { initNavbar } from "./component/site/navbar.js";
 import { initYouTube } from "./component/site/youtube.js";
 import { initLanguages } from "./component/site/languages.js";
 import { initVisitors } from "./component/firebase/vistors.js";
+import { initFooter } from "./component/site/footer.js";
 
 (async function ($, window, document) {
     "use strict";
@@ -37,6 +38,7 @@ import { initVisitors } from "./component/firebase/vistors.js";
      * Initialize the rest of the site.
      */
     initNavbar();
+    initFooter();
     initYouTube();
     await initVisitors();
     initLanguages();
