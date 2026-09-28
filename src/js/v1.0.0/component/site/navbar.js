@@ -79,7 +79,7 @@ export function initNavbar() {
                     </div>
                 </div>
             </div>
-            <div class="absolute bottom-0 left-2 right-2 sm:bottom-6 sm:left-7 sm:right-7 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-3 font-bold">
+            <div class="absolute bottom-6 left-2 right-2 sm:left-7 sm:right-7 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-3 font-bold">
                 <div class="flex flex-col-reverse md:flex-col">
                     <span>&copy; 2026 Braden Wood</span>
                     <a id="siteVersion" class="transition hover:text-theme" href="#">
@@ -118,7 +118,7 @@ export function initNavbar() {
             const $link = $(this);
             const href = $link.attr("href");
             const text = $link.text().trim();
-            if (!href || !text) return;
+            if (!href || !text || text.includes("RESUME")) return;
             $mobileNavigation.append(`
                 <a class="w-full py-4 text-center transition hover:text-theme" href="${href}">
                     ${text}
