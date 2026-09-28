@@ -30,20 +30,6 @@
             "accent": "#12e7ae",
             "portraitHue": "92deg"
         }, 
-        summer: { 
-            "white": "#fffff0", 
-            "black": "#071018", 
-            "theme": "#8d710d", 
-            "accent": "#7ca8f5",
-            "portraitHue": "165deg"
-        }, 
-        autumn: { 
-            "white": "#fff8ed", 
-            "black": "#120a06", 
-            "theme": "#026279", 
-            "accent": "#f49778",
-            "portraitHue": "-60deg"
-        }
     };
 
     /**
@@ -61,16 +47,6 @@
         // Christmas
         if (month === 12) {
             return themes.christmas;
-        }
-
-        // Summer
-        if (month >= 6 && month <= 8) {
-            return themes.summer;
-        }
-
-        // Autumn
-        if (month === 9 || month === 11) {
-            return themes.autumn;
         }
 
         // Default
@@ -132,7 +108,7 @@
                 //valley
                 '@font-face': {
                     'font-family': 'Valley Sans',
-                    'src': 'url("/src/res/fonts/ValleySans/static/ValleySans-VariableFont_wght.ttf") format("truetype")',
+                    'src': 'url("/src/res/font/ValleySans/static/ValleySans-VariableFont_wght.ttf") format("truetype")',
                     'font-weight': '400',
                     'font-style': 'normal',
                     'font-display': 'swap',
@@ -140,7 +116,7 @@
                 //cilantro
                 '@font-face': {
                     'font-family': 'Cilantro Code Mono',
-                    'src': 'url("/src/res/fonts/Cilantro/static/CilantroCodeMono-Regular.ttf") format("truetype")',
+                    'src': 'url("/src/res/font/Cilantro/static/CilantroCodeMono-Regular.ttf") format("truetype")',
                     'font-weight': '400',
                     'font-style': 'normal',
                     'font-display': 'swap',
@@ -148,7 +124,7 @@
                 //libre
                 '@font-face': {
                     'font-family': 'Qahiri',
-                    'src': 'url("/src/res/fonts/Qahiri/static/Qahiri-Regular.ttf") format("truetype")',
+                    'src': 'url("/src/res/font/Qahiri/static/Qahiri-Regular.ttf") format("truetype")',
                     'font-weight': '400',
                     'font-style': 'normal',
                     'font-display': 'swap',
@@ -162,44 +138,48 @@
                 },
                 //icons
                 '.github-icon': {
-                    'mask': 'url("./src/res/svgs/social-media/github.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/social-media/github.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/social-media/github.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/social-media/github.svg") center / contain no-repeat;'
                 },
                 '.linkedin-icon': {
-                    'mask': 'url("./src/res/svgs/social-media/linkedin.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/social-media/linkedin.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/social-media/linkedin.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/social-media/linkedin.svg") center / contain no-repeat;'
                 },
                 '.facebook-icon': {
-                    'mask': 'url("./src/res/svgs/social-media/facebook.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/social-media/facebook.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/social-media/facebook.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/social-media/facebook.svg") center / contain no-repeat;'
                 },
                 '.arrow-right-icon': {
-                    'mask': 'url("./src/res/svgs/arrow-right.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/arrow-right.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/arrow-right.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/arrow-right.svg") center / contain no-repeat;'
                 },
                 '.hamburger-menu-icon': {
-                    'mask': 'url("./src/res/svgs/hamburger-menu.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/hamburger-menu.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/hamburger-menu.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/hamburger-menu.svg") center / contain no-repeat;'
                 },
                 '.email-icon': {
-                    'mask': 'url("./src/res/svgs/email.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/email.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/email.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/email.svg") center / contain no-repeat;'
                 },
                 '.search-icon': {
-                    'mask': 'url("./src/res/svgs/search.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/search.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/search.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/search.svg") center / contain no-repeat;'
                 },
                 '.close-icon': {
-                    'mask': 'url("./src/res/svgs/close.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/close.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/close.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/close.svg") center / contain no-repeat;'
                 },
                 '.git-commit-icon': {
-                    'mask': 'url("./src/res/svgs/git-commit.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/git-commit.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/git-commit.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/git-commit.svg") center / contain no-repeat;'
                 },
                 '.dev-to-icon': {
-                    'mask': 'url("./src/res/svgs/social-media/dev-to.svg") center / contain no-repeat;',
-                    '-webkit-mask': 'url("./src/res/svgs/social-media/dev-to.svg") center / contain no-repeat;'
+                    'mask': 'url("./src/res/svg/social-media/dev-to.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/social-media/dev-to.svg") center / contain no-repeat;'
+                },
+                '.external-link-icon': {
+                    'mask': 'url("./src/res/svg/external-link.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/external-link.svg") center / contain no-repeat;'
                 },
                 // scrollbar
                 '.scrollbar-hidden': {

@@ -13,11 +13,11 @@
  * Built: 2025-04-04
  */
 
-import { initLoader } from "./components/site/loader.js";
-import { initNavbar } from "./components/site/navbar.js";
-import { initYouTube } from "./components/site/youtube.js";
-import { initLanguages } from "./components/site/languages.js";
-import { initVisitors } from "./components/firebase/vistors.js";
+import { initLoader } from "./component/site/loader.js";
+import { initNavbar } from "./component/site/navbar.js";
+import { initYouTube } from "./component/site/youtube.js";
+import { initLanguages } from "./component/site/languages.js";
+import { initVisitors } from "./component/firebase/vistors.js";
 
 (async function ($, window, document) {
     "use strict";
