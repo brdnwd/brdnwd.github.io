@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-28T23:02:18.305Z",
+  "updatedAt": "2026-09-29T04:53:48.107Z",
   "repository": {
     "name": "brdnwd.github.io",
     "fullName": "brdnwd/brdnwd.github.io",
@@ -8,62 +8,62 @@
     "url": "https://github.com/brdnwd/brdnwd.github.io"
   },
   "version": {
-    "sha": "e3359fe10b7f1ef4d35be316595203576958ab2c",
-    "shortSha": "e3359fe",
-    "message": "fix",
-    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e3359fe10b7f1ef4d35be316595203576958ab2c",
-    "date": "2026-09-28T19:47:13Z"
+    "sha": "90f27670580f554f0b394d2765e80f8584058af9",
+    "shortSha": "90f2767",
+    "message": "still some testing needed",
+    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/90f27670580f554f0b394d2765e80f8584058af9",
+    "date": "2026-09-29T04:39:04Z"
   },
   "recentCommits": [
     {
-      "sha": "e3359fe10b7f1ef4d35be316595203576958ab2c",
-      "shortSha": "e3359fe",
-      "message": "fix",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e3359fe10b7f1ef4d35be316595203576958ab2c",
-      "date": "2026-09-28T19:47:13Z",
-      "additions": 2,
-      "deletions": 2,
-      "changes": 4
+      "sha": "90f27670580f554f0b394d2765e80f8584058af9",
+      "shortSha": "90f2767",
+      "message": "still some testing needed",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/90f27670580f554f0b394d2765e80f8584058af9",
+      "date": "2026-09-29T04:39:04Z",
+      "additions": 108,
+      "deletions": 1,
+      "changes": 109
     },
     {
-      "sha": "f656c1ae56401ca803ca40092ef25385fdb16ffc",
-      "shortSha": "f656c1a",
-      "message": "footer yay",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/f656c1ae56401ca803ca40092ef25385fdb16ffc",
-      "date": "2026-09-28T19:11:32Z",
-      "additions": 94,
-      "deletions": 33,
-      "changes": 127
-    },
-    {
-      "sha": "4f3b366bf94b01b09641e3c21c054f200d5d5645",
-      "shortSha": "4f3b366",
+      "sha": "19dd4cb7a568819907bd2470f058c6ce423054ff",
+      "shortSha": "19dd4cb",
       "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/4f3b366bf94b01b09641e3c21c054f200d5d5645",
-      "date": "2026-09-28T05:16:45Z",
-      "additions": 2,
-      "deletions": 2,
-      "changes": 4
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/19dd4cb7a568819907bd2470f058c6ce423054ff",
+      "date": "2026-09-29T04:22:32Z",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2
     },
     {
-      "sha": "08b5b85912d31adef8ce5098aad3b3a7902146f4",
-      "shortSha": "08b5b85",
-      "message": "path changes and additions",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/08b5b85912d31adef8ce5098aad3b3a7902146f4",
-      "date": "2026-09-28T05:16:43Z",
-      "additions": 297,
-      "deletions": 419,
-      "changes": 716
+      "sha": "e43a5e4e6c14479ba94cf191fdf5faa15e434c0f",
+      "shortSha": "e43a5e4",
+      "message": "push for post data",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e43a5e4e6c14479ba94cf191fdf5faa15e434c0f",
+      "date": "2026-09-29T04:22:21Z",
+      "additions": 419,
+      "deletions": 27,
+      "changes": 446
     },
     {
-      "sha": "428c2a87be4a328e365127f11ae1311384677f05",
-      "shortSha": "428c2a8",
-      "message": "good",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/428c2a87be4a328e365127f11ae1311384677f05",
-      "date": "2026-09-27T19:27:16Z",
-      "additions": 402,
-      "deletions": 413,
-      "changes": 815
+      "sha": "165f67cdaad4d850fea7bf7e48a9b288a83d63b1",
+      "shortSha": "165f67c",
+      "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/165f67cdaad4d850fea7bf7e48a9b288a83d63b1",
+      "date": "2026-09-29T01:23:24Z",
+      "additions": 43,
+      "deletions": 43,
+      "changes": 86
+    },
+    {
+      "sha": "12e0b953769fc260aebc7fde801a582a32fd267b",
+      "shortSha": "12e0b95",
+      "message": "fix sidemenu overlaps",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/12e0b953769fc260aebc7fde801a582a32fd267b",
+      "date": "2026-09-29T01:23:23Z",
+      "additions": 4,
+      "deletions": 4,
+      "changes": 8
     }
   ],
   "repositories": {
@@ -142,8 +142,8 @@
     ]
   },
   "languages": {
-    "HTML": 166847,
-    "JavaScript": 135040,
+    "HTML": 168762,
+    "JavaScript": 141517,
     "CSS": 62122,
     "Python": 1509,
     "Shell": 50066,
@@ -152,28 +152,28 @@
   "languageBreakdown": [
     {
       "name": "HTML",
-      "bytes": 166847,
-      "percentage": 36.78
+      "bytes": 168762,
+      "percentage": 36.53
     },
     {
       "name": "JavaScript",
-      "bytes": 135040,
-      "percentage": 29.77
+      "bytes": 141517,
+      "percentage": 30.63
     },
     {
       "name": "CSS",
       "bytes": 62122,
-      "percentage": 13.7
+      "percentage": 13.45
     },
     {
       "name": "Shell",
       "bytes": 50066,
-      "percentage": 11.04
+      "percentage": 10.84
     },
     {
       "name": "C++",
       "bytes": 38021,
-      "percentage": 8.38
+      "percentage": 8.23
     },
     {
       "name": "Python",
@@ -183,7 +183,7 @@
   ],
   "primaryLanguage": {
     "name": "HTML",
-    "bytes": 166847,
-    "percentage": 36.78
+    "bytes": 168762,
+    "percentage": 36.53
   }
 }
