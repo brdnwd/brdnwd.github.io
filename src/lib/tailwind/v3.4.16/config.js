@@ -181,6 +181,10 @@
                     'mask': 'url("./src/res/svg/external-link.svg") center / contain no-repeat;',
                     '-webkit-mask': 'url("./src/res/svg/external-link.svg") center / contain no-repeat;'
                 },
+                '.tag-icon': {
+                    'mask': 'url("./src/res/svg/tag.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/tag.svg") center / contain no-repeat;'
+                },
                 // scrollbar
                 '.scrollbar-hidden': {
                     'scrollbar-width': 'none',

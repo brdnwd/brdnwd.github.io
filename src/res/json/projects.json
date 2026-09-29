@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Gradpass",
+        "href": "/page/projects/gradpass",
+        "image": "./src/res/image/page/projects/gradpass/gradpass-banner.jpg",
+        "description": "Gradpass is a student-focused platform designed for use on both mobile devices and computers. It provides students with a centralized place to view grades, manage agendas, and keep track of their academic information.",
+        "tags": [
+            "jquery",
+            "javascript",
+            "html",
+            "grades"
+        ]
+    },
+    {
+        "title": "Example",
+        "href": "#",
+        "image": "https://picsum.photos/1920", 
+        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi, libero accusamus quaerat a facere soluta ipsam qui quibusdam eum cum sunt, eligendi explicabo ducimus, nulla voluptatum aliquam consequuntur labore eaque.",
+        "tags": [
+            "javascript",
+            "jquery",
+            "html",
+            "productivity"
+        ]
+    }
+]

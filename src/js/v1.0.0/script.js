@@ -19,6 +19,7 @@ import { initYouTube } from "./component/site/youtube.js";
 import { initLanguages } from "./component/site/languages.js";
 import { initVisitors } from "./component/firebase/vistors.js";
 import { initFooter } from "./component/site/footer.js";
+import { initProjects } from "./component/site/projects.js";
 
 (async function ($, window, document) {
     "use strict";
@@ -40,8 +41,9 @@ import { initFooter } from "./component/site/footer.js";
     initNavbar();
     initFooter();
     initYouTube();
-    await initVisitors();
     initLanguages();
+    initProjects();
+    await initVisitors();
 
     /*
      * Keep the loader promise alive.
