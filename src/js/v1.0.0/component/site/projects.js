@@ -2,6 +2,18 @@ export async function initProjects() {
     const $projects = $("#projects");
     if (!$projects.length) return;
 
+    const tagColors = [
+        "#FF6B6B",
+        "#FFD93D",
+        "#6BCB77",
+        "#4D96FF",
+        "#C77DFF"
+    ];
+
+    function getRandomTagColor() {
+        return tagColors[Math.floor(Math.random() * tagColors.length)];
+    }
+
     try {
         const response = await fetch("/src/res/json/projects.json");
 
@@ -24,9 +36,15 @@ export async function initProjects() {
                                 <div class="text-lg scrollbar-theme text-white/60 line-clamp-2">${project.description}</div>
                                 <div class="flex flex-row flex-wrap gap-2 overflow-hidden max-h-8 font-cilantro font-bold select-none text-white/30">
                                     <span class="tag-icon w-[30px] h-[30px] mt-[1px] bg-current transition-colors"></span>
-                                    ${project.tags.map((tag) => `
-                                        <span class="rounded-md p-1 bg-white/5">${tag}</span>
-                                    `).join("")}
+                                    ${project.tags.map((tag) => {
+                                        const color = getRandomTagColor();
+
+                                        return `
+                                            <span class="rounded-md p-1 bg-white/5 text-[${color}]">
+                                                ${tag}
+                                            </span>
+                                        `;
+                                    }).join("")}
                                 </div>
                             </div>
                         </div>

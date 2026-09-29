@@ -114,7 +114,7 @@ export async function initLoader() {
 
       const height = window.innerHeight;
 
-      const boundary = progress * (width + 200) - 100;
+      const boundary = progress * (width + 600) - 300;
 
       const wavePoints = [];
 
@@ -180,6 +180,11 @@ export async function initLoader() {
 
       // d → w → n → d → r → b
       await popOut();
+
+      if (pageLoaded) {
+        await popIn();
+        break;
+      }
 
       await new Promise((resolve) => {
         setTimeout(resolve, 150);
