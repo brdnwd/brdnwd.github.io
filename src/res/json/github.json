@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-28T13:15:47.590Z",
+  "updatedAt": "2026-09-28T23:02:18.305Z",
   "repository": {
     "name": "brdnwd.github.io",
     "fullName": "brdnwd/brdnwd.github.io",
@@ -8,13 +8,33 @@
     "url": "https://github.com/brdnwd/brdnwd.github.io"
   },
   "version": {
-    "sha": "4f3b366bf94b01b09641e3c21c054f200d5d5645",
-    "shortSha": "4f3b366",
-    "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
-    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/4f3b366bf94b01b09641e3c21c054f200d5d5645",
-    "date": "2026-09-28T05:16:45Z"
+    "sha": "e3359fe10b7f1ef4d35be316595203576958ab2c",
+    "shortSha": "e3359fe",
+    "message": "fix",
+    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e3359fe10b7f1ef4d35be316595203576958ab2c",
+    "date": "2026-09-28T19:47:13Z"
   },
   "recentCommits": [
+    {
+      "sha": "e3359fe10b7f1ef4d35be316595203576958ab2c",
+      "shortSha": "e3359fe",
+      "message": "fix",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e3359fe10b7f1ef4d35be316595203576958ab2c",
+      "date": "2026-09-28T19:47:13Z",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4
+    },
+    {
+      "sha": "f656c1ae56401ca803ca40092ef25385fdb16ffc",
+      "shortSha": "f656c1a",
+      "message": "footer yay",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/f656c1ae56401ca803ca40092ef25385fdb16ffc",
+      "date": "2026-09-28T19:11:32Z",
+      "additions": 94,
+      "deletions": 33,
+      "changes": 127
+    },
     {
       "sha": "4f3b366bf94b01b09641e3c21c054f200d5d5645",
       "shortSha": "4f3b366",
@@ -44,26 +64,6 @@
       "additions": 402,
       "deletions": 413,
       "changes": 815
-    },
-    {
-      "sha": "a7c306950b3edb0f5a24e52b38a8ce3d921759fa",
-      "shortSha": "a7c3069",
-      "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/a7c306950b3edb0f5a24e52b38a8ce3d921759fa",
-      "date": "2026-09-27T06:24:52Z",
-      "additions": 28,
-      "deletions": 28,
-      "changes": 56
-    },
-    {
-      "sha": "603741ec0e9b674abcb6819839327e3523feb89e",
-      "shortSha": "603741e",
-      "message": "add sidemenu",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/603741ec0e9b674abcb6819839327e3523feb89e",
-      "date": "2026-09-27T06:24:50Z",
-      "additions": 560,
-      "deletions": 495,
-      "changes": 1055
     }
   ],
   "repositories": {
@@ -142,48 +142,48 @@
     ]
   },
   "languages": {
-    "HTML": 167243,
-    "JavaScript": 131342,
+    "HTML": 166847,
+    "JavaScript": 135040,
     "CSS": 62122,
     "Python": 1509,
-    "Shell": 46150,
-    "C++": 32077
+    "Shell": 50066,
+    "C++": 38021
   },
   "languageBreakdown": [
     {
       "name": "HTML",
-      "bytes": 167243,
-      "percentage": 37.97
+      "bytes": 166847,
+      "percentage": 36.78
     },
     {
       "name": "JavaScript",
-      "bytes": 131342,
-      "percentage": 29.82
+      "bytes": 135040,
+      "percentage": 29.77
     },
     {
       "name": "CSS",
       "bytes": 62122,
-      "percentage": 14.1
+      "percentage": 13.7
     },
     {
       "name": "Shell",
-      "bytes": 46150,
-      "percentage": 10.48
+      "bytes": 50066,
+      "percentage": 11.04
     },
     {
       "name": "C++",
-      "bytes": 32077,
-      "percentage": 7.28
+      "bytes": 38021,
+      "percentage": 8.38
     },
     {
       "name": "Python",
       "bytes": 1509,
-      "percentage": 0.34
+      "percentage": 0.33
     }
   ],
   "primaryLanguage": {
     "name": "HTML",
-    "bytes": 167243,
-    "percentage": 37.97
+    "bytes": 166847,
+    "percentage": 36.78
   }
 }
