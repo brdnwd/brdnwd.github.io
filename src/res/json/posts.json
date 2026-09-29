@@ -1,0 +1,39 @@
+{
+  "updatedAt": "2026-09-29T04:23:06.590Z",
+  "profile": {
+    "username": "brdnwd",
+    "name": "Braden Wood",
+    "profileImage": "https://media2.dev.to/dynamic/image/width=320,height=320,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Fuser%2Fprofile_image%2F4132057%2Fa0bf33ab-55cd-473f-87c5-ceaac61ddd07.jpg",
+    "profileImage90": null,
+    "joinedAt": "Sep 18, 2026",
+    "websiteUrl": "https://brdnwd.github.io",
+    "location": "United States of America",
+    "summary": "IT major and developer with 6+ years of self-taught programming experience. I build websites, applications, and games while learning new technologies along the way. Also a musician and trumpet player.",
+    "twitterUsername": null,
+    "githubUsername": null,
+    "personalWebsite": "https://brdnwd.github.io",
+    "profileUrl": "https://dev.to/brdnwd"
+  },
+  "posts": {
+    "count": 1,
+    "public": [
+      {
+        "id": 4689710,
+        "title": "Hello Dev.to!",
+        "description": "The test is over;   Hello! What is the what-what here when it comes to conversations? Would love to...",
+        "url": "https://dev.to/brdnwd/hello-devto-3cnm",
+        "publishedAt": "2026-09-19T01:34:35Z",
+        "readablePublishDate": "Sep 19",
+        "tags": [
+          "testing",
+          "help"
+        ],
+        "coverImage": null,
+        "socialImage": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fkpyn5ie6n1k7vsb1flst.png",
+        "readingTimeMinutes": 1,
+        "commentsCount": 0,
+        "positiveReactionsCount": 0
+      }
+    ]
+  }
+}
