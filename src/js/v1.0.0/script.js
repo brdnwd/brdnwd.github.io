@@ -20,6 +20,7 @@ import { initLanguages } from "./component/site/languages.js";
 import { initVisitors } from "./component/firebase/vistors.js";
 import { initFooter } from "./component/site/footer.js";
 import { initProjects } from "./component/site/projects.js";
+import { initPosts } from "./component/site/post.js";
 
 (async function ($, window, document) {
     "use strict";
@@ -43,6 +44,7 @@ import { initProjects } from "./component/site/projects.js";
     initYouTube();
     initLanguages();
     initProjects();
+    initPosts();
     await initVisitors();
 
     /*
