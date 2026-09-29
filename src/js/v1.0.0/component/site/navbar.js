@@ -79,7 +79,7 @@ export function initNavbar() {
                     </div>
                 </div>
             </div>
-            <div class="absolute bottom-6 left-2 right-2 sm:left-7 sm:right-7 flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-3 font-bold">
+            <div class="absolute bottom-6 left-2 right-2 sm:bottom-[23px] sm:left-[32px] sm:right-[32px] flex flex-col-reverse sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-3 font-bold">
                 <div class="flex flex-col-reverse md:flex-col">
                     <span>&copy; 2026 Braden Wood</span>
                     <a id="siteVersion" class="transition hover:text-theme" href="#">

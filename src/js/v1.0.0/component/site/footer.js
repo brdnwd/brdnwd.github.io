@@ -5,8 +5,8 @@ export function initFooter() {
     //FIX SPACING ISSUE ON BOTTOM
     $footerContainer.html(`
         <div id="footer" class="w-full bg-white text-black transition-all select-none">
-            <div class="flex w-full justify-between items-center line-height-[3] gap-2 sm:gap-3 flex-col-reverse sm:flex-row page-container py-5 lg:text-1xl 2xl:text-2xl font-bold whitespace-nowrap">
-                <div class="flex flex-col-reverse justify-start flex-wrap gap-1">
+            <div class="flex w-full justify-between pb-[23.1px] items-center gap-2 sm:gap-3 flex-col-reverse sm:flex-row page-container py-5 text-[16px] lg:text-1xl 2xl:text-2xl font-bold whitespace-nowrap">
+                <div class="flex flex-col-reverse justify-start flex-wrap ">
                     <span>&copy; 2026 Braden Wood</span>
                     <div class="flex flex-col-reverse sm:flex-col">
                         <a id="siteVersion" class="transition hover:text-theme" href="#">
@@ -43,7 +43,7 @@ export function initFooter() {
             if (!version?.shortSha) return;
             $siteVersion.find("div").html(`
                 <span class="git-commit-icon w-[17px] h-[17px] lg:w-[20px] lg:h-[20px] 2xl:w-[25px] 2xl:h-[25px] mt-[0.5px] bg-current transition-colors"></span>
-                <span>${version.shortSha}</span>
+                <span class="text-[17px] lg:text-1xl 2xl:text-2xl ">${version.shortSha}</span>
             `).parent().attr("href", version.url || "#");
         })
         .fail(function () {
