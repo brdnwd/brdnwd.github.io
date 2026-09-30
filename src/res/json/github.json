@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-29T12:23:12.829Z",
+  "updatedAt": "2026-09-30T04:40:10.596Z",
   "repository": {
     "name": "brdnwd.github.io",
     "fullName": "brdnwd/brdnwd.github.io",
@@ -8,13 +8,23 @@
     "url": "https://github.com/brdnwd/brdnwd.github.io"
   },
   "version": {
-    "sha": "90f27670580f554f0b394d2765e80f8584058af9",
-    "shortSha": "90f2767",
-    "message": "still some testing needed",
-    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/90f27670580f554f0b394d2765e80f8584058af9",
-    "date": "2026-09-29T04:39:04Z"
+    "sha": "13807da69b314458db1226d0f534d7869d5b8ffe",
+    "shortSha": "13807da",
+    "message": "design design design",
+    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/13807da69b314458db1226d0f534d7869d5b8ffe",
+    "date": "2026-09-29T20:43:21Z"
   },
   "recentCommits": [
+    {
+      "sha": "13807da69b314458db1226d0f534d7869d5b8ffe",
+      "shortSha": "13807da",
+      "message": "design design design",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/13807da69b314458db1226d0f534d7869d5b8ffe",
+      "date": "2026-09-29T20:43:21Z",
+      "additions": 72,
+      "deletions": 77,
+      "changes": 149
+    },
     {
       "sha": "90f27670580f554f0b394d2765e80f8584058af9",
       "shortSha": "90f2767",
@@ -44,26 +54,6 @@
       "additions": 419,
       "deletions": 27,
       "changes": 446
-    },
-    {
-      "sha": "165f67cdaad4d850fea7bf7e48a9b288a83d63b1",
-      "shortSha": "165f67c",
-      "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/165f67cdaad4d850fea7bf7e48a9b288a83d63b1",
-      "date": "2026-09-29T01:23:24Z",
-      "additions": 43,
-      "deletions": 43,
-      "changes": 86
-    },
-    {
-      "sha": "12e0b953769fc260aebc7fde801a582a32fd267b",
-      "shortSha": "12e0b95",
-      "message": "fix sidemenu overlaps",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/12e0b953769fc260aebc7fde801a582a32fd267b",
-      "date": "2026-09-29T01:23:23Z",
-      "additions": 4,
-      "deletions": 4,
-      "changes": 8
     }
   ],
   "repositories": {
@@ -142,8 +132,8 @@
     ]
   },
   "languages": {
-    "HTML": 168762,
-    "JavaScript": 141517,
+    "HTML": 168559,
+    "JavaScript": 141807,
     "CSS": 62122,
     "Python": 1509,
     "Shell": 50066,
@@ -152,23 +142,23 @@
   "languageBreakdown": [
     {
       "name": "HTML",
-      "bytes": 168762,
-      "percentage": 36.53
+      "bytes": 168559,
+      "percentage": 36.48
     },
     {
       "name": "JavaScript",
-      "bytes": 141517,
-      "percentage": 30.63
+      "bytes": 141807,
+      "percentage": 30.69
     },
     {
       "name": "CSS",
       "bytes": 62122,
-      "percentage": 13.45
+      "percentage": 13.44
     },
     {
       "name": "Shell",
       "bytes": 50066,
-      "percentage": 10.84
+      "percentage": 10.83
     },
     {
       "name": "C++",
@@ -183,7 +173,7 @@
   ],
   "primaryLanguage": {
     "name": "HTML",
-    "bytes": 168762,
-    "percentage": 36.53
+    "bytes": 168559,
+    "percentage": 36.48
   }
 }
