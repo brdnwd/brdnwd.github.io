@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30T04:40:10.596Z",
+  "updatedAt": "2026-09-30T12:08:30.878Z",
   "repository": {
     "name": "brdnwd.github.io",
     "fullName": "brdnwd/brdnwd.github.io",
@@ -8,13 +8,33 @@
     "url": "https://github.com/brdnwd/brdnwd.github.io"
   },
   "version": {
-    "sha": "13807da69b314458db1226d0f534d7869d5b8ffe",
-    "shortSha": "13807da",
-    "message": "design design design",
-    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/13807da69b314458db1226d0f534d7869d5b8ffe",
-    "date": "2026-09-29T20:43:21Z"
+    "sha": "ad2c1b6564e4c44c5ac9fe3924e79b4162565fe0",
+    "shortSha": "ad2c1b6",
+    "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
+    "url": "https://github.com/brdnwd/brdnwd.github.io/commit/ad2c1b6564e4c44c5ac9fe3924e79b4162565fe0",
+    "date": "2026-09-30T05:18:42Z"
   },
   "recentCommits": [
+    {
+      "sha": "ad2c1b6564e4c44c5ac9fe3924e79b4162565fe0",
+      "shortSha": "ad2c1b6",
+      "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/ad2c1b6564e4c44c5ac9fe3924e79b4162565fe0",
+      "date": "2026-09-30T05:18:42Z",
+      "additions": 28,
+      "deletions": 38,
+      "changes": 66
+    },
+    {
+      "sha": "8eb902b692b34655701a1d3e59d79db639ab4e98",
+      "shortSha": "8eb902b",
+      "message": "oooh 3d stuff :)",
+      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/8eb902b692b34655701a1d3e59d79db639ab4e98",
+      "date": "2026-09-30T05:18:39Z",
+      "additions": 987,
+      "deletions": 33,
+      "changes": 1020
+    },
     {
       "sha": "13807da69b314458db1226d0f534d7869d5b8ffe",
       "shortSha": "13807da",
@@ -24,36 +44,6 @@
       "additions": 72,
       "deletions": 77,
       "changes": 149
-    },
-    {
-      "sha": "90f27670580f554f0b394d2765e80f8584058af9",
-      "shortSha": "90f2767",
-      "message": "still some testing needed",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/90f27670580f554f0b394d2765e80f8584058af9",
-      "date": "2026-09-29T04:39:04Z",
-      "additions": 108,
-      "deletions": 1,
-      "changes": 109
-    },
-    {
-      "sha": "19dd4cb7a568819907bd2470f058c6ce423054ff",
-      "shortSha": "19dd4cb",
-      "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/19dd4cb7a568819907bd2470f058c6ce423054ff",
-      "date": "2026-09-29T04:22:32Z",
-      "additions": 1,
-      "deletions": 1,
-      "changes": 2
-    },
-    {
-      "sha": "e43a5e4e6c14479ba94cf191fdf5faa15e434c0f",
-      "shortSha": "e43a5e4",
-      "message": "push for post data",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/e43a5e4e6c14479ba94cf191fdf5faa15e434c0f",
-      "date": "2026-09-29T04:22:21Z",
-      "additions": 419,
-      "deletions": 27,
-      "changes": 446
     }
   ],
   "repositories": {
@@ -132,8 +122,8 @@
     ]
   },
   "languages": {
-    "HTML": 168559,
-    "JavaScript": 141807,
+    "HTML": 170095,
+    "JavaScript": 170234,
     "CSS": 62122,
     "Python": 1509,
     "Shell": 50066,
@@ -141,39 +131,39 @@
   },
   "languageBreakdown": [
     {
-      "name": "HTML",
-      "bytes": 168559,
-      "percentage": 36.48
+      "name": "JavaScript",
+      "bytes": 170234,
+      "percentage": 34.6
     },
     {
-      "name": "JavaScript",
-      "bytes": 141807,
-      "percentage": 30.69
+      "name": "HTML",
+      "bytes": 170095,
+      "percentage": 34.57
     },
     {
       "name": "CSS",
       "bytes": 62122,
-      "percentage": 13.44
+      "percentage": 12.63
     },
     {
       "name": "Shell",
       "bytes": 50066,
-      "percentage": 10.83
+      "percentage": 10.18
     },
     {
       "name": "C++",
       "bytes": 38021,
-      "percentage": 8.23
+      "percentage": 7.73
     },
     {
       "name": "Python",
       "bytes": 1509,
-      "percentage": 0.33
+      "percentage": 0.31
     }
   ],
   "primaryLanguage": {
-    "name": "HTML",
-    "bytes": 168559,
-    "percentage": 36.48
+    "name": "JavaScript",
+    "bytes": 170234,
+    "percentage": 34.6
   }
 }
