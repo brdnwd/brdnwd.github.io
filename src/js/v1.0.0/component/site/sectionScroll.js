@@ -5,8 +5,13 @@ export function initSectionSnap() {
 
     const scrollContainer = body.parentElement;
     const sections = [...body.querySelectorAll('section')];
+    const footer = body.querySelector('#footerContainer');
 
-    if (sections.length < 2) return;
+    const items = footer
+        ? [...sections, footer]
+        : [...sections];
+
+    if (items.length < 2) return;
 
     let isScrolling = false;
     let smoothScrollFrame = null;
@@ -19,25 +24,64 @@ export function initSectionSnap() {
     const sectionBuffer = 180;
     const maxBufferStep = 60;
 
-    function getSectionRange(section) {
-        const top = section.offsetTop;
-        const bottom = top + section.offsetHeight;
-        const maxScroll = Math.max(
-            top,
-            bottom - scrollContainer.clientHeight
+    function getItemTop(item) {
+        const containerRect =
+            scrollContainer.getBoundingClientRect();
+
+        const itemRect =
+            item.getBoundingClientRect();
+
+        return (
+            itemRect.top -
+            containerRect.top +
+            scrollContainer.scrollTop
         );
+    }
+
+    function getItemRange(index) {
+        const item = items[index];
+        const top = getItemTop(item);
+        const height = item.getBoundingClientRect().height;
+        const bottom = top + height;
+
+        if (index === items.length - 1) {
+            return {
+                'top': top,
+                'maxScroll': Math.max(
+                    top,
+                    scrollContainer.scrollHeight -
+                        scrollContainer.clientHeight
+                )
+            };
+        }
 
         return {
             'top': top,
-            'maxScroll': maxScroll
+            'maxScroll': Math.max(
+                top,
+                bottom -
+                    scrollContainer.clientHeight
+            )
         };
     }
 
-    function updateCurrentSection() {
-        const scrollTop = scrollContainer.scrollTop;
+    function getPageBottom() {
+        return Math.max(
+            0,
+            scrollContainer.scrollHeight -
+                scrollContainer.clientHeight
+        );
+    }
 
-        for (let i = sections.length - 1; i >= 0; i--) {
-            if (scrollTop >= sections[i].offsetTop) {
+    function updateCurrentSection() {
+        const scrollTop =
+            scrollContainer.scrollTop;
+
+        for (let i = items.length - 1; i >= 0; i--) {
+            if (
+                scrollTop >=
+                getItemTop(items[i]) - 1
+            ) {
                 currentIndex = i;
                 return;
             }
@@ -65,29 +109,50 @@ export function initSectionSnap() {
         return boundaryBuffer >= sectionBuffer;
     }
 
-    function animateScroll(target, duration, easing, onComplete) {
-        const start = scrollContainer.scrollTop;
-        const distance = target - start;
-        const startTime = performance.now();
+    function animateScroll(
+        target,
+        duration,
+        easing,
+        onComplete
+    ) {
+        const start =
+            scrollContainer.scrollTop;
+
+        const distance =
+            target - start;
+
+        const startTime =
+            performance.now();
 
         function step(currentTime) {
-            const progress = Math.min(
-                (currentTime - startTime) / duration,
-                1
-            );
+            const progress =
+                Math.min(
+                    (currentTime - startTime) /
+                        duration,
+                    1
+                );
 
-            const eased = easing(progress);
+            const eased =
+                easing(progress);
 
             scrollContainer.scrollTop =
-                start + distance * eased;
+                start +
+                distance *
+                eased;
 
             if (progress < 1) {
-                requestAnimationFrame(step);
+                requestAnimationFrame(
+                    step
+                );
+
                 return;
             }
 
-            scrollContainer.scrollTop = target;
-            smoothScrollTarget = target;
+            scrollContainer.scrollTop =
+                target;
+
+            smoothScrollTarget =
+                target;
 
             if (onComplete) {
                 onComplete();
@@ -98,27 +163,45 @@ export function initSectionSnap() {
     }
 
     function easeOut(progress) {
-        return 1 - Math.pow(1 - progress, 4);
+        return 1 -
+            Math.pow(
+                1 - progress,
+                4
+            );
     }
 
     function easeInOut(progress) {
         return progress < 0.5
-            ? 8 * progress * progress * progress * progress
-            : 1 - Math.pow(-2 * progress + 2, 4) / 2;
+            ? 8 *
+                progress *
+                progress *
+                progress *
+                progress
+            : 1 -
+                Math.pow(
+                    -2 * progress + 2,
+                    4
+                ) / 2;
     }
 
     function moveDown(index) {
-        const range = getSectionRange(sections[index]);
-        const targetTop = range.top;
-        const distance = Math.abs(
-            targetTop -
-            scrollContainer.scrollTop
-        );
+        const range =
+            getItemRange(index);
 
-        const duration = Math.max(
-            850,
-            distance * 1.65
-        );
+        const targetTop =
+            range.top;
+
+        const distance =
+            Math.abs(
+                targetTop -
+                    scrollContainer.scrollTop
+            );
+
+        const duration =
+            Math.max(
+                850,
+                distance * 1.65
+            );
 
         animateScroll(
             targetTop,
@@ -133,20 +216,25 @@ export function initSectionSnap() {
     }
 
     function moveUp(index) {
-        const range = getSectionRange(sections[index]);
-        const targetTop = index === 0
-            ? 0
-            : range.top;
+        const range =
+            getItemRange(index);
 
-        const distance = Math.abs(
-            targetTop -
-            scrollContainer.scrollTop
-        );
+        const targetTop =
+            index === 0
+                ? 0
+                : range.top;
 
-        const duration = Math.max(
-            800,
-            distance * 1.5
-        );
+        const distance =
+            Math.abs(
+                targetTop -
+                    scrollContainer.scrollTop
+            );
+
+        const duration =
+            Math.max(
+                800,
+                distance * 1.5
+            );
 
         animateScroll(
             targetTop,
@@ -161,44 +249,70 @@ export function initSectionSnap() {
     }
 
     function smoothScroll(target) {
-        smoothScrollTarget = target;
+        smoothScrollTarget =
+            target;
 
         if (smoothScrollFrame) return;
 
-        lastFrameTime = performance.now();
+        lastFrameTime =
+            performance.now();
 
         function step(currentTime) {
-            const deltaTime = Math.min(
-                (currentTime - lastFrameTime) / 1000,
-                0.05
-            );
+            const deltaTime =
+                Math.min(
+                    (currentTime -
+                        lastFrameTime) /
+                        1000,
+                    0.05
+                );
 
-            lastFrameTime = currentTime;
+            lastFrameTime =
+                currentTime;
 
-            const current = scrollContainer.scrollTop;
-            const distance = smoothScrollTarget - current;
+            const current =
+                scrollContainer.scrollTop;
+
+            const distance =
+                smoothScrollTarget -
+                current;
+
             const smoothing = 4.2;
-            const amount = 1 - Math.exp(
-                -smoothing * deltaTime
-            );
+
+            const amount =
+                1 -
+                Math.exp(
+                    -smoothing *
+                        deltaTime
+                );
 
             scrollContainer.scrollTop =
-                current + distance * amount;
+                current +
+                distance *
+                amount;
 
-            if (Math.abs(distance) < 0.5) {
+            if (
+                Math.abs(distance) <
+                0.5
+            ) {
                 scrollContainer.scrollTop =
                     smoothScrollTarget;
 
-                smoothScrollFrame = null;
+                smoothScrollFrame =
+                    null;
+
                 return;
             }
 
             smoothScrollFrame =
-                requestAnimationFrame(step);
+                requestAnimationFrame(
+                    step
+                );
         }
 
         smoothScrollFrame =
-            requestAnimationFrame(step);
+            requestAnimationFrame(
+                step
+            );
     }
 
     updateCurrentSection();
@@ -206,11 +320,7 @@ export function initSectionSnap() {
     scrollContainer.addEventListener(
         'scroll',
         () => {
-            if (
-                !isScrolling &&
-                currentIndex <
-                    sections.length - 1
-            ) {
+            if (!isScrolling) {
                 updateCurrentSection();
             }
         },
@@ -227,38 +337,15 @@ export function initSectionSnap() {
                 return;
             }
 
-            const delta = event.deltaY;
+            const delta =
+                event.deltaY;
 
             if (delta === 0) {
                 return;
             }
 
             const lastIndex =
-                sections.length - 1;
-
-            /*
-             * Final section:
-             * let the browser scroll normally.
-             */
-            if (
-                currentIndex === lastIndex &&
-                delta > 0
-            ) {
-                resetBoundaryBuffer();
-
-                if (smoothScrollFrame) {
-                    cancelAnimationFrame(
-                        smoothScrollFrame
-                    );
-
-                    smoothScrollFrame = null;
-                }
-
-                smoothScrollTarget =
-                    scrollContainer.scrollTop;
-
-                return;
-            }
+                items.length - 1;
 
             event.preventDefault();
 
@@ -271,8 +358,8 @@ export function initSectionSnap() {
             }
 
             const currentRange =
-                getSectionRange(
-                    sections[currentIndex]
+                getItemRange(
+                    currentIndex
                 );
 
             /*
@@ -283,43 +370,72 @@ export function initSectionSnap() {
                     smoothScrollTarget +
                     delta;
 
+                /*
+                 * Reached the bottom of
+                 * the current item.
+                 */
                 if (
-                    currentIndex < lastIndex &&
                     nextTarget >=
-                        currentRange.maxScroll
+                    currentRange.maxScroll
                 ) {
-                    const ready =
-                        addBoundaryBuffer(
-                            1,
-                            delta
-                        );
-
                     smoothScrollTarget =
                         currentRange.maxScroll;
 
-                    if (ready) {
-                        isScrolling = true;
-
-                        if (
-                            smoothScrollFrame
-                        ) {
-                            cancelAnimationFrame(
-                                smoothScrollFrame
+                    /*
+                     * There is another item
+                     * after this one.
+                     */
+                    if (
+                        currentIndex <
+                        lastIndex
+                    ) {
+                        const ready =
+                            addBoundaryBuffer(
+                                1,
+                                delta
                             );
 
-                            smoothScrollFrame =
-                                null;
-                        }
+                        if (ready) {
+                            isScrolling =
+                                true;
 
-                        moveDown(
-                            currentIndex + 1
+                            if (
+                                smoothScrollFrame
+                            ) {
+                                cancelAnimationFrame(
+                                    smoothScrollFrame
+                                );
+
+                                smoothScrollFrame =
+                                    null;
+                            }
+
+                            moveDown(
+                                currentIndex + 1
+                            );
+
+                            return;
+                        }
+                    } else {
+                        /*
+                         * Final footer:
+                         * stay at the absolute
+                         * bottom of the page.
+                         */
+                        resetBoundaryBuffer();
+
+                        smoothScrollTarget =
+                            getPageBottom();
+
+                        smoothScroll(
+                            smoothScrollTarget
                         );
 
                         return;
                     }
 
                     smoothScroll(
-                        currentRange.maxScroll
+                        smoothScrollTarget
                     );
 
                     return;
@@ -362,7 +478,8 @@ export function initSectionSnap() {
                     currentRange.top;
 
                 if (ready) {
-                    isScrolling = true;
+                    isScrolling =
+                        true;
 
                     if (
                         smoothScrollFrame
@@ -395,7 +512,9 @@ export function initSectionSnap() {
             ) {
                 resetBoundaryBuffer();
 
-                smoothScrollTarget = 0;
+                smoothScrollTarget =
+                    0;
+
                 smoothScroll(0);
 
                 return;
