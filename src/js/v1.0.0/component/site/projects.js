@@ -26,7 +26,7 @@ export async function initProjects() {
         $projects.html(
             projects.map((project) => `
                 <a href="${project.href}">
-                    <div class="grid grid-cols-1 rounded-lg bg-white/10 border-2 overflow-hidden transition-colors hover:border-theme">
+                    <div data-popup='up' class="grid grid-cols-1 rounded-lg bg-white/10 border-2 overflow-hidden transition-colors hover:border-theme">
                         <div class="flex flex-col gap-2 w-full">
                             <div class="w-full select-none overflow-hidden shrink-0">
                                 <img src="${project.image}" loading="lazy" class="w-full aspect-video object-cover bg-black">

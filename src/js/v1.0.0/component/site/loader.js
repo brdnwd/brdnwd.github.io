@@ -7,7 +7,7 @@ export async function initLoader() {
 
   const $name = $loader.find(".loader-name");
   const letters = $loader.find(".loader-letter").toArray();
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)",).matches;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (reduceMotion) {
     $loader.remove();
@@ -72,9 +72,7 @@ export async function initLoader() {
 
     return letter.animate(keyframes, {
       duration: popupDuration,
-
       easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-
       fill: "forwards",
     }).finished;
   }
@@ -106,16 +104,12 @@ export async function initLoader() {
 
     const duration = 1100;
     const startTime = performance.now();
-
     const points = 40;
 
     function getWave(progress) {
       const width = window.innerWidth;
-
       const height = window.innerHeight;
-
       const boundary = progress * (width + 600) - 300;
-
       const wavePoints = [];
 
       for (let i = 0; i <= points; i++) {
@@ -140,9 +134,7 @@ export async function initLoader() {
 
     function animate(time) {
       const elapsed = time - startTime;
-
       const rawProgress = Math.min(elapsed / duration, 1);
-
       const progress = rawProgress * rawProgress * (3 - 2 * rawProgress);
 
       $loader.css("clip-path", `polygon(${getWave(progress)})`);
@@ -152,7 +144,10 @@ export async function initLoader() {
       }
     }
 
-    $loader.css("clip-path", "polygon(0 0, 100% 0, 100% 100%, 0 100%)");
+    $loader.css(
+      "clip-path",
+      "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+    );
 
     requestAnimationFrame(animate);
 
@@ -167,7 +162,6 @@ export async function initLoader() {
     resetLetters();
 
     while (!pageLoaded) {
-      // b → r → d → n → w → d
       await popIn();
 
       await new Promise((resolve) => {
@@ -178,7 +172,6 @@ export async function initLoader() {
         break;
       }
 
-      // d → w → n → d → r → b
       await popOut();
 
       if (pageLoaded) {
@@ -194,5 +187,5 @@ export async function initLoader() {
     await dissolveLoader();
   }
 
-  loaderLoop();
+  await loaderLoop();
 }

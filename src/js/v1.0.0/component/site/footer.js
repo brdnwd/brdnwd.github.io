@@ -4,8 +4,8 @@ export function initFooter() {
 
     //FIX SPACING ISSUE ON BOTTOM
     $footerContainer.html(`
-        <div id="footer" class="w-full bg-black bg-white transition-all select-none">
-            <div class="flex w-full justify-between pb-[23.1px] items-center gap-2 sm:gap-3 flex-col-reverse sm:flex-row page-container py-5 text-[16px] lg:text-1xl font-bold whitespace-nowrap">
+        <div id="footer" class="w-full bg-white transition-all select-none">
+            <div class="flex w-full justify-between items-center gap-2 sm:gap-3 flex-col-reverse sm:flex-row page-container py-5 text-[16px] lg:text-1xl font-bold whitespace-nowrap">
                 <div class="flex flex-col-reverse justify-start flex-wrap ">
                     <span>&copy; 2026 Braden Wood</span>
                     <div class="flex flex-col-reverse sm:flex-col">

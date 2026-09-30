@@ -21,10 +21,12 @@ import { initVisitors } from "./component/firebase/vistors.js";
 import { initFooter } from "./component/site/footer.js";
 import { initProjects } from "./component/site/projects.js";
 import { initPosts } from "./component/site/post.js";
+import { initSectionSnap } from "./component/site/sectionScroll.js";
+import { initPopupAnimations, initThreeFloat } from "./component/site/visualEffects.js";
 
 (async function ($, window, document) {
-    "use strict";
-    
+    'use strict';
+
     await document.fonts.ready;
 
     /*
@@ -41,16 +43,20 @@ import { initPosts } from "./component/site/post.js";
      */
     initNavbar();
     initFooter();
+    initSectionSnap();
     initYouTube();
     initLanguages();
     initProjects();
     initPosts();
+    initThreeFloat();
     await initVisitors();
 
     /*
-     * Keep the loader promise alive.
+     * Wait for the loader to completely finish
+     * before starting visual effects.
      */
     await loaderPromise;
+    initPopupAnimations();
 })(jQuery, window, document);
 
 

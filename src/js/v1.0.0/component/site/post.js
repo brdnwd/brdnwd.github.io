@@ -25,7 +25,7 @@ export async function initPosts() {
         //TODO: eventually instead of a link to the blog post it will actually be a page on the website that fetches that specific posts data and generates a page out of it
         $posts.html(
             posts.map((post) => `
-                <a href="${post.url}" target="_blank" rel="noopener noreferrer" class="group block h-full">
+                <a data-popup='up' href="${post.url}" target="_blank" rel="noopener noreferrer" class="group block h-full">
                     <div class="flex flex-col h-full rounded-lg bg-black/5 border-2 border-black/15 overflow-hidden transition-colors hover:border-theme">
                         <div class="flex flex-col justify-between h-full gap-8 px-6 py-6 xl:px-7 xl:py-7">
                             <div class="flex flex-col gap-3">

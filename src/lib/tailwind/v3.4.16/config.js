@@ -32,6 +32,17 @@
         }, 
     };
 
+    function hexToRgba(hex, alpha) {
+        var value = hex.replace('#', '');
+
+        return `rgba(
+            ${parseInt(value.substring(0, 2), 16)},
+            ${parseInt(value.substring(2, 4), 16)},
+            ${parseInt(value.substring(4, 6), 16)},
+            ${alpha}
+        )`;
+    }
+
     /**
      * Apply theme data to the runtime colors
      */
@@ -52,6 +63,9 @@
         // Default
         return themes.default;
     }());
+
+    // For visualEffects.js
+    window.siteColors = colors;
 
     // Change image to match
     document.documentElement.style.setProperty("--portrait-hue", colors.portraitHue);
@@ -152,6 +166,10 @@
                 '.arrow-right-icon': {
                     'mask': 'url("./src/res/svg/arrow-right.svg") center / contain no-repeat;',
                     '-webkit-mask': 'url("./src/res/svg/arrow-right.svg") center / contain no-repeat;'
+                },
+                '.arrow-up-right-icon': {
+                    'mask': 'url("./src/res/svg/arrow-up-right.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/arrow-up-right.svg") center / contain no-repeat;'
                 },
                 '.hamburger-menu-icon': {
                     'mask': 'url("./src/res/svg/hamburger-menu.svg") center / contain no-repeat;',
@@ -295,6 +313,85 @@
                     'background-size': '160px 160px',
                     'mix-blend-mode': 'multiply',
                 },
+                //popup
+                '[data-popup]': {
+                    'opacity': '0'
+                },
+                //gradient background animations
+                '.section-gradient': {
+                    'position': 'absolute',
+                    'inset': '-20%',
+                    'pointer-events': 'none',
+                    'filter': 'blur(70px)',
+                    'transform': 'translate3d(0, 0, 0) scale(1.05)',
+                    'will-change': 'transform, background-position'
+                },
+                '.section-gradient-01': {
+                    'opacity': '0.55',
+                    'background': `radial-gradient(circle at 18% 28%, ${hexToRgba(colors.theme, 0.9)} 0%, transparent 34%), radial-gradient(circle at 78% 24%, ${hexToRgba(colors.accent, 0.5)} 0%, transparent 28%), radial-gradient(circle at 62% 78%, ${hexToRgba(colors.theme, 0.7)} 0%, transparent 36%), radial-gradient(circle at 15% 88%, ${hexToRgba(colors.accent, 0.25)} 0%, transparent 28%)`,
+                    'background-size': '140% 140%, 160% 160%, 150% 150%, 180% 180%',
+                    'animation': 'gradient01 16s ease-in-out infinite alternate'
+                },
+                '.section-gradient-02': {
+                    'opacity': '0.34',
+                    'background': `radial-gradient(circle at 20% 70%, ${hexToRgba(colors.theme, 0.55)} 0%, transparent 32%), radial-gradient(circle at 75% 20%, ${hexToRgba(colors.accent, 0.4)} 0%, transparent 26%), radial-gradient(circle at 45% 45%, ${hexToRgba(colors.theme, 0.3)} 0%, transparent 34%), conic-gradient(from 120deg at 70% 60%, ${hexToRgba(colors.accent, 0.12)}, transparent 30%, ${hexToRgba(colors.theme, 0.2)}, transparent 65%)`,
+                    'background-size': '160% 160%, 150% 150%, 180% 180%, 140% 140%',
+                    'animation': 'gradient02 20s ease-in-out infinite alternate',
+                    'mix-blend-mode': 'multiply'
+                },
+                '.section-gradient-03': {
+                    'opacity': '0.5',
+                    'background': `radial-gradient(ellipse at 15% 20%, ${hexToRgba(colors.theme, 0.8)} 0%, transparent 30%), radial-gradient(ellipse at 85% 75%, ${hexToRgba(colors.accent, 0.38)} 0%, transparent 28%), radial-gradient(ellipse at 50% 50%, ${hexToRgba(colors.theme, 0.45)} 0%, transparent 35%)`,
+                    'background-size': '180% 130%, 160% 150%, 140% 180%',
+                    'animation': 'gradient03 13s ease-in-out infinite alternate'
+                },
+                '@keyframes gradient01': {
+                    '0%': {
+                        'transform': 'translate3d(-5%, -3%, 0) scale(1.05) rotate(0deg)',
+                        'background-position': '0% 0%, 100% 0%, 50% 100%, 0% 100%'
+                    },
+                    '50%': {
+                        'transform': 'translate3d(4%, 2%, 0) scale(1.12) rotate(1deg)',
+                        'background-position': '45% 55%, 55% 35%, 70% 35%, 30% 60%'
+                    },
+                    '100%': {
+                        'transform': 'translate3d(-2%, 5%, 0) scale(1.08) rotate(-1deg)',
+                        'background-position': '100% 100%, 0% 100%, 20% 0%, 80% 20%'
+                    }
+                },
+                '@keyframes gradient02': {
+                    '0%': {
+                        'transform': 'translate3d(4%, -4%, 0) scale(1.05) rotate(0deg)',
+                        'background-position': '0% 100%, 100% 0%, 0% 50%, 100% 50%'
+                    },
+                    '50%': {
+                        'transform': 'translate3d(-3%, 4%, 0) scale(1.13) rotate(-2deg)',
+                        'background-position': '55% 30%, 25% 65%, 80% 20%, 30% 80%'
+                    },
+                    '100%': {
+                        'transform': 'translate3d(5%, 0%, 0) scale(1.08) rotate(2deg)',
+                        'background-position': '100% 0%, 0% 100%, 40% 100%, 0% 20%'
+                    }
+                },
+                '@keyframes gradient03': {
+                    '0%': {
+                        'transform': 'translate3d(-4%, 2%, 0) scale(1.05) rotate(-1deg)',
+                        'background-position': '0% 0%, 100% 100%, 50% 50%'
+                    },
+                    '50%': {
+                        'transform': 'translate3d(5%, -3%, 0) scale(1.15) rotate(2deg)',
+                        'background-position': '70% 40%, 20% 60%, 80% 20%'
+                    },
+                    '100%': {
+                        'transform': 'translate3d(-1%, 5%, 0) scale(1.08) rotate(-2deg)',
+                        'background-position': '100% 100%, 0% 0%, 20% 80%'
+                    }
+                },
+                '@media (prefers-reduced-motion: reduce)': {
+                    '.section-gradient': {
+                        'animation': 'none'
+                    }
+                }
             })
         },
     ]
