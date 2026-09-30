@@ -22,7 +22,7 @@ import { initFooter } from "./component/site/footer.js";
 import { initProjects } from "./component/site/projects.js";
 import { initPosts } from "./component/site/post.js";
 import { initSectionSnap } from "./component/site/sectionScroll.js";
-import { initPopupAnimations, initThreeFloat } from "./component/site/visualEffects.js";
+import { initPopupAnimations, initGrainGradient } from "./component/site/visualEffects.js";
 
 (async function ($, window, document) {
     'use strict';
@@ -48,7 +48,7 @@ import { initPopupAnimations, initThreeFloat } from "./component/site/visualEffe
     initLanguages();
     initProjects();
     initPosts();
-    initThreeFloat();
+    initGrainGradient();
     await initVisitors();
 
     /*

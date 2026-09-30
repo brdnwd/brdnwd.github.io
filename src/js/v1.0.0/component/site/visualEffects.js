@@ -1,255 +1,557 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+export function initGrainGradient() {
+    const section = document.querySelector('#body > section:first-of-type');
+    if (!section || section.querySelector('#grainGradientCanvas')) return;
 
-export function initThreeFloat() {
-    const media = window.matchMedia('(min-width: 1024px)');
-    if (!media.matches) return;
+    const colors = window.siteColors;
+    if (!colors) return;
 
-    const container = document.querySelector('#threeFloatBackground');
-    if (!container) return;
+    function hexToRgb(hex) {
+        const value = hex.replace('#', '');
 
-    const renderer = new THREE.WebGLRenderer({
-        'alpha': true,
-        'antialias': true,
-        'powerPreference': 'high-performance'
+        return [
+            parseInt(value.substring(0, 2), 16) / 200,
+            parseInt(value.substring(2, 4), 16) / 200,
+            parseInt(value.substring(4, 6), 16) / 200
+        ];
+    }
+
+    const color1 = hexToRgb(colors.theme);
+    const color2 = hexToRgb(colors.accent);
+    const color3 = hexToRgb(colors.white);
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'grainGradientCanvas';
+    canvas.className = 'bg-white/0';
+
+    Object.assign(canvas.style, {
+        'position': 'absolute',
+        'inset': '0',
+        'z-index': '0',
+        'width': '100%',
+        'height': '100%',
+        'display': 'block',
+        'pointer-events': 'none',
+        'filter': 'blur(12px)'
     });
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-    renderer.setClearColor(0x000000, 0);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
-    renderer.domElement.style.position = 'absolute';
-    renderer.domElement.style.inset = '0';
-    renderer.domElement.style.width = '100%';
-    renderer.domElement.style.height = '100%';
-    renderer.domElement.style.display = 'block';
-    renderer.domElement.setAttribute('aria-hidden', 'true');
-    container.appendChild(renderer.domElement);
+    section.prepend(canvas);
 
-    const scene = new THREE.Scene();
+    const gl = canvas.getContext('webgl2', {
+        'alpha': true,
+        'antialias': false,
+        'premultipliedAlpha': false
+    });
 
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 1000);
-    camera.position.set(0, 0, 100);
-    camera.lookAt(0, 0, 0);
+    if (!gl) {
+        canvas.remove();
+        return;
+    }
 
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    const environment = new RoomEnvironment(renderer);
-    scene.environment = pmremGenerator.fromScene(environment, 0.04).texture;
-    environment.dispose();
-    pmremGenerator.dispose();
+    const vertexSource = `#version 300 es
+        in vec2 position;
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+        void main() {
+            gl_Position = vec4(position, 0.0, 1.0);
+        }
+    `;
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    directionalLight.position.set(3, 5, 8);
-    scene.add(directionalLight);
+    const fragmentSource = `#version 300 es
+        precision highp float;
 
-    const modelRoot = new THREE.Group();
-    scene.add(modelRoot);
+        uniform vec2 uResolution;
+        uniform float uTime;
+        uniform vec3 uColor1;
+        uniform vec3 uColor2;
+        uniform vec3 uColor3;
 
-    const mouse = {
-        'target': new THREE.Vector2(),
-        'current': new THREE.Vector2()
-    };
+        out vec4 fragColor;
 
-    const meshes = [];
-    let model;
-    let loaded = false;
-    let modelSize = new THREE.Vector3();
+        float hash21(vec2 p) {
+            p = fract(p * vec2(123.34, 345.45));
+            p += dot(p, p + 34.345);
+            return fract(p.x * p.y);
+        }
+
+        float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+
+            f = f * f * (3.0 - 2.0 * f);
+
+            float a = hash21(i);
+            float b = hash21(i + vec2(1.0, 0.0));
+            float c = hash21(i + vec2(0.0, 1.0));
+            float d = hash21(i + vec2(1.0, 1.0));
+
+            return mix(
+                mix(a, b, f.x),
+                mix(c, d, f.x),
+                f.y
+            );
+        }
+
+        float fbm(vec2 p) {
+            float value = 0.0;
+            float amplitude = 0.5;
+
+            value += noise(p) * amplitude;
+            p = p * 2.0 + 13.17;
+            amplitude *= 0.5;
+
+            value += noise(p) * amplitude;
+            p = p * 2.0 + 13.17;
+            amplitude *= 0.5;
+
+            value += noise(p) * amplitude;
+
+            return value;
+        }
+
+        vec2 warp(vec2 p, float time) {
+            vec2 q = p;
+
+            q += vec2(
+                fbm(p * 1.35 + time * 0.12),
+                fbm(p * 1.35 - time * 0.10)
+            ) * 1.5;
+
+            q += vec2(
+                sin(p.y * 2.2 + time * 0.22),
+                cos(p.x * 2.0 - time * 0.18)
+            ) * 0.28;
+
+            return q;
+        }
+
+        void main() {
+            vec2 uv = gl_FragCoord.xy / uResolution.xy;
+
+            float aspect = uResolution.x / uResolution.y;
+
+            vec2 p = uv - 0.5;
+            p.x *= aspect;
+
+            float time = uTime;
+
+            vec2 warped = warp(p * 1.25, time);
+
+            float field1 = fbm(
+                warped * 1.05 +
+                vec2(
+                    time * 0.035,
+                    -time * 0.025
+                )
+            );
+
+            float field2 = fbm(
+                warped * 1.8 -
+                vec2(
+                    time * 0.025,
+                    time * 0.03
+                )
+            );
+
+            float flow =
+                field1 * 0.7 +
+                field2 * 0.3;
+
+            float band = sin(
+                warped.x * 2.4 +
+                warped.y * 1.5 +
+                flow * 4.2 +
+                time * 0.12
+            );
+
+            band =
+                smoothstep(
+                    -0.35,
+                    0.8,
+                    band
+                );
+
+            float mix1 =
+                smoothstep(
+                    0.12,
+                    0.62,
+                    flow
+                );
+
+            float accentField =
+                fbm(
+                    warped * 1.45 +
+                    vec2(
+                        -time * 0.045,
+                        time * 0.035
+                    )
+                );
+
+            float accentField2 =
+                noise(
+                    warped * 2.2 +
+                    vec2(
+                        time * 0.025,
+                        -time * 0.02
+                    )
+                );
+
+            float accentAmount =
+                0.22 +
+                smoothstep(
+                    0.28,
+                    0.72,
+                    accentField
+                ) * 0.42 +
+                smoothstep(
+                    0.42,
+                    0.78,
+                    accentField2
+                ) * 0.18;
+
+            accentAmount =
+                clamp(
+                    accentAmount,
+                    0.0,
+                    0.78
+                );
+
+            vec3 color =
+                mix(
+                    uColor1,
+                    uColor2,
+                    mix1
+                );
+
+            color =
+                mix(
+                    color,
+                    uColor3,
+                    accentAmount
+                );
+
+            float glow =
+                smoothstep(
+                    0.15,
+                    1.0,
+                    band
+                );
+
+            color +=
+                uColor3 *
+                glow *
+                0.16;
+
+            float grain =
+                hash21(
+                    gl_FragCoord.xy +
+                    floor(time * 18.0)
+                );
+
+            grain =
+                (grain - 0.5) *
+                0.055;
+
+            color += grain;
+
+            color =
+                pow(
+                    max(color, 0.0),
+                    vec3(0.92)
+                );
+
+            fragColor =
+                vec4(
+                    color,
+                    1.0
+                );
+        }
+    `;
+
+    function createShader(type, source) {
+        const shader = gl.createShader(type);
+
+        gl.shaderSource(
+            shader,
+            source
+        );
+
+        gl.compileShader(shader);
+
+        if (!gl.getShaderParameter(
+            shader,
+            gl.COMPILE_STATUS
+        )) {
+            console.error(
+                gl.getShaderInfoLog(shader)
+            );
+
+            gl.deleteShader(shader);
+            return null;
+        }
+
+        return shader;
+    }
+
+    const vertexShader =
+        createShader(
+            gl.VERTEX_SHADER,
+            vertexSource
+        );
+
+    const fragmentShader =
+        createShader(
+            gl.FRAGMENT_SHADER,
+            fragmentSource
+        );
+
+    if (!vertexShader || !fragmentShader) {
+        canvas.remove();
+        return;
+    }
+
+    const program = gl.createProgram();
+
+    gl.attachShader(
+        program,
+        vertexShader
+    );
+
+    gl.attachShader(
+        program,
+        fragmentShader
+    );
+
+    gl.linkProgram(program);
+
+    if (!gl.getProgramParameter(
+        program,
+        gl.LINK_STATUS
+    )) {
+        console.error(
+            gl.getProgramInfoLog(program)
+        );
+
+        canvas.remove();
+        return;
+    }
+
+    const vertices = new Float32Array([
+        -1, -1,
+         1, -1,
+        -1,  1,
+        -1,  1,
+         1, -1,
+         1,  1
+    ]);
+
+    const buffer = gl.createBuffer();
+
+    gl.bindBuffer(
+        gl.ARRAY_BUFFER,
+        buffer
+    );
+
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        vertices,
+        gl.STATIC_DRAW
+    );
+
+    const positionLocation =
+        gl.getAttribLocation(
+            program,
+            'position'
+        );
+
+    gl.enableVertexAttribArray(
+        positionLocation
+    );
+
+    gl.vertexAttribPointer(
+        positionLocation,
+        2,
+        gl.FLOAT,
+        false,
+        0,
+        0
+    );
+
+    const timeLocation =
+        gl.getUniformLocation(
+            program,
+            'uTime'
+        );
+
+    const resolutionLocation =
+        gl.getUniformLocation(
+            program,
+            'uResolution'
+        );
+
+    const color1Location =
+        gl.getUniformLocation(
+            program,
+            'uColor1'
+        );
+
+    const color2Location =
+        gl.getUniformLocation(
+            program,
+            'uColor2'
+        );
+
+    const color3Location =
+        gl.getUniformLocation(
+            program,
+            'uColor3'
+        );
+
     let animationFrame = null;
     let resizeTimeout = null;
+    let startTime = performance.now();
 
     function resize() {
-        if (!media.matches) return;
+        const rect = section.getBoundingClientRect();
+        const width = Math.max(rect.width, 1);
+        const height = Math.max(rect.height, 1);
 
-        const width = Math.max(container.getBoundingClientRect().width, 1);
-        const height = Math.max(container.getBoundingClientRect().height, 1);
-        const aspect = width / height;
-        const viewHeight = 10;
-        const viewWidth = viewHeight * aspect;
+        const pixelRatio =
+            Math.min(
+                window.devicePixelRatio || 1,
+                1.25
+            );
 
-        camera.left = -viewWidth / 2;
-        camera.right = viewWidth / 2;
-        camera.top = viewHeight / 2;
-        camera.bottom = -viewHeight / 2;
-        camera.updateProjectionMatrix();
+        canvas.width =
+            Math.floor(
+                width * pixelRatio
+            );
 
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-        renderer.setSize(width, height, false);
+        canvas.height =
+            Math.floor(
+                height * pixelRatio
+            );
 
-        if (!model) return;
+        gl.viewport(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
 
-        const maxWidth = viewWidth;
-        const maxHeight = viewHeight * 0.9;
+        gl.useProgram(program);
 
-        const widthScale = maxWidth / Math.max(modelSize.x, 0.001);
-        const heightScale = maxHeight / Math.max(modelSize.y, 0.001);
+        gl.uniform2f(
+            resolutionLocation,
+            canvas.width,
+            canvas.height
+        );
 
-        modelRoot.scale.setScalar(Math.min(widthScale, heightScale));
-    }
+        gl.uniform3fv(
+            color1Location,
+            color1
+        );
 
-    function setupModel(gltf) {
-        model = gltf.scene;
-        model.updateMatrixWorld(true);
+        gl.uniform3fv(
+            color2Location,
+            color2
+        );
 
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-
-        modelSize = box.getSize(new THREE.Vector3());
-        model.position.sub(center);
-
-        model.traverse((node) => {
-            if (!node.isMesh) return;
-
-            const material = Array.isArray(node.material)
-                ? node.material.map((material) => {
-                    const clone = material.clone();
-                    clone.color.set(window.siteColors.accent);
-                    return clone;
-                })
-                : node.material.clone();
-
-            if (!Array.isArray(material)) {
-                material.color.set(window.siteColors.accent);
-            }
-
-            node.material = material;
-
-            meshes.push({
-                'mesh': node,
-                'position': node.position.clone(),
-                'rotation': node.rotation.clone(),
-                'offset': new THREE.Vector3(),
-                'velocity': new THREE.Vector3(),
-                'rotationOffset': new THREE.Vector3(),
-                'rotationVelocity': new THREE.Vector3()
-            });
-        });
-
-        modelRoot.add(model);
-        loaded = true;
-        resize();
-    }
-
-    function updateMeshes(time) {
-        mouse.current.x += (mouse.target.x - mouse.current.x) * 0.05;
-        mouse.current.y += (mouse.target.y - mouse.current.y) * 0.05;
-
-        meshes.forEach((data) => {
-            const mesh = data.mesh;
-
-            const offsetX = mouse.current.x * 0.35;
-            const offsetY = mouse.current.y * 0.35;
-
-            mesh.position.x =
-                data.position.x +
-                offsetX +
-                Math.sin(time * 0.8) * 0.025;
-
-            mesh.position.y =
-                data.position.y -
-                offsetY +
-                Math.sin(time * 0.9) * 0.08;
-
-            mesh.rotation.x =
-                data.rotation.x +
-                mouse.current.y * 0.12;
-
-            mesh.rotation.y =
-                data.rotation.y +
-                mouse.current.x * 0.12;
-
-            mesh.rotation.z =
-                data.rotation.z +
-                Math.sin(time * 0.6) * 0.025;
-        });
+        gl.uniform3fv(
+            color3Location,
+            color3
+        );
     }
 
     function animate(time) {
-        if (!media.matches) {
-            animationFrame = null;
-            return;
-        }
+        animationFrame =
+            requestAnimationFrame(
+                animate
+            );
 
-        animationFrame = requestAnimationFrame(animate);
+        gl.useProgram(
+            program
+        );
 
-        if (!loaded) return;
+        gl.uniform1f(
+            timeLocation,
+            (time - startTime) *
+            0.001
+        );
 
-        updateMeshes(time * 0.001);
-        renderer.render(scene, camera);
+        gl.drawArrays(
+            gl.TRIANGLES,
+            0,
+            6
+        );
     }
 
     function startRendering() {
-        if (!media.matches || animationFrame !== null) return;
-        animationFrame = requestAnimationFrame(animate);
+        if (animationFrame !== null) return;
+
+        canvas.style.display =
+            'block';
+
         resize();
+
+        animationFrame =
+            requestAnimationFrame(
+                animate
+            );
     }
 
     function stopRendering() {
         if (animationFrame !== null) {
-            cancelAnimationFrame(animationFrame);
+            cancelAnimationFrame(
+                animationFrame
+            );
+
             animationFrame = null;
         }
 
-        renderer.clear();
-        renderer.domElement.style.display = 'none';
+        gl.clearColor(
+            0,
+            0,
+            0,
+            0
+        );
+
+        gl.clear(
+            gl.COLOR_BUFFER_BIT
+        );
+
+        canvas.style.display =
+            'none';
     }
 
     function handleBreakpointChange() {
-        if (media.matches) {
-            renderer.domElement.style.display = 'block';
-            startRendering();
-        } else {
-            stopRendering();
-        }
+        startRendering();
     }
 
-    container.parentElement.addEventListener('pointermove', (event) => {
-        if (!media.matches) return;
+    const resizeObserver =
+        new ResizeObserver(
+            resize
+        );
 
-        const rect = container.getBoundingClientRect();
+    resizeObserver.observe(
+        section
+    );
 
-        mouse.target.x =
-            ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    window.addEventListener(
+        'resize',
+        () => {
+            clearTimeout(
+                resizeTimeout
+            );
 
-        mouse.target.y =
-            ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-    });
-
-    container.parentElement.addEventListener('pointerleave', () => {
-        mouse.target.set(0, 0);
-    });
-
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(container);
-
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            if (media.matches) {
-                resize();
-            }
-        }, 100);
-    });
-
-    media.addEventListener('change', handleBreakpointChange);
-
-    const loader = new GLTFLoader();
-
-    loader.load(
-        '/src/res/3d/trumpet.glb',
-        (gltf) => {
-            setupModel(gltf);
-        },
-        undefined,
-        (error) => {
-            console.error('Three.js GLB failed to load:', error);
+            resizeTimeout =
+                setTimeout(
+                    () => {
+                        resize();
+                    },
+                    100
+                );
         }
     );
 
-    resize();
     startRendering();
 }
 //========================================================================================

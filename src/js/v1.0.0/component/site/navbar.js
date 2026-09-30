@@ -1,9 +1,9 @@
 export function initNavbar() {
     const $navbarContainer = $("#navbarContainer");
     if (!$navbarContainer.length) return;
-    
+
     $navbarContainer.html(`
-        <div class="select-none py-4 bg-black/0 backdrop-blur-md text-black"> 
+        <div id="navbarBackground" class="select-none py-4 bg-black/0 text-black"> 
             <div id="navbar" class="flex flex-row justify-between items-center w-full h-full page-container">
                 <div class="text-5xl font-medium font-qahiri">BW</div>
                 <div id="navbarLinks" class="text-lg font-bold items-center flex-row gap-5 xl:gap-10 hidden md:flex">
@@ -22,8 +22,11 @@ export function initNavbar() {
     `);
 
     const $navbar = $("#navbar");
+    const $navbarBackground = $("#navbarBackground");
     const $sidemenu = $("#sidemenu");
+    const scrollContainer = $("#body").parent()[0];
     if (!$navbar.length || !$sidemenu.length) return;
+
     let navbarIsDark = false;
     let ticking = false;
     let menuOpen = false;
@@ -46,6 +49,11 @@ export function initNavbar() {
         navbarIsDark = shouldBeDark;
         $navbar.toggleClass("text-white", shouldBeDark);
         $navbar.toggleClass("text-black", !shouldBeDark);
+    }
+
+    function updateNavbarBlur() {
+        if (!$navbarBackground.length || !scrollContainer) return;
+        $navbarBackground.toggleClass("backdrop-blur-md", scrollContainer.scrollTop > 10);
     }
 
     function requestNavbarUpdate() {
@@ -226,6 +234,8 @@ export function initNavbar() {
 
     $(window).on("resize", function () {
         requestNavbarUpdate();
+        updateNavbarBlur();
+
         if (window.innerWidth >= 768) {
             $mobileMenu.css({
                 "pointer-events": "none",
@@ -236,10 +246,20 @@ export function initNavbar() {
             menuAnimating = false;
             return;
         }
+
         if (menuOpen && !menuAnimating) setMenuWave(1, "open");
     });
 
-    document.addEventListener("scroll", requestNavbarUpdate, true);
-    $(window).on("resize", requestNavbarUpdate);
+    document.addEventListener("scroll", () => {
+        requestNavbarUpdate();
+        updateNavbarBlur();
+    }, true);
+
+    $(window).on("resize", () => {
+        requestNavbarUpdate();
+        updateNavbarBlur();
+    });
+
+    updateNavbarBlur();
     requestNavbarUpdate();
 }

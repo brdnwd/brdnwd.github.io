@@ -1,3 +1,4 @@
+//TODO: this is still janky rework
 export function initSectionSnap() {
     const body = document.querySelector('#body');
     if (!body) return;
