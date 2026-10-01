@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-01T04:52:05.080Z",
+  "updatedAt": "2026-10-01T12:42:31.916Z",
   "repository": {
     "name": "brdnwd.github.io",
     "fullName": "brdnwd/brdnwd.github.io",
@@ -44,26 +44,6 @@
       "additions": 554,
       "deletions": 240,
       "changes": 794
-    },
-    {
-      "sha": "ad2c1b6564e4c44c5ac9fe3924e79b4162565fe0",
-      "shortSha": "ad2c1b6",
-      "message": "Merge branch 'main' of https://github.com/brdnwd/brdnwd.github.io",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/ad2c1b6564e4c44c5ac9fe3924e79b4162565fe0",
-      "date": "2026-09-30T05:18:42Z",
-      "additions": 28,
-      "deletions": 38,
-      "changes": 66
-    },
-    {
-      "sha": "8eb902b692b34655701a1d3e59d79db639ab4e98",
-      "shortSha": "8eb902b",
-      "message": "oooh 3d stuff :)",
-      "url": "https://github.com/brdnwd/brdnwd.github.io/commit/8eb902b692b34655701a1d3e59d79db639ab4e98",
-      "date": "2026-09-30T05:18:39Z",
-      "additions": 987,
-      "deletions": 33,
-      "changes": 1020
     }
   ],
   "repositories": {
