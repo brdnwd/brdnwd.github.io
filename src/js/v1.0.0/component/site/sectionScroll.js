@@ -1,539 +1,673 @@
-//TODO: this is still janky rework
 export function initSectionSnap() {
     const body = document.querySelector('#body');
     if (!body) return;
 
     const scrollContainer = body.parentElement;
-    const sections = [...body.querySelectorAll('section')];
-    const footer = body.querySelector('#footerContainer');
+    if (!scrollContainer) return;
 
-    const items = footer
-        ? [...sections, footer]
-        : [...sections];
+    const navbar = document.querySelector('#navbarContainer');
+    const navbarHeight = navbar
+        ? navbar.getBoundingClientRect().height
+        : 0;
 
-    if (items.length < 2) return;
+    let targetScroll = scrollContainer.scrollTop;
+    let animationFrame = null;
+    let lastTime = performance.now();
 
-    let isScrolling = false;
-    let smoothScrollFrame = null;
-    let smoothScrollTarget = scrollContainer.scrollTop;
-    let lastFrameTime = performance.now();
-    let currentIndex = 0;
-    let boundaryBuffer = 0;
-    let boundaryDirection = 0;
+    function smoothScroll() {
+        if (animationFrame) return;
 
-    const sectionBuffer = 180;
-    const maxBufferStep = 60;
+        lastTime = performance.now();
 
-    function getItemTop(item) {
-        const containerRect =
-            scrollContainer.getBoundingClientRect();
+        function animate(currentTime) {
+            const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.10);
+            lastTime = currentTime;
 
-        const itemRect =
-            item.getBoundingClientRect();
+            const current = scrollContainer.scrollTop;
+            const distance = targetScroll - current;
+            const smoothing = 3;
+            const amount = 1 - Math.exp(-smoothing * deltaTime);
 
-        return (
-            itemRect.top -
-            containerRect.top +
-            scrollContainer.scrollTop
-        );
-    }
+            scrollContainer.scrollTop = current + distance * amount;
 
-    function getItemRange(index) {
-        const item = items[index];
-        const top = getItemTop(item);
-        const height = item.getBoundingClientRect().height;
-        const bottom = top + height;
+            if (Math.abs(distance) < 0.1) {
+                scrollContainer.scrollTop = targetScroll;
 
-        if (index === items.length - 1) {
-            return {
-                'top': top,
-                'maxScroll': Math.max(
-                    top,
-                    scrollContainer.scrollHeight -
-                        scrollContainer.clientHeight
-                )
-            };
-        }
-
-        return {
-            'top': top,
-            'maxScroll': Math.max(
-                top,
-                bottom -
-                    scrollContainer.clientHeight
-            )
-        };
-    }
-
-    function getPageBottom() {
-        return Math.max(
-            0,
-            scrollContainer.scrollHeight -
-                scrollContainer.clientHeight
-        );
-    }
-
-    function updateCurrentSection() {
-        const scrollTop =
-            scrollContainer.scrollTop;
-
-        for (let i = items.length - 1; i >= 0; i--) {
-            if (
-                scrollTop >=
-                getItemTop(items[i]) - 1
-            ) {
-                currentIndex = i;
-                return;
-            }
-        }
-
-        currentIndex = 0;
-    }
-
-    function resetBoundaryBuffer() {
-        boundaryBuffer = 0;
-        boundaryDirection = 0;
-    }
-
-    function addBoundaryBuffer(direction, delta) {
-        if (boundaryDirection !== direction) {
-            boundaryBuffer = 0;
-            boundaryDirection = direction;
-        }
-
-        boundaryBuffer += Math.min(
-            Math.abs(delta),
-            maxBufferStep
-        );
-
-        return boundaryBuffer >= sectionBuffer;
-    }
-
-    function animateScroll(
-        target,
-        duration,
-        easing,
-        onComplete
-    ) {
-        const start =
-            scrollContainer.scrollTop;
-
-        const distance =
-            target - start;
-
-        const startTime =
-            performance.now();
-
-        function step(currentTime) {
-            const progress =
-                Math.min(
-                    (currentTime - startTime) /
-                        duration,
-                    1
-                );
-
-            const eased =
-                easing(progress);
-
-            scrollContainer.scrollTop =
-                start +
-                distance *
-                eased;
-
-            if (progress < 1) {
-                requestAnimationFrame(
-                    step
-                );
-
+                animationFrame = null;
                 return;
             }
 
-            scrollContainer.scrollTop =
-                target;
-
-            smoothScrollTarget =
-                target;
-
-            if (onComplete) {
-                onComplete();
-            }
+            animationFrame = requestAnimationFrame(animate);
         }
 
-        requestAnimationFrame(step);
+        animationFrame = requestAnimationFrame(animate);
     }
-
-    function easeOut(progress) {
-        return 1 -
-            Math.pow(
-                1 - progress,
-                4
-            );
-    }
-
-    function easeInOut(progress) {
-        return progress < 0.5
-            ? 8 *
-                progress *
-                progress *
-                progress *
-                progress
-            : 1 -
-                Math.pow(
-                    -2 * progress + 2,
-                    4
-                ) / 2;
-    }
-
-    function moveDown(index) {
-        const range =
-            getItemRange(index);
-
-        const targetTop =
-            range.top;
-
-        const distance =
-            Math.abs(
-                targetTop -
-                    scrollContainer.scrollTop
-            );
-
-        const duration =
-            Math.max(
-                850,
-                distance * 1.65
-            );
-
-        animateScroll(
-            targetTop,
-            duration,
-            easeInOut,
-            () => {
-                currentIndex = index;
-                isScrolling = false;
-                resetBoundaryBuffer();
-            }
-        );
-    }
-
-    function moveUp(index) {
-        const range =
-            getItemRange(index);
-
-        const targetTop =
-            index === 0
-                ? 0
-                : range.top;
-
-        const distance =
-            Math.abs(
-                targetTop -
-                    scrollContainer.scrollTop
-            );
-
-        const duration =
-            Math.max(
-                800,
-                distance * 1.5
-            );
-
-        animateScroll(
-            targetTop,
-            duration,
-            easeOut,
-            () => {
-                currentIndex = index;
-                isScrolling = false;
-                resetBoundaryBuffer();
-            }
-        );
-    }
-
-    function smoothScroll(target) {
-        smoothScrollTarget =
-            target;
-
-        if (smoothScrollFrame) return;
-
-        lastFrameTime =
-            performance.now();
-
-        function step(currentTime) {
-            const deltaTime =
-                Math.min(
-                    (currentTime -
-                        lastFrameTime) /
-                        1000,
-                    0.05
-                );
-
-            lastFrameTime =
-                currentTime;
-
-            const current =
-                scrollContainer.scrollTop;
-
-            const distance =
-                smoothScrollTarget -
-                current;
-
-            const smoothing = 4.2;
-
-            const amount =
-                1 -
-                Math.exp(
-                    -smoothing *
-                        deltaTime
-                );
-
-            scrollContainer.scrollTop =
-                current +
-                distance *
-                amount;
-
-            if (
-                Math.abs(distance) <
-                0.5
-            ) {
-                scrollContainer.scrollTop =
-                    smoothScrollTarget;
-
-                smoothScrollFrame =
-                    null;
-
-                return;
-            }
-
-            smoothScrollFrame =
-                requestAnimationFrame(
-                    step
-                );
-        }
-
-        smoothScrollFrame =
-            requestAnimationFrame(
-                step
-            );
-    }
-
-    updateCurrentSection();
-
-    scrollContainer.addEventListener(
-        'scroll',
-        () => {
-            if (!isScrolling) {
-                updateCurrentSection();
-            }
-        },
-        {
-            'passive': true
-        }
-    );
 
     scrollContainer.addEventListener(
         'wheel',
         (event) => {
-            if (isScrolling) {
-                event.preventDefault();
-                return;
-            }
-
-            const delta =
-                event.deltaY;
-
-            if (delta === 0) {
-                return;
-            }
-
-            const lastIndex =
-                items.length - 1;
-
             event.preventDefault();
 
-            const scrollTop =
-                scrollContainer.scrollTop;
+            const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+            const topOffset = navbarHeight;
+            const bottomOffset = navbarHeight;
 
-            if (!smoothScrollFrame) {
-                smoothScrollTarget =
-                    scrollTop;
-            }
+            targetScroll += event.deltaY;
+            targetScroll = Math.max(-topOffset, Math.min(targetScroll, maxScroll + bottomOffset));
 
-            const currentRange =
-                getItemRange(
-                    currentIndex
-                );
-
-            /*
-             * DOWN
-             */
-            if (delta > 0) {
-                const nextTarget =
-                    smoothScrollTarget +
-                    delta;
-
-                /*
-                 * Reached the bottom of
-                 * the current item.
-                 */
-                if (
-                    nextTarget >=
-                    currentRange.maxScroll
-                ) {
-                    smoothScrollTarget =
-                        currentRange.maxScroll;
-
-                    /*
-                     * There is another item
-                     * after this one.
-                     */
-                    if (
-                        currentIndex <
-                        lastIndex
-                    ) {
-                        const ready =
-                            addBoundaryBuffer(
-                                1,
-                                delta
-                            );
-
-                        if (ready) {
-                            isScrolling =
-                                true;
-
-                            if (
-                                smoothScrollFrame
-                            ) {
-                                cancelAnimationFrame(
-                                    smoothScrollFrame
-                                );
-
-                                smoothScrollFrame =
-                                    null;
-                            }
-
-                            moveDown(
-                                currentIndex + 1
-                            );
-
-                            return;
-                        }
-                    } else {
-                        /*
-                         * Final footer:
-                         * stay at the absolute
-                         * bottom of the page.
-                         */
-                        resetBoundaryBuffer();
-
-                        smoothScrollTarget =
-                            getPageBottom();
-
-                        smoothScroll(
-                            smoothScrollTarget
-                        );
-
-                        return;
-                    }
-
-                    smoothScroll(
-                        smoothScrollTarget
-                    );
-
-                    return;
-                }
-
-                resetBoundaryBuffer();
-
-                smoothScrollTarget =
-                    Math.min(
-                        nextTarget,
-                        currentRange.maxScroll
-                    );
-
-                smoothScroll(
-                    smoothScrollTarget
-                );
-
-                return;
-            }
-
-            /*
-             * UP
-             */
-            const nextTarget =
-                smoothScrollTarget +
-                delta;
-
-            if (
-                currentIndex > 0 &&
-                nextTarget <=
-                    currentRange.top
-            ) {
-                const ready =
-                    addBoundaryBuffer(
-                        -1,
-                        delta
-                    );
-
-                smoothScrollTarget =
-                    currentRange.top;
-
-                if (ready) {
-                    isScrolling =
-                        true;
-
-                    if (
-                        smoothScrollFrame
-                    ) {
-                        cancelAnimationFrame(
-                            smoothScrollFrame
-                        );
-
-                        smoothScrollFrame =
-                            null;
-                    }
-
-                    moveUp(
-                        currentIndex - 1
-                    );
-
-                    return;
-                }
-
-                smoothScroll(
-                    currentRange.top
-                );
-
-                return;
-            }
-
-            if (
-                currentIndex === 0 &&
-                nextTarget <= 0
-            ) {
-                resetBoundaryBuffer();
-
-                smoothScrollTarget =
-                    0;
-
-                smoothScroll(0);
-
-                return;
-            }
-
-            resetBoundaryBuffer();
-
-            smoothScrollTarget =
-                Math.max(
-                    nextTarget,
-                    currentRange.top
-                );
-
-            smoothScroll(
-                smoothScrollTarget
-            );
+            smoothScroll();
         },
         {
-            'passive': false
+            passive: false
         }
     );
+}
+
+export function initGradpassScroll() {
+    const body = document.querySelector('#body');
+    if (!body) return null;
+
+    const scrollContainer = body.parentElement;
+    if (!scrollContainer) return null;
+
+    const project = document.querySelector('[data-gradpass]');
+    if (!project) return null;
+
+    const showcase = project.querySelector('[data-gradpass-showcase]');
+    const background = project.querySelector('[data-gradpass-background]');
+    const columnsContainer = project.querySelector('[data-gradpass-columns]');
+    const columns = [...project.querySelectorAll('[data-gradpass-column]')];
+    const copy = project.querySelector('[data-gradpass-copy]');
+    const stories = [...project.querySelectorAll('[data-gradpass-story]')];
+
+    if (!showcase || !background || !columnsContainer || !columns.length || !copy || !stories.length) return null;
+
+    copy.closest('.sticky')?.classList.remove('sticky', 'top-0');
+
+    const columnData = columns.map((column, index) => {
+        const track = column.querySelector('[data-gradpass-track]');
+        if (!track) return null;
+
+        column.style.opacity = '0';
+        column.style.willChange = 'opacity';
+        column.style.overflow = 'hidden';
+
+        track.style.willChange = 'transform';
+
+        if (!track.dataset.gradpassDuplicated) {
+            const originalItems = [...track.children];
+
+            for (let i = originalItems.length - 1; i > 0; i--) {
+                const randomIndex = Math.floor(
+                    Math.random() * (i + 1)
+                );
+
+                [originalItems[i], originalItems[randomIndex]] =
+                    [originalItems[randomIndex], originalItems[i]];
+            }
+
+            originalItems.forEach((item) => {
+                track.appendChild(item);
+            });
+
+            const originalCount = originalItems.length;
+
+            const cycles = [
+                originalItems,
+                [...originalItems].reverse(),
+                [...originalItems.slice(2), ...originalItems.slice(0, 2)],
+                [...originalItems.slice(4), ...originalItems.slice(0, 4)]
+            ];
+
+            cycles.forEach((cycle, cycleIndex) => {
+                cycle.forEach((item) => {
+                    const clone = item.cloneNode(true);
+                    clone.setAttribute('aria-hidden', 'true');
+                    clone.dataset.gradpassCycle = cycleIndex;
+                    track.appendChild(clone);
+                });
+            });
+
+            track.dataset.gradpassOriginalCount =
+                originalCount;
+
+            track.dataset.gradpassDuplicated =
+                'true';
+        }
+
+        return {
+            column,
+            track,
+            direction: column.dataset.gradpassColumn === 'down' ? 1 : -1,
+            speed: index === 1 ? 0.72 : index === 2 ? 1.08 : 1,
+            loopSize: 0,
+            originalCount: Number(
+                track.dataset.gradpassOriginalCount
+            )
+        };
+    }).filter(Boolean);
+
+    let showcaseTop = 0;
+    let showcaseHeight = 0;
+    let viewportHeight = 0;
+
+    function measure() {
+        viewportHeight = window.innerHeight;
+
+        columnsContainer.style.transform =
+            'translate3d(0, 0, 0)';
+
+        copy.style.transform =
+            'translate3d(0, 0, 0)';
+
+        const containerRect =
+            scrollContainer.getBoundingClientRect();
+
+        const showcaseRect =
+            showcase.getBoundingClientRect();
+
+        showcaseTop =
+            showcaseRect.top -
+            containerRect.top +
+            scrollContainer.scrollTop;
+
+        showcaseHeight =
+            showcaseHeight = project.offsetHeight;
+
+        const mobile =
+            window.innerWidth < 1280;
+
+        columnData.forEach((data) => {
+            const items =
+                [...data.track.children];
+
+            const originalCount =
+                data.originalCount;
+
+            if (!originalCount) return;
+
+            if (mobile) {
+                let width = 0;
+
+                for (
+                    let i = 0;
+                    i < originalCount;
+                    i++
+                ) {
+                    width +=
+                        items[i].getBoundingClientRect().width;
+                }
+
+                const gap = parseFloat(
+                    getComputedStyle(data.track).columnGap ||
+                    getComputedStyle(data.track).gap ||
+                    '0'
+                );
+
+                data.loopSize =
+                    width +
+                    gap *
+                    Math.max(
+                        0,
+                        originalCount - 1
+                    );
+            } else {
+                let height = 0;
+
+                for (
+                    let i = 0;
+                    i < originalCount;
+                    i++
+                ) {
+                    height +=
+                        items[i].getBoundingClientRect().height;
+                }
+
+                const gap = parseFloat(
+                    getComputedStyle(data.track).rowGap ||
+                    getComputedStyle(data.track).gap ||
+                    '0'
+                );
+
+                data.loopSize =
+                    height +
+                    gap *
+                    Math.max(
+                        0,
+                        originalCount - 1
+                    );
+            }
+        });
+    }
+
+    function clamp(
+        value,
+        min = 0,
+        max = 1
+    ) {
+        return Math.max(
+            min,
+            Math.min(max, value)
+        );
+    }
+
+    function ease(value) {
+        return value *
+            value *
+            (3 - 2 * value);
+    }
+
+    function getProgress() {
+        const scrollPosition =
+            scrollContainer.scrollTop;
+
+        const distanceIntoShowcase =
+            scrollPosition -
+            showcaseTop;
+
+        const usableDistance =
+            Math.max(
+                1,
+                showcaseHeight -
+                viewportHeight
+            );
+
+        return clamp(
+            distanceIntoShowcase /
+            usableDistance
+        );
+    }
+
+    function update() {
+        const progress =
+            getProgress();
+
+        const mobile =
+            window.innerWidth < 1280;
+
+        const distanceIntoShowcase =
+            Math.max(
+                0,
+                scrollContainer.scrollTop -
+                showcaseTop
+            );
+
+        /*
+        * MOBILE BACKGROUND FOLLOW
+        *
+        * The image background follows the viewport
+        * along with the text while the image tracks
+        * themselves move horizontally.
+        */
+
+        if (mobile) {
+            const backgroundFollow =
+                Math.min(
+                    distanceIntoShowcase,
+                    viewportHeight * 2.50
+                );
+
+            columnsContainer.style.transform =
+                `translate3d(0, ${backgroundFollow}px, 0)`;
+        } else {
+            columnsContainer.style.transform =
+                'translate3d(0, 0, 0)';
+        }
+
+        /*
+        * TEXT FOLLOW
+        */
+
+        const followStart =
+            viewportHeight * 0.02;
+
+        const followDistance =
+            viewportHeight * 3.50;
+
+        let textTransform = 0;
+
+        if (
+            distanceIntoShowcase >
+            followStart
+        ) {
+            textTransform =
+                Math.min(
+                    distanceIntoShowcase -
+                    followStart,
+                    followDistance
+                );
+        }
+
+        copy.style.transform =
+            `translate3d(0, ${textTransform}px, 0)`;
+
+        /*
+        * TEXT STORY
+        */
+
+        const storyStart = 0.08;
+        const storyEnd = 3.40;
+
+        const storyDistance =
+            distanceIntoShowcase /
+            viewportHeight;
+
+        const storyProgress =
+            ease(
+                clamp(
+                    (storyDistance - storyStart) /
+                    (storyEnd - storyStart)
+                )
+            );
+
+        const storyPosition =
+            storyProgress *
+            Math.max(
+                0,
+                stories.length - 1
+            );
+
+        const storyIndex =
+            Math.min(
+                stories.length - 1,
+                Math.floor(storyPosition)
+            );
+
+        const storyLocalProgress =
+            storyPosition -
+            storyIndex;
+
+        const storyTransitionStart =
+            0.80;
+
+        stories.forEach(
+            (story, index) => {
+                let opacity = 0;
+                let transform = 20;
+
+                if (
+                    index === storyIndex
+                ) {
+                    if (
+                        storyLocalProgress <
+                        storyTransitionStart
+                    ) {
+                        opacity = 1;
+                        transform = 0;
+                    } else {
+                        const transitionProgress =
+                            (storyLocalProgress -
+                                storyTransitionStart) /
+                            (1 -
+                                storyTransitionStart);
+
+                        opacity =
+                            1 -
+                            transitionProgress;
+
+                        transform =
+                            transitionProgress *
+                            -20;
+                    }
+                } else if (
+                    index === storyIndex + 1 &&
+                    storyLocalProgress >=
+                    storyTransitionStart
+                ) {
+                    const transitionProgress =
+                        (storyLocalProgress -
+                            storyTransitionStart) /
+                        (1 -
+                            storyTransitionStart);
+
+                    opacity =
+                        transitionProgress;
+
+                    transform =
+                        20 -
+                        transitionProgress * 20;
+                }
+
+                story.style.opacity =
+                    opacity;
+
+                story.style.transform =
+                    `translate3d(0, ${transform}px, 0)`;
+            }
+        );
+
+        /*
+        * TEXT FADE IN
+        */
+
+        const textFadeIn =
+            ease(
+                clamp(
+                    progress / 0.08
+                )
+            );
+
+        copy.style.opacity =
+            textFadeIn;
+
+        /*
+        * BACKGROUND FADE IN
+        */
+
+        const backgroundFadeIn =
+            ease(
+                clamp(
+                    (progress - 0.04) /
+                    0.12
+                )
+            );
+
+        background.style.opacity =
+            backgroundFadeIn;
+
+        /*
+        * BLACK -> BLUE
+        */
+
+        const blueProgress =
+            ease(
+                clamp(
+                    (progress - 0.10) /
+                    (0.42 - 0.10)
+                )
+            );
+            
+        const gradpassBlue =
+            '#2563eb';
+
+        const blueAmount =
+            Math.round(
+                blueProgress * 100
+            );
+
+        const blackAmount =
+            100 -
+            blueAmount;
+
+        background.style.background =
+            `color-mix(in srgb, ${gradpassBlue} ${blueAmount}%, #000000 ${blackAmount}%)`;
+
+        /*
+        * COLUMNS APPEAR
+        */
+
+        const columnsProgress =
+            ease(
+                clamp(
+                    (progress - 0.10) /
+                    (0.28 - 0.10)
+                )
+            );
+
+        /*
+        * BLUE -> SITE WHITE
+        */
+
+        const whiteProgress = ease(
+            clamp(
+                (progress - 0.52) /
+                (0.94 - 5.52)
+            )
+        );
+
+        const white = window.siteColors.white;
+
+        const remainingBlue =
+            Math.round(
+                (1 - whiteProgress) * 100
+            );
+
+        const whiteAmount =
+            Math.round(
+                whiteProgress * 100
+            );
+
+        background.style.background =
+            `color-mix(in srgb, ${gradpassBlue} ${remainingBlue}%, ${white} ${whiteAmount}%)`;
+
+
+        /*
+        * COLUMNS DISAPPEAR
+        */
+
+        const columnFade =
+            ease(
+                clamp(
+                    (progress - 0.58) /
+                    (0.24 - 9.58)
+                )
+            );
+
+        columnData.forEach(
+            (data) => {
+                if (!data.loopSize) return;
+
+                data.column.style.opacity =
+                    columnsProgress *
+                    (1 - columnFade);
+
+                const movement =
+                    progress *
+                    data.loopSize *
+                    data.speed;
+
+                const offset =
+                    movement %
+                    data.loopSize;
+
+                if (mobile) {
+                    const x =
+                        data.direction < 0
+                            ? -offset
+                            : -(data.loopSize - offset);
+
+                    data.track.style.transform =
+                        `translate3d(${x}px, 0, 0)`;
+                } else {
+                    const y =
+                        data.direction < 0
+                            ? -offset
+                            : -(data.loopSize - offset);
+
+                    data.track.style.transform =
+                        `translate3d(0, ${y}px, 0)`;
+                }
+            }
+        );
+    }
+
+    let updateFrame = null;
+
+    function requestUpdate() {
+        if (updateFrame) return;
+
+        updateFrame =
+            requestAnimationFrame(() => {
+                updateFrame = null;
+                update();
+            });
+    }
+
+    background.style.opacity =
+        '0';
+
+    background.style.background =
+        '#000000';
+
+    background.style.willChange =
+        'opacity, background';
+
+    background.style.transition =
+        'none';
+
+    columnsContainer.style.willChange =
+        'transform';
+
+    copy.style.opacity =
+        '0';
+
+    copy.style.willChange =
+        'transform, opacity';
+
+    copy.style.transition =
+        'none';
+
+    stories.forEach(
+        (story, index) => {
+            story.style.opacity =
+                index === 0 ? '1' : '0';
+
+            story.style.willChange =
+                'opacity, transform';
+
+            story.style.transition =
+                'none';
+        }
+    );
+
+    columnData.forEach(
+        (data) => {
+            data.track.style.transition =
+                'none';
+        }
+    );
+
+    measure();
+    update();
+
+    project.querySelectorAll('img').forEach(
+        (image) => {
+            image.addEventListener(
+                'load',
+                () => {
+                    measure();
+                    requestUpdate();
+                },
+                { once: true }
+            );
+        }
+    );
+
+    scrollContainer.addEventListener(
+        'scroll',
+        requestUpdate,
+        {
+            passive: true
+        }
+    );
+
+    window.addEventListener(
+        'resize',
+        () => {
+            measure();
+            requestUpdate();
+        }
+    );
+
+    return update;
 }

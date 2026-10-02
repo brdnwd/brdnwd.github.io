@@ -27,8 +27,6 @@ export function initGrainGradient() {
         'position': 'absolute',
         'inset': '0',
         'z-index': '0',
-        'width': '100%',
-        'height': '100%',
         'display': 'block',
         'pointer-events': 'none',
         'filter': 'blur(12px)'
@@ -583,7 +581,7 @@ export function initPopupAnimations() {
     }, {
         'root': document.querySelector('#body')?.parentElement || null,
         'rootMargin': '0px',
-        'threshold': 0.01
+        'threshold': 0.15
     });
 
     elements.forEach((element) => {

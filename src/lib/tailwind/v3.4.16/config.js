@@ -5,33 +5,6 @@
 (async function () {
     "use strict";
 
-    /**
-     * Theme data for the entire website
-     */
-    var themes = { 
-        default: { 
-            "white": "#fff9f4", 
-            "black": "#06040e", 
-            "theme": "#3f3fc9", 
-            "accent": "#eaee1b",
-            "portraitHue": "0deg"
-        }, 
-        halloween: { 
-            "white": "#fff4e6", 
-            "black": "#100609", 
-            "theme": "#8a1ccc", 
-            "accent": "#94f752",
-            "portraitHue": "32deg"
-        }, 
-        christmas: { 
-            "white": "#fff9f4", 
-            "black": "#07110b", 
-            "theme": "#ce0235", 
-            "accent": "#12e7ae",
-            "portraitHue": "92deg"
-        }, 
-    };
-
     function hexToRgba(hex, alpha) {
         var value = hex.replace('#', '');
 
@@ -46,29 +19,15 @@
     /**
      * Apply theme data to the runtime colors
      */
-    var colors = (function () {
-        var date = new Date();
-        var month = date.getMonth() + 1;
-
-        // Halloween
-        if (month === 10) {
-            return themes.halloween;
-        }
-
-        // Christmas
-        if (month === 12) {
-            return themes.christmas;
-        }
-
-        // Default
-        return themes.default;
-    }());
+    var colors = {
+        "white": "#fff9f4", 
+        "black": "#06040e", 
+        "theme": "#3f3fc9", 
+        "accent": "#eaee1b",
+    }
 
     // For visualEffects.js
     window.siteColors = colors;
-
-    // Change image to match
-    document.documentElement.style.setProperty("--portrait-hue", colors.portraitHue);
     //==================================================================================================
 
 
@@ -79,6 +38,7 @@
      */
     var fonts = {
         valley: ["Valley Sans", "sans-serif"],
+        nunito: ["Nunito", "sans-serif"],
         cilantro: ["Cilantro Code Mono", "monospace"],
         qahiri: ["Qahiri", "sans-serif"]
     }
@@ -90,6 +50,40 @@
         function ({ addBase, addUtilities }) {
             // Font-sets
             addBase({
+                '@font-face': [
+                    //valley
+                    {
+                        'font-family': 'Valley Sans, sans-serif',
+                        'src': 'url("/src/res/font/ValleySans/static/ValleySans-VariableFont_wght.ttf") format("truetype")',
+                        'font-weight': '400',
+                        'font-style': 'normal',
+                        'font-display': 'swap',
+                    },
+                    //cilantro
+                    {
+                        'font-family': 'Cilantro Code Mono, monospace',
+                        'src': 'url("/src/res/font/Cilantro/static/CilantroCodeMono-Regular.ttf") format("truetype")',
+                        'font-weight': '400',
+                        'font-style': 'normal',
+                        'font-display': 'swap',
+                    },
+                    //qahiri
+                    {
+                        'font-family': 'Qahiri',
+                        'src': 'url("/src/res/font/Qahiri/static/Qahiri-Regular.ttf") format("truetype")',
+                        'font-weight': '400',
+                        'font-style': 'normal',
+                        'font-display': 'swap',
+                    },
+                    //nuntio
+                    {
+                        'font-family': 'Nunito',
+                        'src': 'url("/src/res/font/Nunito/static/Nunito-VariableFont_wght.ttf") format("truetype")',
+                        'font-weight': '400',
+                        'font-style': 'normal',
+                        'font-display': 'swap',
+                    },
+                ],
                 //cursor
                 'html': {
                     'cursor': 'url("/src/res/cursor/pointer.cur"), auto',
@@ -118,30 +112,6 @@
                 //bold
                 'b': {
                   'color': colors.theme,  
-                },
-                //valley
-                '@font-face': {
-                    'font-family': 'Valley Sans',
-                    'src': 'url("/src/res/font/ValleySans/static/ValleySans-VariableFont_wght.ttf") format("truetype")',
-                    'font-weight': '400',
-                    'font-style': 'normal',
-                    'font-display': 'swap',
-                },
-                //cilantro
-                '@font-face': {
-                    'font-family': 'Cilantro Code Mono',
-                    'src': 'url("/src/res/font/Cilantro/static/CilantroCodeMono-Regular.ttf") format("truetype")',
-                    'font-weight': '400',
-                    'font-style': 'normal',
-                    'font-display': 'swap',
-                },
-                //libre
-                '@font-face': {
-                    'font-family': 'Qahiri',
-                    'src': 'url("/src/res/font/Qahiri/static/Qahiri-Regular.ttf") format("truetype")',
-                    'font-weight': '400',
-                    'font-style': 'normal',
-                    'font-display': 'swap',
                 },
             });
             // CSS Classes
