@@ -1,25 +1,37 @@
 export function initGrainGradient() {
-    const section = document.querySelector('#body > section:first-of-type');
+    const section = document.querySelector('#content');
     if (!section || section.querySelector('#grainGradientCanvas')) return;
 
     const colors = window.siteColors;
     if (!colors) return;
 
+    const body = document.querySelector('#body');
+    if (!body) return;
+
+    const scrollContainer = body.parentElement;
+    if (!scrollContainer) return;
+
+    const navbar = document.querySelector('#navbarContainer');
+    const navbarHeight = navbar
+        ? navbar.getBoundingClientRect().height
+        : 0;
+
     function hexToRgb(hex) {
         const value = hex.replace('#', '');
 
         return [
-            parseInt(value.substring(0, 2), 16) / 200,
-            parseInt(value.substring(2, 4), 16) / 200,
-            parseInt(value.substring(4, 6), 16) / 200
+            parseInt(value.substring(0, 2), 16) / 240,
+            parseInt(value.substring(2, 4), 16) / 240,
+            parseInt(value.substring(4, 6), 16) / 240
         ];
     }
 
-    const color1 = hexToRgb(colors.theme);
-    const color2 = hexToRgb(colors.accent);
+    const color1 = hexToRgb(colors.accent);
+    const color2 = hexToRgb(colors.theme);
     const color3 = hexToRgb(colors.white);
 
     const canvas = document.createElement('canvas');
+
     canvas.id = 'grainGradientCanvas';
     canvas.className = 'bg-white/0';
 
@@ -27,6 +39,7 @@ export function initGrainGradient() {
         'position': 'absolute',
         'inset': '0',
         'z-index': '0',
+        'width': '100%',
         'display': 'block',
         'pointer-events': 'none',
         'filter': 'blur(12px)'
@@ -58,6 +71,8 @@ export function initGrainGradient() {
 
         uniform vec2 uResolution;
         uniform float uTime;
+        uniform float uScroll;
+
         uniform vec3 uColor1;
         uniform vec3 uColor2;
         uniform vec3 uColor3;
@@ -67,6 +82,7 @@ export function initGrainGradient() {
         float hash21(vec2 p) {
             p = fract(p * vec2(123.34, 345.45));
             p += dot(p, p + 34.345);
+
             return fract(p.x * p.y);
         }
 
@@ -93,10 +109,12 @@ export function initGrainGradient() {
             float amplitude = 0.5;
 
             value += noise(p) * amplitude;
+
             p = p * 2.0 + 13.17;
             amplitude *= 0.5;
 
             value += noise(p) * amplitude;
+
             p = p * 2.0 + 13.17;
             amplitude *= 0.5;
 
@@ -105,60 +123,138 @@ export function initGrainGradient() {
             return value;
         }
 
-        vec2 warp(vec2 p, float time) {
+        vec2 warp(
+            vec2 p,
+            float time,
+            float scroll
+        ) {
             vec2 q = p;
 
-            q += vec2(
-                fbm(p * 1.35 + time * 0.12),
-                fbm(p * 1.35 - time * 0.10)
-            ) * 1.5;
+            float warpStrength =
+                1.5 +
+                scroll * 2.8;
+
+            float scale =
+                1.35 +
+                scroll * 0.35;
 
             q += vec2(
-                sin(p.y * 2.2 + time * 0.22),
-                cos(p.x * 2.0 - time * 0.18)
-            ) * 0.28;
+                fbm(
+                    p * scale +
+                    time * 0.12
+                ),
+
+                fbm(
+                    p * scale -
+                    time * 0.10
+                )
+            ) * warpStrength;
+
+            q += vec2(
+                sin(
+                    p.y *
+                    (2.2 + scroll * 3.0) +
+                    time * 0.22
+                ),
+
+                cos(
+                    p.x *
+                    (2.0 + scroll * 2.5) -
+                    time * 0.18
+                )
+            ) *
+            (
+                0.28 +
+                scroll * 0.45
+            );
 
             return q;
         }
 
         void main() {
-            vec2 uv = gl_FragCoord.xy / uResolution.xy;
+            vec2 uv =
+                gl_FragCoord.xy /
+                uResolution.xy;
 
-            float aspect = uResolution.x / uResolution.y;
+            float aspect =
+                uResolution.x /
+                uResolution.y;
 
             vec2 p = uv - 0.5;
+
             p.x *= aspect;
+
+            /*
+             * Move the background progressively
+             * as the artificial page scrolls.
+             */
+            p.y += uScroll * 0.85;
 
             float time = uTime;
 
-            vec2 warped = warp(p * 1.25, time);
+            /*
+             * Scroll changes the scale and distortion.
+             */
+            vec2 warped =
+                warp(
+                    p *
+                    (1.25 + uScroll * 0.55),
 
-            float field1 = fbm(
-                warped * 1.05 +
-                vec2(
-                    time * 0.035,
-                    -time * 0.025
-                )
-            );
+                    time,
 
-            float field2 = fbm(
-                warped * 1.8 -
-                vec2(
-                    time * 0.025,
-                    time * 0.03
-                )
-            );
+                    uScroll
+                );
+
+            float field1 =
+                fbm(
+                    warped *
+                    (1.05 + uScroll * 0.5) +
+
+                    vec2(
+                        time * 0.035 +
+                        uScroll * 0.35,
+
+                        -time * 0.025 +
+                        uScroll * 0.8
+                    )
+                );
+
+            float field2 =
+                fbm(
+                    warped *
+                    (1.8 + uScroll * 0.75) -
+
+                    vec2(
+                        time * 0.025,
+
+                        time * 0.03 +
+                        uScroll * 0.65
+                    )
+                );
 
             float flow =
                 field1 * 0.7 +
                 field2 * 0.3;
 
-            float band = sin(
-                warped.x * 2.4 +
-                warped.y * 1.5 +
-                flow * 4.2 +
-                time * 0.12
-            );
+            /*
+             * Flowing bands become more pronounced
+             * further down the page.
+             */
+            float band =
+                sin(
+                    warped.x *
+                    (2.4 + uScroll * 2.5) +
+
+                    warped.y *
+                    (1.5 + uScroll * 1.5) +
+
+                    flow *
+                    (4.2 + uScroll * 4.0) +
+
+                    time * 0.12 +
+
+                    uScroll * 5.0
+                );
 
             band =
                 smoothstep(
@@ -174,42 +270,78 @@ export function initGrainGradient() {
                     flow
                 );
 
+            /*
+             * Gradually introduce more of the
+             * second theme color.
+             */
+            mix1 =
+                clamp(
+                    mix1 +
+                    uScroll * 0.25,
+
+                    0.0,
+                    1.0
+                );
+
             float accentField =
                 fbm(
-                    warped * 1.45 +
+                    warped *
+                    (1.45 + uScroll * 0.8) +
+
                     vec2(
-                        -time * 0.045,
-                        time * 0.035
+                        -time * 0.045 +
+                        uScroll * 0.5,
+
+                        time * 0.035 -
+                        uScroll * 0.35
                     )
                 );
 
             float accentField2 =
                 noise(
-                    warped * 2.2 +
+                    warped *
+                    (2.2 + uScroll * 1.2) +
+
                     vec2(
                         time * 0.025,
-                        -time * 0.02
+
+                        -time * 0.02 +
+                        uScroll * 0.5
                     )
                 );
 
+            /*
+             * Accent becomes stronger as the user
+             * moves further down the page.
+             */
             float accentAmount =
                 0.22 +
+
                 smoothstep(
                     0.28,
                     0.72,
                     accentField
-                ) * 0.42 +
+                ) *
+                (
+                    0.42 +
+                    uScroll * 0.25
+                ) +
+
                 smoothstep(
                     0.42,
                     0.78,
                     accentField2
-                ) * 0.18;
+                ) *
+                (
+                    0.18 +
+                    uScroll * 0.15
+                );
 
             accentAmount =
                 clamp(
                     accentAmount,
                     0.0,
-                    0.78
+                    0.95
                 );
 
             vec3 color =
@@ -226,6 +358,9 @@ export function initGrainGradient() {
                     accentAmount
                 );
 
+            /*
+             * Glow progressively increases.
+             */
             float glow =
                 smoothstep(
                     0.15,
@@ -236,8 +371,14 @@ export function initGrainGradient() {
             color +=
                 uColor3 *
                 glow *
-                0.16;
+                (
+                    0.16 +
+                    uScroll * 0.20
+                );
 
+            /*
+             * Grain.
+             */
             float grain =
                 hash21(
                     gl_FragCoord.xy +
@@ -245,14 +386,23 @@ export function initGrainGradient() {
                 );
 
             grain =
-                (grain - 0.5) *
-                0.055;
+                (
+                    grain -
+                    0.5
+                ) *
+                (
+                    0.055 +
+                    uScroll * 0.025
+                );
 
             color += grain;
 
             color =
                 pow(
-                    max(color, 0.0),
+                    max(
+                        color,
+                        0.0
+                    ),
                     vec3(0.92)
                 );
 
@@ -265,7 +415,8 @@ export function initGrainGradient() {
     `;
 
     function createShader(type, source) {
-        const shader = gl.createShader(type);
+        const shader =
+            gl.createShader(type);
 
         gl.shaderSource(
             shader,
@@ -283,6 +434,7 @@ export function initGrainGradient() {
             );
 
             gl.deleteShader(shader);
+
             return null;
         }
 
@@ -306,7 +458,8 @@ export function initGrainGradient() {
         return;
     }
 
-    const program = gl.createProgram();
+    const program =
+        gl.createProgram();
 
     gl.attachShader(
         program,
@@ -332,16 +485,19 @@ export function initGrainGradient() {
         return;
     }
 
-    const vertices = new Float32Array([
-        -1, -1,
-         1, -1,
-        -1,  1,
-        -1,  1,
-         1, -1,
-         1,  1
-    ]);
+    const vertices =
+        new Float32Array([
+            -1, -1,
+             1, -1,
+            -1,  1,
 
-    const buffer = gl.createBuffer();
+            -1,  1,
+             1, -1,
+             1,  1
+        ]);
+
+    const buffer =
+        gl.createBuffer();
 
     gl.bindBuffer(
         gl.ARRAY_BUFFER,
@@ -379,6 +535,12 @@ export function initGrainGradient() {
             'uTime'
         );
 
+    const scrollLocation =
+        gl.getUniformLocation(
+            program,
+            'uScroll'
+        );
+
     const resolutionLocation =
         gl.getUniformLocation(
             program,
@@ -405,12 +567,83 @@ export function initGrainGradient() {
 
     let animationFrame = null;
     let resizeTimeout = null;
+    let scrollFrame = null;
+
     let startTime = performance.now();
 
+    /*
+     * Artificial scroll progress.
+     *
+     * targetScroll follows the actual scroll
+     * container while currentScroll smoothly
+     * follows targetScroll.
+     */
+    let currentScroll = 0;
+    let targetScroll = 0;
+
+    function updateScrollProgress() {
+        const maxScroll =
+            scrollContainer.scrollHeight -
+            scrollContainer.clientHeight;
+
+        const minScroll =
+            -navbarHeight;
+
+        const extendedMax =
+            maxScroll +
+            navbarHeight;
+
+        const range =
+            extendedMax -
+            minScroll;
+
+        if (range <= 0) {
+            targetScroll = 0;
+            return;
+        }
+
+        targetScroll =
+            (
+                scrollContainer.scrollTop -
+                minScroll
+            ) / range;
+
+        targetScroll =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    targetScroll
+                )
+            );
+    }
+
+    function handleScroll() {
+        if (scrollFrame !== null) return;
+
+        scrollFrame =
+            requestAnimationFrame(() => {
+                updateScrollProgress();
+
+                scrollFrame = null;
+            });
+    }
+
     function resize() {
-        const rect = section.getBoundingClientRect();
-        const width = Math.max(rect.width, 1);
-        const height = Math.max(rect.height, 1);
+        const rect =
+            section.getBoundingClientRect();
+
+        const width =
+            Math.max(
+                rect.width,
+                1
+            );
+
+        const height =
+            Math.max(
+                rect.height,
+                1
+            );
 
         const pixelRatio =
             Math.min(
@@ -420,12 +653,14 @@ export function initGrainGradient() {
 
         canvas.width =
             Math.floor(
-                width * pixelRatio
+                width *
+                pixelRatio
             );
 
         canvas.height =
             Math.floor(
-                height * pixelRatio
+                height *
+                pixelRatio
             );
 
         gl.viewport(
@@ -465,14 +700,34 @@ export function initGrainGradient() {
                 animate
             );
 
-        gl.useProgram(
-            program
-        );
+        /*
+         * Follow the artificial scroll.
+         *
+         * The artificial scroll already has its
+         * own smoothing, so this is intentionally
+         * fairly responsive.
+         */
+        currentScroll +=
+            (
+                targetScroll -
+                currentScroll
+            ) *
+            0.12;
+
+        gl.useProgram(program);
 
         gl.uniform1f(
             timeLocation,
-            (time - startTime) *
+            (
+                time -
+                startTime
+            ) *
             0.001
+        );
+
+        gl.uniform1f(
+            scrollLocation,
+            currentScroll
         );
 
         gl.drawArrays(
@@ -489,6 +744,7 @@ export function initGrainGradient() {
             'block';
 
         resize();
+        updateScrollProgress();
 
         animationFrame =
             requestAnimationFrame(
@@ -533,6 +789,19 @@ export function initGrainGradient() {
         section
     );
 
+    /*
+     * IMPORTANT:
+     * Listen to the artificial scroll container,
+     * not window.
+     */
+    scrollContainer.addEventListener(
+        'scroll',
+        handleScroll,
+        {
+            passive: true
+        }
+    );
+
     window.addEventListener(
         'resize',
         () => {
@@ -544,6 +813,7 @@ export function initGrainGradient() {
                 setTimeout(
                     () => {
                         resize();
+                        updateScrollProgress();
                     },
                     100
                 );
@@ -570,22 +840,35 @@ export function initPopupAnimations() {
         return;
     }
 
+    const scrollContainer =
+        document.querySelector('#body')?.parentElement || null;
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
 
             const element = entry.target;
+
             observer.unobserve(element);
             playPopup(element);
         });
     }, {
-        'root': document.querySelector('#body')?.parentElement || null,
-        'rootMargin': '0px',
-        'threshold': 0.15
+        root: scrollContainer,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
     });
 
     elements.forEach((element) => {
         preparePopup(element);
+
+        const firstSection =
+            document.querySelector('#body > section:first-of-type');
+
+        if (firstSection?.contains(element)) {
+            playPopup(element);
+            return;
+        }
+
         observer.observe(element);
     });
 }
@@ -599,51 +882,81 @@ function preparePopup(element) {
 
     switch (type) {
         case 'down':
-            element.style.transform = `translate3d(0, -${distance}px, 0)`;
+            element.style.transform =
+                `translate3d(0, -${distance}px, 0)`;
             break;
+
         case 'left':
-            element.style.transform = `translate3d(${distance}px, 0, 0)`;
+            element.style.transform =
+                `translate3d(${distance}px, 0, 0)`;
             break;
+
         case 'right':
-            element.style.transform = `translate3d(-${distance}px, 0, 0)`;
+            element.style.transform =
+                `translate3d(-${distance}px, 0, 0)`;
             break;
+
         case 'scale':
-            element.style.transform = 'scale(0.88)';
+            element.style.transform =
+                'scale(0.88)';
             break;
+
         case 'blur':
-            element.style.transform = 'translate3d(0, 12px, 0)';
-            element.style.filter = 'blur(12px)';
+            element.style.transform =
+                'translate3d(0, 12px, 0)';
+            element.style.filter =
+                'blur(12px)';
             break;
+
         case 'up':
         default:
-            element.style.transform = `translate3d(0, ${distance}px, 0)`;
+            element.style.transform =
+                `translate3d(0, ${distance}px, 0)`;
             break;
     }
 }
 
 function playPopup(element) {
     const type = element.dataset.popup || 'up';
-    const duration = parseInt(element.dataset.popupDuration || '700', 10);
-    const delay = parseInt(element.dataset.popupDelay || '0', 10);
-    const distance = parseFloat(element.dataset.popupDistance || '32');
+    const duration =
+        parseInt(
+            element.dataset.popupDuration || '700',
+            10
+        );
 
-    const animation = element.animate(getPopupKeyframes(type, distance), {
-        'duration': duration,
-        'delay': delay,
-        'easing': 'cubic-bezier(0.16, 1, 0.3, 1)',
-        'fill': 'forwards'
-    });
+    const delay =
+        parseInt(
+            element.dataset.popupDelay || '0',
+            10
+        );
 
-    animation.finished.then(() => {
-        element.style.willChange = 'auto';
-        element.style.transform = 'none';
-        element.style.filter = 'none';
-        element.style.opacity = '1';
-    }).catch(() => {
-        element.style.opacity = '1';
-        element.style.transform = 'none';
-        element.style.filter = 'none';
-    });
+    const distance =
+        parseFloat(
+            element.dataset.popupDistance || '32'
+        );
+
+    const animation = element.animate(
+        getPopupKeyframes(type, distance),
+        {
+            duration: duration,
+            delay: delay,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            fill: 'forwards'
+        }
+    );
+
+    animation.finished
+        .then(() => {
+            element.style.willChange = 'auto';
+            element.style.transform = 'none';
+            element.style.filter = 'none';
+            element.style.opacity = '1';
+        })
+        .catch(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+            element.style.filter = 'none';
+        });
 }
 
 function getPopupKeyframes(type, distance) {
@@ -651,70 +964,85 @@ function getPopupKeyframes(type, distance) {
         case 'down':
             return [
                 {
-                    'opacity': 0,
-                    'transform': `translate3d(0, -${distance}px, 0)`
+                    opacity: 0,
+                    transform:
+                        `translate3d(0, -${distance}px, 0)`
                 },
                 {
-                    'opacity': 1,
-                    'transform': 'translate3d(0, 0, 0)'
+                    opacity: 1,
+                    transform:
+                        'translate3d(0, 0, 0)'
                 }
             ];
+
         case 'left':
             return [
                 {
-                    'opacity': 0,
-                    'transform': `translate3d(${distance}px, 0, 0)`
+                    opacity: 0,
+                    transform:
+                        `translate3d(${distance}px, 0, 0)`
                 },
                 {
-                    'opacity': 1,
-                    'transform': 'translate3d(0, 0, 0)'
+                    opacity: 1,
+                    transform:
+                        'translate3d(0, 0, 0)'
                 }
             ];
+
         case 'right':
             return [
                 {
-                    'opacity': 0,
-                    'transform': `translate3d(-${distance}px, 0, 0)`
+                    opacity: 0,
+                    transform:
+                        `translate3d(-${distance}px, 0, 0)`
                 },
                 {
-                    'opacity': 1,
-                    'transform': 'translate3d(0, 0, 0)'
+                    opacity: 1,
+                    transform:
+                        'translate3d(0, 0, 0)'
                 }
             ];
+
         case 'scale':
             return [
                 {
-                    'opacity': 0,
-                    'transform': 'scale(0.88)'
+                    opacity: 0,
+                    transform: 'scale(0.88)'
                 },
                 {
-                    'opacity': 1,
-                    'transform': 'scale(1)'
+                    opacity: 1,
+                    transform: 'scale(1)'
                 }
             ];
+
         case 'blur':
             return [
                 {
-                    'opacity': 0,
-                    'transform': 'translate3d(0, 12px, 0)',
-                    'filter': 'blur(12px)'
+                    opacity: 0,
+                    transform:
+                        'translate3d(0, 12px, 0)',
+                    filter: 'blur(12px)'
                 },
                 {
-                    'opacity': 1,
-                    'transform': 'translate3d(0, 0, 0)',
-                    'filter': 'blur(0)'
+                    opacity: 1,
+                    transform:
+                        'translate3d(0, 0, 0)',
+                    filter: 'blur(0)'
                 }
             ];
+
         case 'up':
         default:
             return [
                 {
-                    'opacity': 0,
-                    'transform': `translate3d(0, ${distance}px, 0)`
+                    opacity: 0,
+                    transform:
+                        `translate3d(0, ${distance}px, 0)`
                 },
                 {
-                    'opacity': 1,
-                    'transform': 'translate3d(0, 0, 0)'
+                    opacity: 1,
+                    transform:
+                        'translate3d(0, 0, 0)'
                 }
             ];
     }

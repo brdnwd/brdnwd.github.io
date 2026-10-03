@@ -21,7 +21,7 @@ import { initVisitors } from "./component/firebase/vistors.js";
 import { initFooter } from "./component/site/footer.js";
 import { initProjects } from "./component/site/projects.js";
 import { initPosts } from "./component/site/post.js";
-import { initSectionSnap, initGradpassScroll } from "./component/site/sectionScroll.js";
+import { initSectionStack } from "./component/site/sectionScroll.js";
 import { initPopupAnimations, initGrainGradient } from "./component/site/visualEffects.js";
 
 (async function ($, window, document) {
@@ -43,12 +43,11 @@ import { initPopupAnimations, initGrainGradient } from "./component/site/visualE
      */
     initNavbar();
     initFooter();
-    initSectionSnap();
+    initSectionStack();
     initYouTube();
     initLanguages();
-    //initProjects();
+    initProjects();
     initPosts();
-    initGradpassScroll();
     initGrainGradient();
     await initVisitors();
 
