@@ -5,16 +5,17 @@
         <title>Braden Wood</title>
         <!--TODO: Meta Data-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preload" href="/src/res/font/Qahiri/static/Qahiri-Regular.ttf" as="font" type="font/ttf" crossorigin>
         <script src="/src/lib/tailwind/v3.4.16/tailwind.min.js"></script>
         <script src="/src/lib/tailwind/v3.4.16/config.js"></script>
-        <div id="loader" class="loader">
-            <div class="loader-name">
-                <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">B</span>
-                <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">R</span>
-                <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">D</span>
-                <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">N</span>
-                <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">W</span>
-                <span class="loader-letter text-[5rem] md:text-[10rem] font-qahiri">D</span>
+        <div class="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-white text-black font-qahiri text-[5rem] md:text-[10rem] xl:text-[15rem] 1xl:text-[20rem] 2xl:text-[25rem]" data-loader>
+            <div class="relative z-[1] flex items-center origin-center" data-loader-name>
+                <span class="inline-block" data-physics data-loader-letter>B</span>
+                <span class="inline-block" data-physics data-loader-letter>R</span>
+                <span class="inline-block" data-physics data-loader-letter>D</span>
+                <span class="inline-block" data-physics data-loader-letter>N</span>
+                <span class="inline-block" data-physics data-loader-letter>W</span>
+                <span class="inline-block" data-physics data-loader-letter>D</span>
             </div>
             <div class="grain"></div>
         </div>
@@ -38,28 +39,65 @@
                                 </p>
                                 <div class="flex flex-col flex-nowrap sm:flex-row select-none gap-x-5 gap-y-1 sm:gap-y-0 items-center mt-3 xl:mt-5">
                                     <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff]/60 sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="https://github.com/brdnwd">
-                                        <span class="github-icon w-[17px] h-[17px] 2xl:w-[22px] 2xl:h-[22px] mb-[3px] bg-current transition-colors"></span>
-                                        <span class="text-[17px]">Github</span>
+                                        <span data-physics class="github-icon w-[17px] h-[17px] 2xl:w-[22px] 2xl:h-[22px] mb-[3px] bg-current transition-colors"></span>
+                                        <span class="text-[17px] flex flex-row">
+                                            <span data-physics>G</span>
+                                            <span data-physics>i</span>
+                                            <span data-physics>t</span>
+                                            <span data-physics>h</span>
+                                            <span data-physics>u</span>
+                                            <span data-physics>b</span>
+                                        </span>
                                     </a>
                                     <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
                                     <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff]/60 sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="https://www.linkedin.com/in/brdnwd/">
-                                        <span class="linkedin-icon w-[17px] h-[17px] 2xl:w-[22px] 2xl:h-[22px] mb-[2px] bg-current transition-colors"></span>
-                                        <span class="text-[17px]">LinkedIn</span>
+                                        <span data-physics class="linkedin-icon w-[17px] h-[17px] 2xl:w-[22px] 2xl:h-[22px] mb-[2px] bg-current transition-colors"></span>
+                                        <span class="text-[17px] flex flex-row">
+                                            <span data-physics>L</span>
+                                            <span data-physics>i</span>
+                                            <span data-physics>n</span>
+                                            <span data-physics>k</span>
+                                            <span data-physics>e</span>
+                                            <span data-physics>d</span>
+                                            <span data-physics>I</span>
+                                            <span data-physics>n</span>
+                                        </span>
                                     </a>
                                     <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
                                     <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff]/60 sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="https://www.facebook.com/brdnwd/">
-                                        <span class="facebook-icon w-[18px] h-[18px] 2xl:w-[23px] 2xl:h-[23px] mb-[1px] lg:mb-[1px] bg-current transition-colors"></span>
-                                        <span class="text-[17px] sm:hidden">Facebook</span>
+                                        <span data-physics class="facebook-icon w-[18px] h-[18px] 2xl:w-[23px] 2xl:h-[23px] mb-[1px] lg:mb-[1px] bg-current transition-colors"></span>
+                                        <span class="text-[17px] sm:hidden flex flex-row">Facebook</span>
                                     </a>
                                     <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
                                     <a class="flex sm:w-fit w-full flex-row justify-center items-center gap-1 transition hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff]/60 hover:border-black sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="/page/contact">
-                                        <span class="email-icon w-[18px] h-[18px] 2xl:w-[23px] 2xl:h-[23px] mb-[1px] bg-current transition-colors"></span>
-                                        <span class="text-[17px] whitespace-nowrap">Lets Talk</span>
+                                        <span data-physics class="email-icon w-[18px] h-[18px] 2xl:w-[23px] 2xl:h-[23px] mb-[1px] bg-current transition-colors"></span>
+                                        <span class="text-[17px] whitespace-nowrap flex flex-row">
+                                            <span data-physics>L</span>
+                                            <span data-physics>e</span>
+                                            <span data-physics>t</span>
+                                            <span data-physics>s</span>
+                                            <span data-physics>&nbsp;</span>
+                                            <span data-physics>T</span>
+                                            <span data-physics>a</span>
+                                            <span data-physics>l</span>
+                                            <span data-physics>k</span>
+                                        </span>
                                     </a>
                                     <span class="h-[15px] bg-black p-[0.1px] hidden sm:block"></span>
                                     <a class="flex sm:w-fit w-full flex-row justify-center items-center gap-2 hover:gap-3 transition-all hover:text-theme px-2 p-1 rounded-lg border-1 border bg-[#fff]/60 sm:border-none sm:rounded-0 sm:px-0 sm:p-0 sm:bg-transparent" href="/page/about">
-                                        <span class="text-[17px] whitespace-nowrap">Learn More</span>
-                                        <span class="arrow-right-icon w-[15px] h-[15px]  2xl:w-[20px] 2xl:h-[20px] mb-[1px] bg-current transition-colors hidden sm:flex"></span>
+                                        <span class="text-[17px] whitespace-nowrap flex flex-row">
+                                            <span data-physics>L</span>
+                                            <span data-physics>e</span>
+                                            <span data-physics>a</span>
+                                            <span data-physics>r</span>
+                                            <span data-physics>n</span>
+                                            <span data-physics>&nbsp;</span>
+                                            <span data-physics>M</span>
+                                            <span data-physics>o</span>
+                                            <span data-physics>r</span>
+                                            <span data-physics>e</span>
+                                        </span>
+                                        <span data-physics class="arrow-right-icon w-[15px] h-[15px] 2xl:w-[20px] 2xl:h-[20px] mb-[1px] bg-current transition-colors hidden sm:flex"></span>
                                     </a>
                                 </div>
                                 <div class="flex flex-col select-none max-w-full sm:max-w-[90%] gap-2 mt-6 xl:mt-10">
@@ -136,7 +174,7 @@
                                 <img class="absolute bottom-0 left-1/2 portrait -translate-x-1/2 w-0 md:w-[500px] lg:w-[550px] xl:w-[700px] 1xl:w-[700px] 2xl:w-[850px] max-w-none h-auto object-contain" src="/src/res/image/page/home/portrait.png">
                             </div>
                         </div>
-                        <div class="flex-none z-10 w-full lg:h-[15vh] 2xl:h-[22vh] bg-accent transition-all select-none">
+                        <div class="flex-none z-10 w-full lg:h-[15vh] 2xl:h-[22vh] bg-accent text-black transition-all select-none">
                             <div class="flex w-full line-height-[3] flex-col sm:flex-row justify-around items-center font-cilantro text-4xl lg:text-5xl xl:text-6xl sm:h-[8vh] lg:h-[15vh] 2xl:h-[22vh] font-bold whitespace-nowrap">
                                 <span data-popup='up' data-popup-delay='100'>ARKANSAS, USA</span>
                                 <span class="h-[0] sm:h-[100%] w-full sm:w-0 p-[0.5px] bg-black/20"></span>

@@ -111,7 +111,7 @@ export async function initLanguages() {
                  */
                 const color =
                     languageColors[
-                        skillName
+                    skillName
                     ];
 
                 const $bar =

@@ -6,6 +6,7 @@
  *  - Tailwind v3.4.16 (https://tailwindcss.com/)
  *  - EmailJS (https://www.emailjs.com/)
  *  - Canvas Confetti (https://www.kirilv.com/canvas-confetti/)
+ *  - Firebase (https://firebase.google.com/docs/reference)
  * Deprecated Dependencys:
  *  - asciiLib
  * 
@@ -13,48 +14,33 @@
  * Built: 2025-04-04
  */
 
-import { initLoader } from "./component/site/loader.js";
-import { initNavbar } from "./component/site/navbar.js";
-import { initYouTube } from "./component/site/youtube.js";
-import { initLanguages } from "./component/site/languages.js";
-import { initVisitors } from "./component/firebase/vistors.js";
-import { initFooter } from "./component/site/footer.js";
-import { initProjects } from "./component/site/projects.js";
-import { initPosts } from "./component/site/post.js";
-import { initSectionStack } from "./component/site/sectionScroll.js";
-import { initPopupAnimations, initGrainGradient } from "./component/site/visualEffects.js";
+import * as m from "./component/modules.js"
+import * as v from "./component/variables.js"
 
 (async function ($, window, document) {
     'use strict';
 
-    await document.fonts.ready;
+    await document.fonts.load('10rem "Qahiri"');
 
-    /*
-     * Start the loader immediately.
-     *
-     * Do NOT await this.
-     * The loader itself waits for the page
-     * to finish loading.
+    /**
+     * Anything that needs to happen before the user sees the website.
      */
-    const loaderPromise = initLoader();
+    await m.initLoader(async () => {
+        await m.initNavbar();
+        await m.initFooter();
 
-    /*
-     * Initialize the rest of the site.
-     */
-    initNavbar();
-    initFooter();
-    initSectionStack();
-    initYouTube();
-    initLanguages();
-    initProjects();
-    initPosts();
-    initGrainGradient();
-    await initVisitors();
+        m.initJelloLinks();
 
-    /*
-     * Wait for the loader to completely finish
-     * before starting visual effects.
-     */
-    await loaderPromise;
-    initPopupAnimations();
+        m.initGrainGradient();
+        m.initSectionStack();
+
+        m.initYouTube();
+        m.initLanguages();
+        m.initProjects();
+        m.initPosts();
+
+        await m.initVisitors();
+    });
+    
+    m.initPopupAnimations();
 })(jQuery, window, document);

@@ -1,51 +1,51 @@
 export function initYouTube() {
-  const $youtubeContainer = $("#ytVideos");
+    const $youtubeContainer = $("#ytVideos");
 
-  if (!$youtubeContainer.length) {
-    return;
-  }
+    if (!$youtubeContainer.length) {
+        return;
+    }
 
-  function formatDescription(description) {
-    const urlRegex = /(https?:\/\/[^\s<]+)/gi;
+    function formatDescription(description) {
+        const urlRegex = /(https?:\/\/[^\s<]+)/gi;
 
-    return description.replace(urlRegex, (url) => {
-      let cleanUrl = url;
+        return description.replace(urlRegex, (url) => {
+            let cleanUrl = url;
 
-      let trailing = "";
+            let trailing = "";
 
-      // Remove punctuation attached to the URL
+            // Remove punctuation attached to the URL
 
-      while (/[.,!?;:)\]}]$/.test(cleanUrl)) {
-        trailing = cleanUrl.slice(-1) + trailing;
+            while (/[.,!?;:)\]}]$/.test(cleanUrl)) {
+                trailing = cleanUrl.slice(-1) + trailing;
 
-        cleanUrl = cleanUrl.slice(0, -1);
-      }
+                cleanUrl = cleanUrl.slice(0, -1);
+            }
 
-      let displayUrl;
+            let displayUrl;
 
-      try {
-        const parsedUrl = new URL(cleanUrl);
+            try {
+                const parsedUrl = new URL(cleanUrl);
 
-        // Remove www.
+                // Remove www.
 
-        displayUrl = parsedUrl.hostname.replace(/^www\./, "");
+                displayUrl = parsedUrl.hostname.replace(/^www\./, "");
 
-        // Add the path
+                // Add the path
 
-        if (parsedUrl.pathname && parsedUrl.pathname !== "/") {
-          displayUrl += parsedUrl.pathname;
-        }
+                if (parsedUrl.pathname && parsedUrl.pathname !== "/") {
+                    displayUrl += parsedUrl.pathname;
+                }
 
-        // Add query parameters
+                // Add query parameters
 
-        if (parsedUrl.search) {
-          displayUrl += parsedUrl.search;
-        }
-      } catch {
-        displayUrl = cleanUrl;
-      }
+                if (parsedUrl.search) {
+                    displayUrl += parsedUrl.search;
+                }
+            } catch {
+                displayUrl = cleanUrl;
+            }
 
-      return `
+            return `
           <a
               href="${cleanUrl}"
               target="_blank"
@@ -53,34 +53,34 @@ export function initYouTube() {
               class="text-white transition text-wrap break-all hover:text-theme hover:decoration-theme"
           >${displayUrl}</a>${trailing}
       `;
-    });
-  }
-  //==================================================================================================
+        });
+    }
+    //==================================================================================================
 
 
 
-  async function loadYouTubeVideos() {
-    try {
-      const response = await fetch("/src/res/json/youtube.json");
+    async function loadYouTubeVideos() {
+        try {
+            const response = await fetch("/src/res/json/youtube.json");
 
-      if (!response.ok) {
-        throw new Error(`Failed to load YouTube data: ${response.status}`);
-        //TODO: error modal
-      }
+            if (!response.ok) {
+                throw new Error(`Failed to load YouTube data: ${response.status}`);
+                //TODO: error modal
+            }
 
-      const data = await response.json();
+            const data = await response.json();
 
-      if (!data.videos || data.videos.length < 4) {
-        throw new Error("Not enough YouTube videos available.");
-        //TODO: error modal
-      }
+            if (!data.videos || data.videos.length < 4) {
+                throw new Error("Not enough YouTube videos available.");
+                //TODO: error modal
+            }
 
-      $youtubeContainer.empty();
+            $youtubeContainer.empty();
 
-      data.videos.slice(0, 2).forEach((video) => {
-        const formattedDescription = formatDescription(video.description || "");
+            data.videos.slice(0, 2).forEach((video) => {
+                const formattedDescription = formatDescription(video.description || "");
 
-        const videoTemplate = `
+                const videoTemplate = `
             <div data-popup='up' class="grid grid-cols-1 rounded-lg bg-white/10">
                 <div class="flex flex-col gap-2 w-full">
                     <div class="w-full select-none overflow-hidden shrink-0">
@@ -98,17 +98,17 @@ export function initYouTube() {
             </div>
         `;
 
-        $youtubeContainer.append(videoTemplate);
-      });
-    } catch (error) {
-      console.error("YouTube error:", error);
+                $youtubeContainer.append(videoTemplate);
+            });
+        } catch (error) {
+            console.error("YouTube error:", error);
 
-      //TODO: Error popup
+            //TODO: Error popup
+        }
     }
-  }
-  //==================================================================================================
+    //==================================================================================================
 
-  
 
-  loadYouTubeVideos();
+
+    loadYouTubeVideos();
 }

@@ -8,12 +8,53 @@ export function initNavbar() {
                 <div class="text-5xl font-medium font-qahiri">BW</div>
 
                 <div id="navbarLinks" class="text-lg font-bold items-center flex-row gap-5 xl:gap-10 hidden md:flex">
-                    <a class="transition hover:text-theme" href="/">HOME</a>
-                    <a class="transition hover:text-theme" href="/page/about">ABOUT</a>
-                    <a class="transition hover:text-theme" href="/page/projects">PROJECTS</a>
-                    <a class="transition hover:text-theme" href="/page/blogs">BLOGS</a>
-                    <a class="transition hover:text-theme" href="/page/contact">CONTACT</a>
-                    <a class="transition hover:text-theme" href="/res/file/resume.pdf">RESUME</a>
+                    <a class="transition hover:text-theme flex flex-row" href="/">
+                        <span class="inline-block" data-physics>H</span>
+                        <span class="inline-block" data-physics>O</span>
+                        <span class="inline-block" data-physics>M</span>
+                        <span class="inline-block" data-physics>E</span>
+                    </a>
+                    <a class="transition hover:text-theme flex flex-row" href="/page/about">
+                        <span class="inline-block" data-physics>A</span>
+                        <span class="inline-block" data-physics>B</span>
+                        <span class="inline-block" data-physics>O</span>
+                        <span class="inline-block" data-physics>U</span>
+                        <span class="inline-block" data-physics>T</span>
+                    </a>
+                    <a class="transition hover:text-theme flex flex-row" href="/page/projects">
+                        <span class="inline-block" data-physics>P</span>
+                        <span class="inline-block" data-physics>R</span>
+                        <span class="inline-block" data-physics>O</span>
+                        <span class="inline-block" data-physics>J</span>
+                        <span class="inline-block" data-physics>E</span>
+                        <span class="inline-block" data-physics>C</span>
+                        <span class="inline-block" data-physics>T</span>
+                        <span class="inline-block" data-physics>S</span>
+                    </a>
+                    <a class="transition hover:text-theme flex flex-row" href="/page/blogs">
+                        <span class="inline-block" data-physics>B</span>
+                        <span class="inline-block" data-physics>L</span>
+                        <span class="inline-block" data-physics>O</span>
+                        <span class="inline-block" data-physics>G</span>
+                        <span class="inline-block" data-physics>S</span>
+                    </a>
+                    <a class="transition hover:text-theme flex flex-row" href="/page/contact">
+                        <span class="inline-block" data-physics>C</span>
+                        <span class="inline-block" data-physics>O</span>
+                        <span class="inline-block" data-physics>N</span>
+                        <span class="inline-block" data-physics>T</span>
+                        <span class="inline-block" data-physics>A</span>
+                        <span class="inline-block" data-physics>C</span>
+                        <span class="inline-block" data-physics>T</span>
+                    </a>
+                    <a class="transition hover:text-theme flex flex-row" href="/res/file/resume.pdf">
+                        <span class="inline-block" data-physics>R</span>
+                        <span class="inline-block" data-physics>E</span>
+                        <span class="inline-block" data-physics>S</span>
+                        <span class="inline-block" data-physics>U</span>
+                        <span class="inline-block" data-physics>M</span>
+                        <span class="inline-block" data-physics>E</span>
+                    </a>
                 </div>
 
                 <div class="flex md:hidden flex-row items-center gap-5 font-bold">
@@ -221,7 +262,7 @@ export function initNavbar() {
 
                             <nav
                                 id="mobileNavigation"
-                                class="flex flex-col items-center text-2xl min-[305px]:text-4xl min-[455px]:text-6xl font-bold"
+                                class="flex flex-col items-center text-2xl min-[305px]:text-4xl min-[535px]:text-6xl font-bold"
                             ></nav>
                         </div>
 
@@ -230,7 +271,7 @@ export function initNavbar() {
                                 MORE
                             </h2>
 
-                            <div class="flex flex-col items-center text-2xl min-[305px]:text-4xl min-[455px]:text-6xl font-bold">
+                            <div class="flex flex-col items-center text-2xl min-[305px]:text-4xl min-[535px]:text-6xl font-bold">
                                 <a
                                     class="w-full py-4 text-center transition hover:text-theme"
                                     href="/res/file/resume.pdf"
@@ -392,9 +433,9 @@ export function initNavbar() {
         const boundary =
             direction === "open"
                 ? width + 300 -
-                  progress * (width + 600)
+                progress * (width + 600)
                 : -300 +
-                  progress * (width + 600);
+                progress * (width + 600);
 
         const wavePoints = [];
 
@@ -598,11 +639,11 @@ export function initNavbar() {
                     "clip-path":
                         "polygon(100% 0%, 100% 100%, 100% 100%, 100% 0%)"
                 })
-                .attr(
-                    "aria-hidden",
-                    "true"
-                )
-                .hide();
+                    .attr(
+                        "aria-hidden",
+                        "true"
+                    )
+                    .hide();
 
                 $sidemenu
                     .attr(

@@ -1,3 +1,273 @@
+export function initJelloLinks() {
+    const elements = document.querySelectorAll("[data-physics]");
+    if (!elements.length) return;
+
+    const mediaQuery = window.matchMedia("(min-width: 768px) and (pointer: fine)");
+    let enabled = mediaQuery.matches;
+
+    const mouse = {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        active: false,
+    };
+
+    const elementStates = [...elements].map((element, index) => ({
+        element,
+        index,
+        x: 0,
+        y: 0,
+        rotation: 0,
+        targetX: 0,
+        targetY: 0,
+        targetRotation: 0,
+    }));
+
+    let mouseFrame = null;
+
+    function updateMousePosition(event) {
+        if (!enabled) return;
+
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+        mouse.active = true;
+
+        if (!mouseFrame) {
+            mouseFrame = requestAnimationFrame(
+                animateMouseInteraction
+            );
+        }
+    }
+
+    function resetMouseInteraction() {
+        mouse.active = false;
+
+        if (!mouseFrame) {
+            mouseFrame = requestAnimationFrame(
+                animateMouseInteraction
+            );
+        }
+    }
+
+    function animateMouseInteraction(time) {
+        if (!enabled) {
+            mouseFrame = null;
+            return;
+        }
+
+        const influenceRadius = 30;
+        const maxPush = 5;
+        const maxRotation = 18;
+        const spring = 0.12;
+
+        let needsAnimation = false;
+
+        for (const state of elementStates) {
+            const rect = state.element.getBoundingClientRect();
+
+            const centerX =
+                rect.left +
+                rect.width / 2;
+
+            const centerY =
+                rect.top +
+                rect.height / 2;
+
+            let targetX = 0;
+            let targetY = 0;
+            let targetRotation = 0;
+
+            if (mouse.active) {
+                const dx = centerX - mouse.x;
+                const dy = centerY - mouse.y;
+
+                const distance = Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+                if (distance < influenceRadius) {
+                    const normalized =
+                        1 -
+                        Math.min(
+                            distance / influenceRadius,
+                            1
+                        );
+
+                    const falloff =
+                        normalized * normalized;
+
+                    const angle =
+                        Math.atan2(dy, dx);
+
+                    targetX =
+                        Math.cos(angle) *
+                        maxPush *
+                        falloff;
+
+                    targetY =
+                        Math.sin(angle) *
+                        maxPush *
+                        falloff;
+
+                    targetRotation =
+                        Math.sin(
+                            angle +
+                            state.index * 0.7
+                        ) *
+                        maxRotation *
+                        falloff;
+
+                    const wave =
+                        Math.sin(
+                            time * 0.012 +
+                            state.index * 1.2
+                        ) *
+                        10 *
+                        falloff;
+
+                    targetX +=
+                        Math.cos(
+                            angle +
+                            Math.PI / 2
+                        ) *
+                        wave;
+
+                    targetY +=
+                        Math.sin(
+                            angle +
+                            Math.PI / 2
+                        ) *
+                        wave;
+                }
+            }
+
+            state.targetX = targetX;
+            state.targetY = targetY;
+            state.targetRotation = targetRotation;
+
+            state.x +=
+                (state.targetX - state.x) *
+                spring;
+
+            state.y +=
+                (state.targetY - state.y) *
+                spring;
+
+            state.rotation +=
+                (state.targetRotation - state.rotation) *
+                spring;
+
+            state.element.style.translate =
+                `${state.x}px ${state.y}px`;
+
+            state.element.style.rotate =
+                `${state.rotation}deg`;
+
+            if (
+                Math.abs(
+                    state.x -
+                    state.targetX
+                ) > 0.01 ||
+                Math.abs(
+                    state.y -
+                    state.targetY
+                ) > 0.01 ||
+                Math.abs(
+                    state.rotation -
+                    state.targetRotation
+                ) > 0.01 ||
+                mouse.active
+            ) {
+                needsAnimation = true;
+            }
+        }
+
+        if (needsAnimation) {
+            mouseFrame =
+                requestAnimationFrame(
+                    animateMouseInteraction
+                );
+        } else {
+            mouseFrame = null;
+        }
+    }
+
+    function updateState() {
+        enabled = mediaQuery.matches;
+
+        if (!enabled) {
+            mouse.active = false;
+
+            elementStates.forEach((state) => {
+                state.x = 0;
+                state.y = 0;
+                state.rotation = 0;
+                state.targetX = 0;
+                state.targetY = 0;
+                state.targetRotation = 0;
+
+                state.element.style.translate = "";
+                state.element.style.rotate = "";
+            });
+
+            if (mouseFrame) {
+                cancelAnimationFrame(
+                    mouseFrame
+                );
+
+                mouseFrame = null;
+            }
+
+            return;
+        }
+
+        if (!mouseFrame) {
+            mouseFrame =
+                requestAnimationFrame(
+                    animateMouseInteraction
+                );
+        }
+    }
+
+    elements.forEach((element) => {
+        element.addEventListener(
+            "mouseenter",
+            () => {
+                mouse.active = true;
+            }
+        );
+
+        element.addEventListener(
+            "mouseleave",
+            resetMouseInteraction
+        );
+    });
+
+    window.addEventListener(
+        "pointermove",
+        updateMousePosition,
+        { passive: true }
+    );
+
+    window.addEventListener(
+        "blur",
+        resetMouseInteraction
+    );
+
+    window.addEventListener(
+        "resize",
+        updateState
+    );
+
+    mediaQuery.addEventListener(
+        "change",
+        updateState
+    );
+}
+//========================================================================================
+
+
+
 export function initGrainGradient() {
     const section = document.querySelector('#content');
     if (!section || section.querySelector('#grainGradientCanvas')) return;
@@ -488,12 +758,12 @@ export function initGrainGradient() {
     const vertices =
         new Float32Array([
             -1, -1,
-             1, -1,
-            -1,  1,
+            1, -1,
+            -1, 1,
 
-            -1,  1,
-             1, -1,
-             1,  1
+            -1, 1,
+            1, -1,
+            1, 1
         ]);
 
     const buffer =
@@ -823,6 +1093,7 @@ export function initGrainGradient() {
     startRendering();
 }
 //========================================================================================
+
 
 
 export function initPopupAnimations() {

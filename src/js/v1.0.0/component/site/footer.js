@@ -8,13 +8,8 @@ export function initFooter() {
     const scrollContainer = body.parentElement;
     if (!scrollContainer) return;
 
-    //TODO
     $footerContainer.html(`
-        <div
-            id="footer"
-            class="relative w-full h-[100vh] opacity-80"
-            data-navbar-theme="dark"
-        >
+        <div id="footer" class="relative w-full h-[100vh] opacity-80" data-navbar-theme="dark">
             <div class="footer-scroll relative w-full h-full overflow-y-auto overflow-x-hidden">
                 <div class="flex min-h-full flex-col justify-between">
                     <div class="flex flex-1 flex-row page-container justify-between">
@@ -50,10 +45,7 @@ export function initFooter() {
 
     socials.forEach((social) => {
         $footerSocials.append(`
-            <a
-                href="${social.url}"
-                class="pointer-events-auto w-full py-4 text-center transition hover:text-theme"
-            >
+            <a href="${social.url}" class="pointer-events-auto w-full py-4 text-center transition hover:text-theme">
                 ${social.name}
             </a>
         `);
@@ -89,10 +81,7 @@ export function initFooter() {
         if (!href || !text) return;
 
         $footerNavigation.append(`
-            <a
-                class="pointer-events-auto w-full py-4 text-center transition hover:text-theme"
-                href="${href}"
-            >
+            <a class="pointer-events-auto w-full py-4 text-center transition hover:text-theme" href="${href}">
                 ${text}
             </a>
         `);
@@ -178,7 +167,8 @@ export function initFooter() {
             scrollContainer.scrollTop;
 
         const revealStart =
-            maxScroll - footerHeight;
+            maxScroll -
+            footerHeight;
 
         const progress =
             Math.max(
@@ -198,10 +188,6 @@ export function initFooter() {
         footerContainer.style.clipPath =
             `inset(${hiddenAmount}% 0 0 0)`;
 
-        /*
-         * Only allow interaction once the footer
-         * has been completely revealed.
-         */
         footerContainer.style.pointerEvents =
             progress >= 1
                 ? "auto"
@@ -220,7 +206,7 @@ export function initFooter() {
     );
 
     /*
-     * Footer's own scrolling.
+     * Footer's desktop wheel scrolling.
      */
     footerScroll.addEventListener(
         "wheel",
@@ -250,6 +236,209 @@ export function initFooter() {
         {
             passive: true
         }
+    );
+
+    /*
+     * ---------------------------------------------------------
+     * Mobile touch scrolling
+     * ---------------------------------------------------------
+     */
+
+    let pointerActive = false;
+    let pointerId = null;
+    let pointerLastY = 0;
+    let mainPageDragging = false;
+
+    footerScroll.style.touchAction = "none";
+
+    footerScroll.addEventListener(
+        "pointerdown",
+        (event) => {
+            if (
+                !event.isPrimary ||
+                event.pointerType !== "touch" ||
+                footerContainer.style.pointerEvents !==
+                "auto"
+            ) {
+                return;
+            }
+
+            pointerActive = true;
+            pointerId = event.pointerId;
+            pointerLastY = event.clientY;
+            mainPageDragging = false;
+
+            footerScroll.setPointerCapture(
+                pointerId
+            );
+        }
+    );
+
+    footerScroll.addEventListener(
+        "pointermove",
+        (event) => {
+            if (
+                !pointerActive ||
+                event.pointerId !== pointerId
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const deltaY =
+                pointerLastY -
+                event.clientY;
+
+            pointerLastY =
+                event.clientY;
+
+            if (deltaY === 0) {
+                return;
+            }
+
+            /*
+             * Once the main page has taken over,
+             * the footer stays locked at the top for
+             * the rest of this gesture.
+             */
+            if (mainPageDragging) {
+                footerScroll.scrollTop = 0;
+
+                scrollContainer.scrollTop =
+                    Math.max(
+                        0,
+                        scrollContainer.scrollTop +
+                        deltaY
+                    );
+
+                return;
+            }
+
+            /*
+             * Finger moving UP:
+             *
+             * Scroll the footer downward first.
+             */
+            if (deltaY > 0) {
+                const footerMaxScroll =
+                    Math.max(
+                        0,
+                        footerScroll.scrollHeight -
+                        footerScroll.clientHeight
+                    );
+
+                const footerRemaining =
+                    footerMaxScroll -
+                    footerScroll.scrollTop;
+
+                const footerDelta =
+                    Math.min(
+                        deltaY,
+                        footerRemaining
+                    );
+
+                footerScroll.scrollTop +=
+                    footerDelta;
+
+                /*
+                 * If there is movement left after reaching
+                 * the bottom of the footer, pass it to the
+                 * main page.
+                 */
+                const remaining =
+                    deltaY -
+                    footerDelta;
+
+                if (remaining > 0) {
+                    scrollContainer.scrollTop =
+                        Math.min(
+                            scrollContainer.scrollHeight -
+                            scrollContainer.clientHeight,
+                            scrollContainer.scrollTop +
+                            remaining
+                        );
+                }
+
+                return;
+            }
+
+            /*
+             * Finger moving DOWN:
+             *
+             * First scroll the footer back toward its top.
+             */
+            const upDelta =
+                Math.abs(deltaY);
+
+            const currentFooterScroll =
+                footerScroll.scrollTop;
+
+            const footerDelta =
+                Math.min(
+                    upDelta,
+                    currentFooterScroll
+                );
+
+            footerScroll.scrollTop =
+                currentFooterScroll -
+                footerDelta;
+
+            /*
+             * Once the footer reaches its top, the remaining
+             * movement belongs to the main page.
+             */
+            const remainingDelta =
+                upDelta -
+                footerDelta;
+
+            if (remainingDelta > 0) {
+                footerScroll.scrollTop = 0;
+
+                mainPageDragging = true;
+
+                scrollContainer.scrollTop =
+                    Math.max(
+                        0,
+                        scrollContainer.scrollTop -
+                        remainingDelta
+                    );
+            }
+        }
+    );
+
+    function endPointer(event) {
+        if (
+            !pointerActive ||
+            event.pointerId !== pointerId
+        ) {
+            return;
+        }
+
+        pointerActive = false;
+        mainPageDragging = false;
+
+        if (
+            footerScroll.hasPointerCapture(
+                pointerId
+            )
+        ) {
+            footerScroll.releasePointerCapture(
+                pointerId
+            );
+        }
+
+        pointerId = null;
+    }
+
+    footerScroll.addEventListener(
+        "pointerup",
+        endPointer
+    );
+
+    footerScroll.addEventListener(
+        "pointercancel",
+        endPointer
     );
 
     /*

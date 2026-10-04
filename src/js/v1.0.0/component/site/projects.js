@@ -37,14 +37,14 @@ export async function initProjects() {
                                 <div class="flex flex-row flex-wrap gap-2 overflow-hidden max-h-8 font-cilantro font-bold select-none text-white/30">
                                     <span class="tag-icon w-[30px] h-[30px] mt-[1px] bg-current transition-colors"></span>
                                     ${project.tags.map((tag) => {
-                                        const color = getRandomTagColor();
+                const color = getRandomTagColor();
 
-                                        return `
+                return `
                                             <span class="rounded-md p-1 bg-white/5 text-[${color}]">
                                                 ${tag}
                                             </span>
                                         `;
-                                    }).join("")}
+            }).join("")}
                                 </div>
                             </div>
                         </div>

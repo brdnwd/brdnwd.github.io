@@ -1,7 +1,7 @@
 /**
- * This file serves as the configuration file for tailwind.min.js and
- * theming logisitics for the entire website.
+ * Purpose: Tailwind configuration file.
  */
+
 (async function () {
     "use strict";
 
@@ -22,8 +22,8 @@
     var colors = {
         "white": "#fff9f4", 
         "black": "#06040e", 
-        "theme": "#3f3fc9", 
-        "accent": "#eaee1b",
+        "theme": "#2626e4", 
+        "accent": "#f4f80e",
     }
 
     // For visualEffects.js
@@ -245,31 +245,25 @@
                     },
                 },
                 // loader
-                '.loader': {
-                    'position': 'fixed',
-                    'inset': '0',
-                    'z-index': '9999',
-                    'display': 'flex',
-                    'align-items': 'center',
-                    'justify-content': 'center',
-                    'background': colors.white,
-                    'color': colors.black,
-                    'overflow': 'hidden',
+                ".loader": {
+                    "position": "fixed",
+                    "inset": "0",
+                    "z-index": "9999",
+                    "background": colors.white,
+                    "display": "flex",
+                    "align-items": "center",
+                    "justify-content": "center",
+                    "overflow": "hidden",
                 },
-                '.loader-name': {
-                    'display': 'flex',
-                    'align-items': 'center',
-                    'font-family': 'Valley Sans, sans-serif',
-                    'font-size': 'clamp(3rem, 8vw, 8rem)',
-                    'font-weight': '500',
-                    'white-space': 'nowrap',
-                    'transform-origin': 'center',
+                ".loader-name": {
+                    "position": "relative",
+                    "z-index": "1",
+                    "display": "flex",
+                    "align-items": "center",
+                    "transform-origin": "center",
                 },
-                '.loader-letter': {
-                    'display': 'inline-block',
-                    'opacity': '0',
-                    'transform': 'scale(0.6) translateY(10px)',
-                    'transform-origin': 'center',
+                ".loader-letter": {
+                    "display": "inline-block",
                 },
                 //grain
                 '.grain': {
