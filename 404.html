@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="select-none selection">
+    <head>
+        <link rel="icon" type="image/png" href="/src/res/image/logo/logo.png">
+        <title>404 - Braden Wood</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preload" href="/src/res/font/Qahiri/static/Qahiri-Regular.ttf" as="font" type="font/ttf" crossorigin>
+        <script src="/src/lib/tailwind/v3.4.16/tailwind.min.js"></script>
+        <script src="/src/lib/tailwind/v3.4.16/config.js"></script>
+    </head>
+    <body class="relative min-h-screen overscroll-none overflow-hidden box-border bg-theme text-white">
+        <main class="h-screen flex flex-1 flex-col h-full max-w-full">
+            <div class="relative h-screen font-valley overflow-scroll scrollbar-hidden select-text">
+                <div id="body" class="flex flex-1 h-full flex-col page-container">
+                    <section class="flex flex-1 py-20 justify-center text-center items-center">
+                        <div class="flex flex-col gap-6 items-center w-full">
+                            <h1 data-popup='up' data-popup-delay='100'
+                                class="flex flex-row justify-center font-qahiri leading-[0.6] text-[12rem] md:text-[16rem] lg:text-[20rem] xl:text-[24rem]">
+                                <span data-physics class="inline-block transition-colors hover:text-accent">4</span>
+                                <span data-physics class="inline-block transition-colors hover:text-accent">0</span>
+                                <span data-physics class="inline-block transition-colors hover:text-accent">4</span>
+                                <span data-physics class="inline-block transition-colors hover:text-accent">.</span>
+                            </h1>
+                            <div class="flex flex-col gap-6">
+                                <div data-popup='scale' data-popup-delay='1000' id="offlineGame"></div>
+                                <p data-popup='up' data-popup-delay='500' class="text-lg font-black">
+                                    This doesn't feel right...
+                                </p>
+                                <div data-popup='up' data-popup-delay='500' class="flex flex-col sm:flex-row w-full font-black justify-center">
+                                    <a class="flex sm:w-min w-full flex-row justify-center items-center gap-1 transition hover:text-accent"
+                                        href="javascript:history.back()">
+                                        <span class="text-[17px] lg:text-[30px] flex flex-row">
+                                            <span data-physics>G</span>
+                                            <span data-physics>O</span>
+                                            <span data-physics>&nbsp;</span>
+                                            <span data-physics>B</span>
+                                            <span data-physics>A</span>
+                                            <span data-physics>C</span>
+                                            <span data-physics>K</span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="grain"></div>
+            </div>
+        </main>
+        <script src="/src/lib/jquery/v3.7.1/jquery.min.js"></script>
+        <script type="module" src="/src/js/v1.0.0/script.js"></script>
+    </body>
+</html>

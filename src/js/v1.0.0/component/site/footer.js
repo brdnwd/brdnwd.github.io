@@ -6,24 +6,34 @@ export function initFooter() {
     if (!body) return;
 
     $footerContainer.html(`
-        <section id="footer" class="relative w-full h-screen shrink-0 z-[200] pointer-events-none" data-navbar-theme="dark">
-            <div class="footer-fixed fixed bottom-0 left-0 w-full h-screen opacity-80">
-                <div class="footer-scroll relative w-full h-full">
-                    <div class="flex min-h-full flex-col justify-between">
-                        <div class="flex flex-1 flex-row page-container justify-between">
-                            <div class="flex flex-col gap-4">
-                                <div id="footerNavigation" class="flex flex-col gap-2 text-xl"></div>
-                            </div>
+        <section
+            id="footer"
+            class="relative w-full min-h-screen shrink-0 z-[200] pointer-events-none"
+            data-navbar-theme="dark"
+        >
+            <div class="footer-fixed fixed bottom-0 left-0 w-full h-screen opacity-80 pointer-events-none"></div>
 
-                            <div class="flex flex-col gap-4">
-                                <div id="footerSocials" class="flex flex-col gap-2 text-xl"></div>
-                            </div>
+            <div class="footer-scroll relative w-full min-h-screen">
+                <div class="flex min-h-screen flex-col justify-between">
+                    <div class="flex flex-1 flex-row page-container justify-between">
+                        <div class="flex flex-col gap-4">
+                            <div
+                                id="footerNavigation"
+                                class="flex flex-col gap-2 text-xl"
+                            ></div>
+                        </div>
 
-                            <div class="flex flex-col gap-4 max-w-sm">
-                                <p class="text-xl leading-tight">
-                                    Building things, breaking things, and figuring out how to make them better.
-                                </p>
-                            </div>
+                        <div class="flex flex-col gap-4">
+                            <div
+                                id="footerSocials"
+                                class="flex flex-col gap-2 text-xl"
+                            ></div>
+                        </div>
+
+                        <div class="flex flex-col gap-4 max-w-sm">
+                            <p class="text-xl leading-tight">
+                                Building things, breaking things, and figuring out how to make them better.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -74,15 +84,15 @@ export function initFooter() {
 
     socials.forEach((social) => {
         $footerSocials.append(`
-            <a href="${social.url}" class="pointer-events-auto w-full py-4 text-center transition hover:text-theme">
+            <a
+                href="${social.url}"
+                class="pointer-events-auto w-full py-4 text-center transition hover:text-theme"
+            >
                 ${social.name}
             </a>
         `);
     });
 
-    /*
-     * Build footer navigation.
-     */
     $("#navbarLinks a").each(function () {
         const $link =
             $(this);
@@ -96,18 +106,15 @@ export function initFooter() {
         if (!href || !text) return;
 
         $footerNavigation.append(`
-            <a class="pointer-events-auto w-full py-4 text-center transition hover:text-theme" href="${href}">
+            <a
+                class="pointer-events-auto w-full py-4 text-center transition hover:text-theme"
+                href="${href}"
+            >
                 ${text}
             </a>
         `);
     });
 
-    /*
-     * Footer remains a normal section in #body.
-     *
-     * The actual footer content is fixed to the viewport
-     * so it does not move with the section stack.
-     */
     if (
         footerContainer.parentElement !==
         body
@@ -125,11 +132,12 @@ export function initFooter() {
             window.innerHeight;
 
         /*
-         * Footer's stack position relative to
-         * the bottom of the viewport.
+         * The footer only needs one viewport of
+         * reveal space.
          *
-         * 0 = footer has not reached the viewport.
-         * 1 = footer is fully revealed.
+         * The footer itself may be taller than the
+         * viewport, but that should not slow down
+         * the reveal.
          */
         const reveal =
             Math.max(
@@ -141,23 +149,31 @@ export function initFooter() {
                         footerRect.top
                     ) /
                     Math.max(
-                        footerRect.height,
+                        viewportHeight,
                         1
                     )
                 )
             );
 
         /*
-         * Reveal the fixed footer upward from
-         * the bottom as the footer section reaches it.
+         * Keep the fixed footer layer synced with
+         * the reveal.
          */
         footerFixed.style.clipPath =
             `inset(${(1 - reveal) * 100}% 0 0 0)`;
 
         /*
-         * Hide the portion of the preceding sections
-         * that sits over the revealed footer.
+         * Once the footer reaches the viewport,
+         * its background occupies everything from
+         * the footer's reveal point downward.
          */
+        const footerTop =
+            viewportHeight -
+            (
+                reveal *
+                viewportHeight
+            );
+
         [...body.children].forEach((element) => {
             if (
                 element === footerContainer ||
@@ -168,13 +184,6 @@ export function initFooter() {
 
             const rect =
                 element.getBoundingClientRect();
-
-            const footerTop =
-                viewportHeight -
-                (
-                    reveal *
-                    viewportHeight
-                );
 
             const overlapTop =
                 Math.max(
@@ -257,13 +266,15 @@ export function initFooter() {
     const scrollContainer =
         body.parentElement;
 
-    scrollContainer.addEventListener(
-        "scroll",
-        updateFooter,
-        {
-            passive: true
-        }
-    );
+    if (scrollContainer) {
+        scrollContainer.addEventListener(
+            "scroll",
+            updateFooter,
+            {
+                passive: true
+            }
+        );
+    }
 
     updateFooter();
 
@@ -284,9 +295,6 @@ export function initFooter() {
         }
     );
 
-    /*
-     * Load website version.
-     */
     $.getJSON(
         "/src/res/json/github.json"
     )

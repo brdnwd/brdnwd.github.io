@@ -20,15 +20,15 @@ import * as v from "./component/variables.js"
 (async function ($, window, document) {
     'use strict';
 
-    await document.fonts.load('10rem "Qahiri"');
-
     /**
      * Anything that needs to happen before the user sees the website.
      */
     await m.initLoader(async () => {
+        await document.fonts.load('10rem "Qahiri"');
+
         await m.initNavbar();
         await m.initFooter();
-
+        
         m.initJelloLinks();
 
         m.initGrainGradient();
@@ -38,8 +38,13 @@ import * as v from "./component/variables.js"
         m.initLanguages();
         m.initProjects();
         m.initPosts();
+        m.init404Game();
 
         await m.initVisitors();
+    },
+    //ERROR
+    (err) => {
+        console.log(err)
     });
     
     m.initPopupAnimations();

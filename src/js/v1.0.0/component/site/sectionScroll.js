@@ -10,8 +10,29 @@ export function initSectionStack() {
     let currentScroll = scrollContainer.scrollTop;
     let animationFrame = null;
 
+    let dragging = false;
+    let lastPointerY = 0;
+
     const ease = 0.02;
     const minScale = 0.72;
+
+    function getMaxScroll() {
+        return Math.max(
+            0,
+            scrollContainer.scrollHeight -
+            scrollContainer.clientHeight
+        );
+    }
+
+    function clampScroll(value) {
+        return Math.max(
+            0,
+            Math.min(
+                value,
+                getMaxScroll()
+            )
+        );
+    }
 
     function collectPanels() {
         panels = [...body.children].slice(1);
@@ -21,7 +42,9 @@ export function initSectionStack() {
 
             if (
                 panel.tagName === "SECTION" &&
-                !panel.querySelector(":scope > .section-stack-content")
+                !panel.querySelector(
+                    ":scope > .section-stack-content"
+                )
             ) {
                 const content =
                     document.createElement("div");
@@ -30,7 +53,9 @@ export function initSectionStack() {
                     "section-stack-content";
 
                 while (panel.firstChild) {
-                    content.appendChild(panel.firstChild);
+                    content.appendChild(
+                        panel.firstChild
+                    );
                 }
 
                 panel.appendChild(content);
@@ -39,17 +64,21 @@ export function initSectionStack() {
     }
 
     function updateStack() {
-        const viewportHeight = window.innerHeight;
+        const viewportHeight =
+            window.innerHeight;
 
         panels.forEach((panel, index) => {
             const panelHeight =
                 panel.offsetHeight + 200;
 
-            // The section itself NEVER gets transformed.
-            panel.style.transform = "none";
+            panel.style.transform =
+                "none";
 
-            panel.style.position = "sticky";
-            panel.style.zIndex = `${index + 1}`;
+            panel.style.position =
+                "sticky";
+
+            panel.style.zIndex =
+                `${index + 1}`;
 
             panel.style.top =
                 panelHeight > viewportHeight
@@ -67,8 +96,13 @@ export function initSectionStack() {
 
             if (!content) return;
 
-            if (index === panels.length - 1) {
-                content.style.transform = "none";
+            if (
+                index ===
+                panels.length - 1
+            ) {
+                content.style.transform =
+                    "none";
+
                 return;
             }
 
@@ -85,7 +119,10 @@ export function initSectionStack() {
 
             progress = Math.max(
                 0,
-                Math.min(1, progress)
+                Math.min(
+                    1,
+                    progress
+                )
             );
 
             const scale =
@@ -103,14 +140,20 @@ export function initSectionStack() {
 
     function animateScroll() {
         currentScroll +=
-            (targetScroll - currentScroll) * ease;
+            (
+                targetScroll -
+                currentScroll
+            ) * ease;
 
         if (
             Math.abs(
-                targetScroll - currentScroll
+                targetScroll -
+                currentScroll
             ) < 0.5
         ) {
-            currentScroll = targetScroll;
+            currentScroll =
+                targetScroll;
+
             animationFrame = null;
 
             scrollContainer.scrollTop =
@@ -144,31 +187,134 @@ export function initSectionStack() {
     function handleWheel(event) {
         event.preventDefault();
 
-        targetScroll += event.deltaY;
+        targetScroll +=
+            event.deltaY;
 
-        const maxScroll =
-            scrollContainer.scrollHeight -
-            scrollContainer.clientHeight;
-
-        targetScroll = Math.max(
-            0,
-            Math.min(
-                targetScroll,
-                maxScroll
-            )
-        );
+        targetScroll =
+            clampScroll(
+                targetScroll
+            );
 
         startScroll();
+    }
+
+    function handlePointerDown(event) {
+        if (
+            event.pointerType !==
+            "touch"
+        ) {
+            return;
+        }
+
+        dragging = true;
+        lastPointerY =
+            event.clientY;
+
+        scrollContainer.setPointerCapture(
+            event.pointerId
+        );
+    }
+
+    function handlePointerMove(event) {
+        if (
+            !dragging ||
+            event.pointerType !==
+            "touch"
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const deltaY =
+            lastPointerY -
+            event.clientY;
+
+        lastPointerY =
+            event.clientY;
+
+        targetScroll +=
+            deltaY;
+
+        targetScroll =
+            clampScroll(
+                targetScroll
+            );
+
+        startScroll();
+    }
+
+    function endPointerDrag(event) {
+        if (
+            event.pointerType !==
+            "touch"
+        ) {
+            return;
+        }
+
+        dragging = false;
+
+        if (
+            scrollContainer.hasPointerCapture(
+                event.pointerId
+            )
+        ) {
+            scrollContainer.releasePointerCapture(
+                event.pointerId
+            );
+        }
     }
 
     collectPanels();
     updateStack();
     updateZoom();
 
+    /*
+     * This custom scroller owns touch dragging,
+     * so prevent the browser from performing
+     * native scrolling underneath it.
+     */
+    scrollContainer.style.touchAction =
+        "none";
+
     scrollContainer.addEventListener(
         "wheel",
         handleWheel,
-        { passive: false }
+        {
+            passive: false
+        }
+    );
+
+    scrollContainer.addEventListener(
+        "pointerdown",
+        handlePointerDown,
+        {
+            passive: true
+        }
+    );
+
+    scrollContainer.addEventListener(
+        "pointermove",
+        handlePointerMove,
+        {
+            passive: false
+        }
+    );
+
+    scrollContainer.addEventListener(
+        "pointerup",
+        endPointerDrag,
+        {
+            passive: true
+        }
+    );
+
+    scrollContainer.addEventListener(
+        "pointercancel",
+        endPointerDrag,
+        {
+            passive: true
+        }
     );
 
     const resizeObserver =
@@ -176,19 +322,17 @@ export function initSectionStack() {
             updateStack();
             updateZoom();
 
-            const maxScroll =
-                scrollContainer.scrollHeight -
-                scrollContainer.clientHeight;
+            targetScroll =
+                clampScroll(
+                    targetScroll
+                );
 
-            targetScroll = Math.max(
-                0,
-                Math.min(
-                    targetScroll,
-                    maxScroll
-                )
-            );
+            currentScroll =
+                clampScroll(
+                    currentScroll
+                );
         });
-
+        
     panels.forEach((panel) => {
         resizeObserver.observe(panel);
     });
@@ -198,7 +342,19 @@ export function initSectionStack() {
         () => {
             updateStack();
             updateZoom();
+
+            targetScroll =
+                clampScroll(
+                    targetScroll
+                );
+
+            currentScroll =
+                clampScroll(
+                    currentScroll
+                );
         },
-        { passive: true }
+        {
+            passive: true
+        }
     );
 }

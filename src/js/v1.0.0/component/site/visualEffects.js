@@ -54,10 +54,10 @@ export function initJelloLinks() {
             return;
         }
 
-        const influenceRadius = 30;
+        const influenceRadius = 100;
         const maxPush = 5;
-        const maxRotation = 18;
-        const spring = 0.12;
+        const maxRotation = 28;
+        const spring = 0.1;
 
         let needsAnimation = false;
 

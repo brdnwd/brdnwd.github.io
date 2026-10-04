@@ -14,6 +14,7 @@ export { initYouTube } from "./site/youtube.js";
 export { initLanguages } from "./site/languages.js";
 export { initProjects } from "./site/projects.js";
 export { initPosts } from "./site/post.js";
+export { init404Game } from "./site/404.js";
 
 // Firebase
 export { initVisitors } from "./firebase/vistors.js";

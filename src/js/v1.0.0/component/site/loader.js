@@ -1,11 +1,24 @@
-export async function initLoader(callback) {
+export async function initLoader(callback, onError) {
     const $loader = $("[data-loader]");
 
-    if (!$loader.length) {
-        if (callback) {
-            await callback();
+    async function runCallback() {
+        if (!callback) {
+            return Promise.resolve();
         }
 
+        try {
+            return await callback();
+        } catch (error) {
+            if (typeof onError === "function") {
+                onError(error);
+            }
+
+            return null;
+        }
+    }
+
+    if (!$loader.length) {
+        await runCallback();
         return;
     }
 
@@ -29,10 +42,7 @@ export async function initLoader(callback) {
         $loader.remove();
 
         await pageLoad;
-
-        if (callback) {
-            await callback();
-        }
+        await runCallback();
 
         return;
     }
@@ -393,9 +403,7 @@ export async function initLoader(callback) {
 
     resetLetters();
 
-    const siteReady = callback
-        ? callback()
-        : Promise.resolve();
+    const siteReady = runCallback();
 
     await popIn();
 
