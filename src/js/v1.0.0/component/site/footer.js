@@ -5,42 +5,71 @@ export function initFooter() {
     const body = document.querySelector("#body");
     if (!body) return;
 
-    const scrollContainer = body.parentElement;
-    if (!scrollContainer) return;
-
     $footerContainer.html(`
-        <div id="footer" class="relative w-full h-[100vh] opacity-80" data-navbar-theme="dark">
-            <div class="footer-scroll relative w-full h-full overflow-y-auto overflow-x-hidden">
-                <div class="flex min-h-full flex-col justify-between">
-                    <div class="flex flex-1 flex-row page-container justify-between">
-                        <div class="flex flex-col gap-4">
-                            <div id="footerNavigation" class="flex flex-col gap-2 text-xl"></div>
-                        </div>
+        <section id="footer" class="relative w-full h-screen shrink-0 z-[200] pointer-events-none" data-navbar-theme="dark">
+            <div class="footer-fixed fixed bottom-0 left-0 w-full h-screen opacity-80">
+                <div class="footer-scroll relative w-full h-full">
+                    <div class="flex min-h-full flex-col justify-between">
+                        <div class="flex flex-1 flex-row page-container justify-between">
+                            <div class="flex flex-col gap-4">
+                                <div id="footerNavigation" class="flex flex-col gap-2 text-xl"></div>
+                            </div>
 
-                        <div class="flex flex-col gap-4">
-                            <div id="footerSocials" class="flex flex-col gap-2 text-xl"></div>
-                        </div>
+                            <div class="flex flex-col gap-4">
+                                <div id="footerSocials" class="flex flex-col gap-2 text-xl"></div>
+                            </div>
 
-                        <div class="flex flex-col gap-4 max-w-sm">
-                            <p class="text-xl leading-tight">
-                                Building things, breaking things, and figuring out how to make them better.
-                            </p>
+                            <div class="flex flex-col gap-4 max-w-sm">
+                                <p class="text-xl leading-tight">
+                                    Building things, breaking things, and figuring out how to make them better.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     `);
+
+    const footerContainer =
+        $footerContainer[0];
+
+    const footer =
+        $footerContainer.find("#footer")[0];
+
+    const footerFixed =
+        $footerContainer.find(".footer-fixed")[0];
 
     const $footerSocials =
         $footerContainer.find("#footerSocials");
 
+    const $footerNavigation =
+        $footerContainer.find("#footerNavigation");
+
+    const $siteVersion =
+        $footerContainer.find("#siteVersion");
+
     const socials = [
-        { name: "GitHub", url: "https://github.com/brdnwd" },
-        { name: "LinkedIn", url: "https://www.linkedin.com/in/brdnwd" },
-        { name: "Facebook", url: "https://www.facebook.com/brdnwd" },
-        { name: "DEV", url: "https://dev.to/brdnwd" },
-        { name: "YouTube", url: "https://www.youtube.com/channel/UC1eVpwYmIxLqi84OroyZo6w" }
+        {
+            name: "GitHub",
+            url: "https://github.com/brdnwd"
+        },
+        {
+            name: "LinkedIn",
+            url: "https://www.linkedin.com/in/brdnwd"
+        },
+        {
+            name: "Facebook",
+            url: "https://www.facebook.com/brdnwd"
+        },
+        {
+            name: "DEV",
+            url: "https://dev.to/brdnwd"
+        },
+        {
+            name: "YouTube",
+            url: "https://www.youtube.com/channel/UC1eVpwYmIxLqi84OroyZo6w"
+        }
     ];
 
     socials.forEach((social) => {
@@ -51,26 +80,12 @@ export function initFooter() {
         `);
     });
 
-    const footerContainer =
-        $footerContainer[0];
-
-    const footer =
-        $footerContainer.find("#footer")[0];
-
-    const footerScroll =
-        $footerContainer.find(".footer-scroll")[0];
-
-    const $siteVersion =
-        $footerContainer.find("#siteVersion");
-
-    const $footerNavigation =
-        $footerContainer.find("#footerNavigation");
-
     /*
      * Build footer navigation.
      */
     $("#navbarLinks a").each(function () {
-        const $link = $(this);
+        const $link =
+            $(this);
 
         const href =
             $link.attr("href");
@@ -88,379 +103,182 @@ export function initFooter() {
     });
 
     /*
-     * Footer lives outside #body.
+     * Footer remains a normal section in #body.
+     *
+     * The actual footer content is fixed to the viewport
+     * so it does not move with the section stack.
      */
     if (
         footerContainer.parentElement !==
-        scrollContainer
+        body
     ) {
-        scrollContainer.appendChild(
+        body.appendChild(
             footerContainer
         );
     }
 
-    /*
-     * Footer is visually above the page,
-     * but does not capture pointer input until
-     * it is actually revealed.
-     */
-    Object.assign(
-        footerContainer.style,
-        {
-            position: "fixed",
-            left: "0",
-            right: "0",
-            bottom: "0",
-            width: "100%",
-            height: "100vh",
-            zIndex: "200",
-            clipPath: "inset(100% 0 0 0)",
-            pointerEvents: "none"
-        }
-    );
+    function updateFooter() {
+        const footerRect =
+            footer.getBoundingClientRect();
 
-    /*
-     * Main page remains underneath.
-     */
-    Object.assign(
-        body.style,
-        {
-            position: "relative",
-            zIndex: "10"
-        }
-    );
+        const viewportHeight =
+            window.innerHeight;
 
-    /*
-     * Reserve the footer's height as scroll space.
-     */
-    function updateFooterSpace() {
-        const footerHeight =
-            footer.getBoundingClientRect().height;
-
-        body.style.paddingBottom =
-            `${footerHeight}px`;
-    }
-
-    /*
-     * Reveal footer based entirely on native
-     * page scroll position.
-     */
-    function updateFooterReveal() {
-        const footerHeight =
-            footer.getBoundingClientRect().height;
-
-        const maxScroll =
-            scrollContainer.scrollHeight -
-            scrollContainer.clientHeight;
-
-        if (maxScroll <= 0) {
-            footerContainer.style.clipPath =
-                "inset(100% 0 0 0)";
-
-            footerContainer.style.pointerEvents =
-                "none";
-
-            return;
-        }
-
-        const scrollTop =
-            scrollContainer.scrollTop;
-
-        const revealStart =
-            maxScroll -
-            footerHeight;
-
-        const progress =
+        /*
+         * Footer's stack position relative to
+         * the bottom of the viewport.
+         *
+         * 0 = footer has not reached the viewport.
+         * 1 = footer is fully revealed.
+         */
+        const reveal =
             Math.max(
                 0,
                 Math.min(
                     1,
                     (
-                        scrollTop -
-                        revealStart
-                    ) / footerHeight
+                        viewportHeight -
+                        footerRect.top
+                    ) /
+                    Math.max(
+                        footerRect.height,
+                        1
+                    )
                 )
             );
 
-        const hiddenAmount =
-            (1 - progress) * 100;
+        /*
+         * Reveal the fixed footer upward from
+         * the bottom as the footer section reaches it.
+         */
+        footerFixed.style.clipPath =
+            `inset(${(1 - reveal) * 100}% 0 0 0)`;
 
-        footerContainer.style.clipPath =
-            `inset(${hiddenAmount}% 0 0 0)`;
-
-        footerContainer.style.pointerEvents =
-            progress >= 1
-                ? "auto"
-                : "none";
-    }
-
-    /*
-     * Main page scrolling.
-     */
-    scrollContainer.addEventListener(
-        "scroll",
-        updateFooterReveal,
-        {
-            passive: true
-        }
-    );
-
-    /*
-     * Footer's desktop wheel scrolling.
-     */
-    footerScroll.addEventListener(
-        "wheel",
-        (event) => {
+        /*
+         * Hide the portion of the preceding sections
+         * that sits over the revealed footer.
+         */
+        [...body.children].forEach((element) => {
             if (
-                footerContainer.style.pointerEvents !==
-                "auto"
+                element === footerContainer ||
+                element.tagName !== "SECTION"
             ) {
                 return;
             }
 
-            const canScrollDown =
-                footerScroll.scrollTop <
-                footerScroll.scrollHeight -
-                footerScroll.clientHeight;
+            const rect =
+                element.getBoundingClientRect();
 
-            const canScrollUp =
-                footerScroll.scrollTop > 0;
-
-            if (
-                (event.deltaY > 0 && canScrollDown) ||
-                (event.deltaY < 0 && canScrollUp)
-            ) {
-                event.stopPropagation();
-            }
-        },
-        {
-            passive: true
-        }
-    );
-
-    /*
-     * ---------------------------------------------------------
-     * Mobile touch scrolling
-     * ---------------------------------------------------------
-     */
-
-    let pointerActive = false;
-    let pointerId = null;
-    let pointerLastY = 0;
-    let mainPageDragging = false;
-
-    footerScroll.style.touchAction = "none";
-
-    footerScroll.addEventListener(
-        "pointerdown",
-        (event) => {
-            if (
-                !event.isPrimary ||
-                event.pointerType !== "touch" ||
-                footerContainer.style.pointerEvents !==
-                "auto"
-            ) {
-                return;
-            }
-
-            pointerActive = true;
-            pointerId = event.pointerId;
-            pointerLastY = event.clientY;
-            mainPageDragging = false;
-
-            footerScroll.setPointerCapture(
-                pointerId
-            );
-        }
-    );
-
-    footerScroll.addEventListener(
-        "pointermove",
-        (event) => {
-            if (
-                !pointerActive ||
-                event.pointerId !== pointerId
-            ) {
-                return;
-            }
-
-            event.preventDefault();
-
-            const deltaY =
-                pointerLastY -
-                event.clientY;
-
-            pointerLastY =
-                event.clientY;
-
-            if (deltaY === 0) {
-                return;
-            }
-
-            /*
-             * Once the main page has taken over,
-             * the footer stays locked at the top for
-             * the rest of this gesture.
-             */
-            if (mainPageDragging) {
-                footerScroll.scrollTop = 0;
-
-                scrollContainer.scrollTop =
-                    Math.max(
-                        0,
-                        scrollContainer.scrollTop +
-                        deltaY
-                    );
-
-                return;
-            }
-
-            /*
-             * Finger moving UP:
-             *
-             * Scroll the footer downward first.
-             */
-            if (deltaY > 0) {
-                const footerMaxScroll =
-                    Math.max(
-                        0,
-                        footerScroll.scrollHeight -
-                        footerScroll.clientHeight
-                    );
-
-                const footerRemaining =
-                    footerMaxScroll -
-                    footerScroll.scrollTop;
-
-                const footerDelta =
-                    Math.min(
-                        deltaY,
-                        footerRemaining
-                    );
-
-                footerScroll.scrollTop +=
-                    footerDelta;
-
-                /*
-                 * If there is movement left after reaching
-                 * the bottom of the footer, pass it to the
-                 * main page.
-                 */
-                const remaining =
-                    deltaY -
-                    footerDelta;
-
-                if (remaining > 0) {
-                    scrollContainer.scrollTop =
-                        Math.min(
-                            scrollContainer.scrollHeight -
-                            scrollContainer.clientHeight,
-                            scrollContainer.scrollTop +
-                            remaining
-                        );
-                }
-
-                return;
-            }
-
-            /*
-             * Finger moving DOWN:
-             *
-             * First scroll the footer back toward its top.
-             */
-            const upDelta =
-                Math.abs(deltaY);
-
-            const currentFooterScroll =
-                footerScroll.scrollTop;
-
-            const footerDelta =
-                Math.min(
-                    upDelta,
-                    currentFooterScroll
+            const footerTop =
+                viewportHeight -
+                (
+                    reveal *
+                    viewportHeight
                 );
 
-            footerScroll.scrollTop =
-                currentFooterScroll -
-                footerDelta;
+            const overlapTop =
+                Math.max(
+                    rect.top,
+                    footerTop
+                );
 
-            /*
-             * Once the footer reaches its top, the remaining
-             * movement belongs to the main page.
-             */
-            const remainingDelta =
-                upDelta -
-                footerDelta;
+            const overlapBottom =
+                Math.min(
+                    rect.bottom,
+                    viewportHeight
+                );
 
-            if (remainingDelta > 0) {
-                footerScroll.scrollTop = 0;
-
-                mainPageDragging = true;
-
-                scrollContainer.scrollTop =
-                    Math.max(
-                        0,
-                        scrollContainer.scrollTop -
-                        remainingDelta
-                    );
+            if (
+                overlapBottom <=
+                overlapTop
+            ) {
+                element.style.maskImage = "";
+                element.style.webkitMaskImage = "";
+                return;
             }
-        }
-    );
 
-    function endPointer(event) {
-        if (
-            !pointerActive ||
-            event.pointerId !== pointerId
-        ) {
-            return;
-        }
+            const topPercent =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        (
+                            (
+                                overlapTop -
+                                rect.top
+                            ) /
+                            Math.max(
+                                rect.height,
+                                1
+                            )
+                        ) *
+                        100
+                    )
+                );
 
-        pointerActive = false;
-        mainPageDragging = false;
+            const bottomPercent =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        (
+                            (
+                                overlapBottom -
+                                rect.top
+                            ) /
+                            Math.max(
+                                rect.height,
+                                1
+                            )
+                        ) *
+                        100
+                    )
+                );
 
-        if (
-            footerScroll.hasPointerCapture(
-                pointerId
-            )
-        ) {
-            footerScroll.releasePointerCapture(
-                pointerId
-            );
-        }
+            const mask =
+                `linear-gradient(
+                    to bottom,
+                    black 0%,
+                    black ${topPercent}%,
+                    transparent ${topPercent}%,
+                    transparent ${bottomPercent}%,
+                    black ${bottomPercent}%,
+                    black 100%
+                )`;
 
-        pointerId = null;
+            element.style.maskImage =
+                mask;
+
+            element.style.webkitMaskImage =
+                mask;
+        });
     }
 
-    footerScroll.addEventListener(
-        "pointerup",
-        endPointer
+    const scrollContainer =
+        body.parentElement;
+
+    scrollContainer.addEventListener(
+        "scroll",
+        updateFooter,
+        {
+            passive: true
+        }
     );
 
-    footerScroll.addEventListener(
-        "pointercancel",
-        endPointer
-    );
+    updateFooter();
 
-    /*
-     * Initial state.
-     */
-    updateFooterSpace();
-    updateFooterReveal();
-
-    /*
-     * Resize handling.
-     */
     const resizeObserver =
-        new ResizeObserver(() => {
-            updateFooterSpace();
-            updateFooterReveal();
-        });
+        new ResizeObserver(
+            updateFooter
+        );
 
-    resizeObserver.observe(footer);
+    resizeObserver.observe(
+        footer
+    );
 
     window.addEventListener(
         "resize",
-        updateFooterReveal,
+        updateFooter,
         {
             passive: true
         }
@@ -476,7 +294,11 @@ export function initFooter() {
             const version =
                 data?.version;
 
-            if (!version?.shortSha) return;
+            if (
+                !version?.shortSha
+            ) {
+                return;
+            }
 
             $siteVersion.find("div").html(`
                 <span class="git-commit-icon w-[17px] h-[17px] mt-[0.5px] bg-current transition-colors"></span>
