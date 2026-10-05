@@ -3,9 +3,9 @@ export function initNavbar() {
     if (!$navbarContainer.length) return;
 
     $navbarContainer.html(`
-        <div id="navbarBackground" class="select-none py-4 bg-black/0 text-black">
+        <div id="navbarBackground" class="select-none py-4 bg-black/0 text-black transition-[backdrop-filter] duration-500">
             <div id="navbar" class="flex flex-row justify-between items-center w-full h-full page-container">
-                <div class="text-5xl font-medium font-qahiri">BW</div>
+                <div class="text-5xl font-medium font-qahiri">BRDNWD.</div>
 
                 <div id="navbarLinks" class="text-lg font-bold items-center flex-row gap-5 xl:gap-10 hidden md:flex">
                     <a class="transition hover:text-theme flex flex-row" href="/">
@@ -88,7 +88,7 @@ export function initNavbar() {
     let lastScrollTop = scrollContainer.scrollTop;
     let navbarHidden = false;
 
-    const NAVBAR_HIDE_THRESHOLD = 400;
+    const NAVBAR_HIDE_THRESHOLD = 600;
     const NAVBAR_BOTTOM_THRESHOLD = 600;
 
     /*
@@ -365,7 +365,7 @@ export function initNavbar() {
                 $link.attr("href");
 
             const text =
-                $link.text().trim();
+                $link.text().trim().replaceAll(' ', '').replaceAll('\n', '');
 
             if (
                 !href ||

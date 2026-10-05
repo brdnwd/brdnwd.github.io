@@ -6,39 +6,45 @@ export function initFooter() {
     if (!body) return;
 
     $footerContainer.html(`
-        <section
-            id="footer"
-            class="relative w-full min-h-screen shrink-0 z-[200] pointer-events-none"
-            data-navbar-theme="dark"
-        >
-            <div class="footer-fixed fixed bottom-0 left-0 w-full h-screen opacity-80 pointer-events-none"></div>
+<section id="footer" class="relative w-full shrink-0 z-[999] pointer-events-none">
+    <div class="footer-fixed fixed bottom-0 left-0 w-full h-screen opacity-80 pointer-events-none"></div>
 
-            <div class="footer-scroll relative w-full min-h-screen">
-                <div class="flex min-h-screen flex-col justify-between">
-                    <div class="flex flex-1 flex-row page-container justify-between">
-                        <div class="flex flex-col gap-4">
-                            <div
-                                id="footerNavigation"
-                                class="flex flex-col gap-2 text-xl"
-                            ></div>
-                        </div>
+    <div class="footer-scroll relative w-full">
+        <div class="flex flex-col min-h-screen justify-between items-center page-container pt-8 lg:pt-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 w-full max-w-6xl mx-auto items-center">
+                <div class="flex flex-col gap-10">
+                    <div class="flex flex-col gap-4">
+                        <span class="text-2xl lg:text-3xl font-bold">[ Socials ]</span>
+                        <div id="footerSocials" class="flex flex-col gap-1 text-lg lg:text-xl font-bold"></div>
+                    </div>
+                </div>
 
-                        <div class="flex flex-col gap-4">
-                            <div
-                                id="footerSocials"
-                                class="flex flex-col gap-2 text-xl"
-                            ></div>
-                        </div>
+                <div class="flex flex-col gap-10">
+                    <div class="flex flex-col gap-4">
+                        <span class="text-2xl lg:text-3xl font-bold">Site Index</span>
+                        <div id="footerNavigation" class="flex flex-col gap-1 text-lg lg:text-xl font-bold"></div>
+                    </div>
+                </div>
 
-                        <div class="flex flex-col gap-4 max-w-sm">
-                            <p class="text-xl leading-tight">
-                                Building things, breaking things, and figuring out how to make them better.
-                            </p>
+                <div class="flex flex-col gap-10">
+                    <div class="flex flex-col gap-4">
+                        <span class="text-2xl lg:text-3xl font-bold">[ Contact ]</span>
+                        <div class="flex flex-col gap-1 text-lg lg:text-xl font-bold">
+                            <a href="mailto:hello@brdnwd.com" class="pointer-events-auto">hello@brdnwd.com</a>
+                            <span>Arkansas, USA</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <div class="overflow-hidden hidden md:block">
+                <div class="font-qahiri font-bold leading-[0.65] opacity-20 whitespace-nowrap text-[50vw] text-center translate-y-[30%]">
+                    <span>BRDNWD</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     `);
 
     const footerContainer =
@@ -86,7 +92,7 @@ export function initFooter() {
         $footerSocials.append(`
             <a
                 href="${social.url}"
-                class="pointer-events-auto w-full py-4 text-center transition hover:text-theme"
+                class="pointer-events-auto w-full transition hover:text-theme"
             >
                 ${social.name}
             </a>
@@ -101,13 +107,13 @@ export function initFooter() {
             $link.attr("href");
 
         const text =
-            $link.text().trim();
+            $link.text().trim().replaceAll(' ', '').replaceAll('\n', '');
 
         if (!href || !text) return;
 
         $footerNavigation.append(`
             <a
-                class="pointer-events-auto w-full py-4 text-center transition hover:text-theme"
+                class="pointer-events-auto w-full transition hover:text-theme"
                 href="${href}"
             >
                 ${text}

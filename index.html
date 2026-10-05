@@ -8,21 +8,23 @@
         <link rel="preload" href="/src/res/font/Qahiri/static/Qahiri-Regular.ttf" as="font" type="font/ttf" crossorigin>
         <script src="/src/lib/tailwind/v3.4.16/tailwind.min.js"></script>
         <script src="/src/lib/tailwind/v3.4.16/config.js"></script>
-        <div class="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-white text-black font-qahiri text-[5rem] md:text-[10rem] xl:text-[15rem] 1xl:text-[20rem] 2xl:text-[25rem]" data-loader>
+        <!-- <div class="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-theme text-white font-qahiri text-[5rem] md:text-[10rem] xl:text-[15rem] 1xl:text-[20rem] 2xl:text-[25rem]" data-loader>
             <div class="relative z-[1] flex items-center origin-center" data-loader-name>
-                <span class="inline-block" data-physics data-loader-letter>B</span>
-                <span class="inline-block" data-physics data-loader-letter>R</span>
-                <span class="inline-block" data-physics data-loader-letter>D</span>
-                <span class="inline-block" data-physics data-loader-letter>N</span>
-                <span class="inline-block" data-physics data-loader-letter>W</span>
-                <span class="inline-block" data-physics data-loader-letter>D</span>
+                <span class="inline-block hover:text-accent" data-physics data-loader-letter>B</span>
+                <span class="inline-block hover:text-accent" data-physics data-loader-letter>R</span>
+                <span class="inline-block hover:text-accent" data-physics data-loader-letter>D</span>
+                <span class="inline-block hover:text-accent" data-physics data-loader-letter>N</span>
+                <span class="inline-block hover:text-accent" data-physics data-loader-letter>W</span>
+                <span class="inline-block hover:text-accent" data-physics data-loader-letter>D</span>
+                <span class="inline-block hover:text-accent" data-physics data-loader-letter>.</span>
             </div>
             <div class="grain"></div>
-        </div>
+        </div> -->
     </head>
     <body class="relative min-h-screen overscroll-none overflow-hidden box-border bg-white text-black">
-        <main id="content" class="h-screen flex flex-1 flex-col h-full max-w-full">
-            <div class="relative h-screen font-valley overflow-scroll scrollbar-hidden select-text">
+        <main id="content" class="h-screen flex flex-1 flex-col h-full max-w-full ">
+            <div class="relative h-screen font-valley overflow-scroll scrollbar-hidden select-text ">
+                
                 <nav id="navbarContainer" class="sticky left-0 top-0 z-[999]"></nav>
                 <div id="body" class="flex flex-col">
 
@@ -176,11 +178,17 @@
                         </div>
                         <div class="flex-none z-10 w-full lg:h-[15vh] 2xl:h-[22vh] bg-accent text-black transition-all select-none">
                             <div class="flex w-full line-height-[3] flex-col sm:flex-row justify-around items-center font-cilantro text-4xl lg:text-5xl xl:text-6xl sm:h-[8vh] lg:h-[15vh] 2xl:h-[22vh] font-bold whitespace-nowrap">
-                                <span data-popup='up' data-popup-delay='100'>ARKANSAS, USA</span>
+                                <span data-popup='up' data-popup-delay='100'>
+                                    <span>ARKANSAS, USA</span>
+                                </span>
                                 <span class="h-[0] sm:h-[100%] w-full sm:w-0 p-[0.5px] bg-black/20"></span>
-                                <span data-popup='up' data-popup-delay='300'><span id="site-views">0</span> VIEWS</span>
+                                <span data-popup='up' data-popup-delay='300'>
+                                    <span><span id="site-views">0</span> VIEWS</span>
+                                </span>
                                 <span class="h-[0] sm:h-[100%] w-full sm:w-0 p-[0.5px] bg-black/20"></span>
-                                <span data-popup='up' data-popup-delay='600' id="site-time">00:00:00</span>
+                                <span data-popup='up' data-popup-delay='600'>
+                                    <span id="site-time"></span>
+                                </span>
                             </div>
                         </div>
                     </section>

@@ -173,6 +173,22 @@
                     'mask': 'url("./src/res/svg/tag.svg") center / contain no-repeat;',
                     '-webkit-mask': 'url("./src/res/svg/tag.svg") center / contain no-repeat;'
                 },
+                '.location-icon': {
+                    'mask': 'url("./src/res/svg/location-pin.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/location-pin.svg") center / contain no-repeat;'
+                },
+                '.time-icon': {
+                    'mask': 'url("./src/res/svg/time.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/time.svg") center / contain no-repeat;'
+                },
+                '.view-icon': {
+                    'mask': 'url("./src/res/svg/view.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/view.svg") center / contain no-repeat;'
+                },
+                '.error-icon': {
+                    'mask': 'url("./src/res/svg/error.svg") center / contain no-repeat;',
+                    '-webkit-mask': 'url("./src/res/svg/error.svg") center / contain no-repeat;'
+                },
                 // scrollbar
                 '.scrollbar-hidden': {
                     'scrollbar-width': 'none',

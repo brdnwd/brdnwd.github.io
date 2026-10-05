@@ -9,6 +9,106 @@ export async function initLoader(callback, onError) {
         try {
             return await callback();
         } catch (error) {
+            const $content = $("#content > div");
+
+            if ($content.length) {
+                const $error = $(`
+                    <div id="error" class="flex flex-col w-full overflow-hidden" style="height: 0;">
+                        <div class="bg-red-500">
+                            <div class="text-white text-center py-8 flex flex-col justify-center items-center w-full h-full select-none px-4">
+                                <h1 class="text-2xl">
+                                    You have experienced an error!
+                                </h1>
+
+                                <span>
+                                    This is not your fault! Report the issue
+                                    <a
+                                        href="https://github.com/brdnwd/brdnwd.github.io/issues"
+                                        class="underline cursor-pointer"
+                                    >
+                                        here
+                                    </a>
+                                    for reparing.
+                                </span>
+
+                                <details
+                                    open
+                                    class="mt-4 w-full max-w-2xl bg-red-700/30 rounded-lg p-4"
+                                >
+                                    <summary class="cursor-pointer select-none">
+                                        View error
+                                    </summary>
+
+                                    <pre
+                                        class="mt-2 text-left whitespace-pre-wrap break-all text-sm bg-red-800/30 rounded p-2 select-text"
+                                    ></pre>
+                                </details>
+
+                                <div
+                                    id="close"
+                                    class="cursor-pointer underline mt-4"
+                                >
+                                    Close Error
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+
+                $error
+                    .find("pre")
+                    .text(
+                        error?.stack ||
+                        error?.message ||
+                        String(error)
+                    );
+
+                $content.prepend($error);
+
+                const errorElement = $error[0];
+
+                requestAnimationFrame(() => {
+                    const height =
+                        errorElement.scrollHeight;
+
+                    errorElement.style.transition =
+                        "height 500ms cubic-bezier(0.22, 1, 0.36, 1)";
+
+                    requestAnimationFrame(() => {
+                        errorElement.style.height =
+                            `${height}px`;
+                    });
+
+                    errorElement.addEventListener(
+                        "transitionend",
+                        () => {
+                            errorElement.style.height =
+                                "auto";
+                        },
+                        {
+                            once: true
+                        }
+                    );
+                });
+
+                $error.find("#close").on("click", function () {
+                    const height =
+                        errorElement.scrollHeight;
+
+                    errorElement.style.height =
+                        `${height}px`;
+
+                    requestAnimationFrame(() => {
+                        errorElement.style.height =
+                            "0px";
+                    });
+
+                    setTimeout(() => {
+                        $error.remove();
+                    }, 500);
+                });
+            }
+
             if (typeof onError === "function") {
                 onError(error);
             }

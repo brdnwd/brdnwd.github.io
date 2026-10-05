@@ -290,9 +290,9 @@ export function initGrainGradient() {
         const value = hex.replace('#', '');
 
         return [
-            parseInt(value.substring(0, 2), 16) / 240,
-            parseInt(value.substring(2, 4), 16) / 240,
-            parseInt(value.substring(4, 6), 16) / 240
+            parseInt(value.substring(0, 2), 16) / 255,
+            parseInt(value.substring(2, 4), 16) / 255,
+            parseInt(value.substring(4, 6), 16) / 255
         ];
     }
 
